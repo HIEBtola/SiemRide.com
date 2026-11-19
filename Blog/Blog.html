@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Blog | SIEMRIDE</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Playfair+Display:ital,wght@0,600;0,700;1,600;1,700&family=JetBrains+Mono:wght@400;500;600&family=Work+Sans:wght@400;500;600;700&family=Noto+Sans+Khmer:wght@400;500;700&family=Pinyon+Script&display=swap" rel="stylesheet">
+<link rel="icon" type="image/png" href="../Image/logo2.png">
+<script>try{var l=localStorage.getItem("siemride_lang");if(l&&l!=="en"){document.documentElement.className+=" i18n-wait";setTimeout(function(){document.documentElement.classList.remove("i18n-wait")},1500)}}catch(e){}</script>
+<link rel="stylesheet" href="../CssStyle/style.css?v=20261110-1">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+  :root{
+    --teal-deep:#1B4038;
+    --teal-mid:#2C5E1A;
+    --rust:#C1502E;
+    --rust-dark:#A63F22;
+    --sand:#F3ECDD;
+    --sand-deep:#E7DCC3;
+    --gold:#D9A441;
+    --moss:#7A9B76;
+    --moss-dark:#3F5C3B;
+    --ink:#1C1A16;
+    --ink-soft:#4A463E;
+    --white:#FFFDF8;
+    --radius:6px;
+    --maxw:1180px;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    font-family:'Work Sans',sans-serif;
+    color:var(--ink);
+    background:var(--white);
+    line-height:1.65;
+  }
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 28px;}
+  a{color:inherit;}
+  h1,h2,h3{
+    font-family:'Anton',sans-serif;font-weight:400;text-transform:uppercase;
+    letter-spacing:0.01em;line-height:1.0;color:var(--ink);margin:0 0 16px;
+  }
+  .mono{font-family:'JetBrains Mono',monospace;}
+
+  /* Main nav labels in caps; dropdown/sub-nav items keep normal case */
+  .main-nav > ul > li > a,
+  .panel-nav-list > a {
+    text-transform: uppercase;
+  }
+
+  /* Fixed header stays still while scrolling */
+  html{scroll-padding-top:72px;}
+  @media (max-width:640px){html{scroll-padding-top:66px;}}
+  header{position:fixed;top:0;left:0;right:0;z-index:200;background:rgb(18,49,43);transition:box-shadow .25s ease;}
+  header.scrolled{box-shadow:0 4px 18px rgba(0,0,0,.28);}
+  body{padding-top:72px;padding-top:var(--hdr-h,72px);}
+  @media (max-width:640px){body{padding-top:60px;padding-top:var(--hdr-h,60px);}}
+
+  /* ---- Top back link ---- */
+  .back-row,.wrap.back-row{padding:0 28px;margin-top:16px;position:relative;z-index:2;}
+  .back-link{
+    display:inline-flex;align-items:center;gap:6px;
+    font-family:'JetBrains Mono',monospace;
+    font-size:0.8rem;font-weight:700;color:#2E5590;text-decoration:none;
+    letter-spacing:0.03em;text-transform:uppercase;
+    background:transparent;padding:0;
+  }
+  .back-link:hover{color:#2C5E1A;}
+
+  /* ---- Hero ---- */
+  .journal-hero{padding:56px 0 30px;}
+  .journal-hero-inner{display:flex;justify-content:space-between;align-items:flex-end;gap:20px;flex-wrap:wrap;}
+  .hero-left{max-width:560px;}
+  .pill-badge{
+    display:inline-block;font-family:'JetBrains Mono',monospace;font-size:0.72rem;font-weight:600;
+    letter-spacing:0.12em;text-transform:uppercase;color:var(--ink-soft);
+    border:1px solid var(--ink-soft);border-radius:30px;padding:6px 16px;margin-bottom:18px;
+  }
+  .journal-hero h1{font-size:3.1rem;margin-bottom:16px;}
+  .journal-hero h1 .accent{color:var(--rust);}
+  .journal-hero p.lede{color:var(--ink-soft);font-size:1.02rem;max-width:480px;margin:0;}
+  .hero-stats{
+    text-align:right;color:var(--teal-deep);font-size:0.75rem;letter-spacing:0.06em;
+    text-transform:uppercase;font-weight:600;flex-shrink:0;
+  }
+  .hero-stats p{margin:0 0 6px;}
+  .hero-stats p:last-child{margin-bottom:0;}
+
+  /* ---- Filter row ---- */
+  .filter-row{
+    display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;
+    padding:26px 0;border-bottom:1px solid var(--sand-deep);
+  }
+  .filter-tabs{display:flex;gap:10px;flex-wrap:wrap;}
+  .tab{
+    font-family:'Work Sans',sans-serif;font-weight:700;font-size:0.85rem;
+    background:transparent;border:1.5px solid var(--ink);color:var(--ink);
+    padding:9px 20px;border-radius:30px;cursor:pointer;transition:background .2s,color .2s;
+  }
+  .tab.active{background:#2E5590;color:var(--white);border-color:#2E5590;}
+  .tab:hover:not(.active){background:var(--sand-deep);}
+  .journal-search{
+    display:flex;align-items:center;gap:8px;border-bottom:1.5px solid var(--ink);padding:6px 4px;
+  }
+  .journal-search input{
+    border:none;background:transparent;outline:none;
+    font-family:'Work Sans',sans-serif;font-size:0.88rem;color:var(--ink);width:220px;
+  }
+  .journal-search .search-icon{color:var(--ink-soft);font-size:0.95rem;}
+
+  /* ---- Timeline ---- */
+  .journal-timeline{position:relative;padding:44px 0 8px;}
+  .journal-timeline::before{
+    content:"";position:absolute;left:23px;top:10px;bottom:60px;width:0;
+    border-left:2px dotted var(--ink-soft);opacity:0.5;
+  }
+  .jtl-item{
+    display:grid;grid-template-columns:48px 220px 1fr;gap:26px;align-items:start;
+    padding-bottom:38px;position:relative;
+  }
+  .jtl-marker{
+    width:48px;height:48px;border-radius:50%;background:var(--sand);
+    border:2px solid var(--teal-deep);display:flex;align-items:center;justify-content:center;
+    font-family:'JetBrains Mono',monospace;font-size:0.85rem;font-weight:700;color:var(--ink);
+    position:relative;z-index:2;
+  }
+  .jtl-item[data-cat="trip-prep"] .jtl-marker{border-color:var(--rust);}
+  .jtl-item[data-cat="season-notes"] .jtl-marker{border-color:var(--teal-deep);}
+  .jtl-item[data-cat="temple-guides"] .jtl-marker{border-color:var(--moss-dark);}
+  .jtl-item[data-cat="local-eats"] .jtl-marker{border-color:var(--gold);}
+  .jtl-thumb{border-radius:8px;overflow:hidden;aspect-ratio:4/3;background:var(--sand-deep);}
+  .jtl-thumb img{width:100%;height:100%;object-fit:cover;display:block;}
+  .cat-badge{
+    display:inline-block;font-family:'JetBrains Mono',monospace;font-size:0.68rem;font-weight:700;
+    letter-spacing:0.08em;text-transform:uppercase;padding:5px 12px;border-radius:4px;margin-bottom:10px;
+  }
+  .cat-routes{background:var(--teal-deep);color:var(--white);}
+  .cat-trip-prep{background:var(--rust);color:var(--white);}
+  .cat-season-notes{background:var(--gold);color:var(--ink);}
+  .cat-temple-guides{background:var(--moss-dark);color:var(--white);}
+  .cat-local-eats{background:var(--rust-dark);color:var(--white);}
+  .jtl-body h3{
+    font-family:'Playfair Display',serif;font-weight:700;text-transform:none;
+    letter-spacing:0;color:var(--ink);font-size:1.4rem;margin-bottom:8px;line-height:1.25;
+  }
+  .post-meta{
+    font-family:'JetBrains Mono',monospace;font-size:0.75rem;color:var(--ink-soft);
+    letter-spacing:0.02em;margin-bottom:10px;display:flex;gap:10px;align-items:center;
+  }
+  .post-meta .dot{width:3px;height:3px;border-radius:50%;background:var(--ink-soft);display:inline-block;}
+  .jtl-body p.excerpt{color:var(--ink-soft);font-size:0.98rem;margin:0 0 12px;}
+  .read-more{
+    font-family:'JetBrains Mono',monospace;font-size:0.78rem;font-weight:700;
+    color:var(--rust);text-decoration:none;letter-spacing:0.03em;text-transform:uppercase;
+    display:inline-flex;align-items:center;gap:6px;
+  }
+  .read-more:hover{color:var(--rust-dark);}
+
+  .load-more-row{text-align:center;padding-top:16px;}
+  .load-more-btn{
+    font-family:'JetBrains Mono',monospace;font-weight:700;font-size:0.85rem;letter-spacing:0.05em;
+    text-transform:uppercase;background:#2E5590;border:none;color:var(--white);
+    padding:14px 30px;border-radius:30px;cursor:pointer;transition:opacity .2s;
+  }
+  .load-more-btn:hover{opacity:0.85;}
+  .load-more-btn:disabled{cursor:default;opacity:0.6;}
+
+  /* ---- More photos strip ---- */
+  .more-photos-row{
+    display:flex;align-items:center;gap:30px;padding:40px 28px 20px;border-top:1px solid var(--sand-deep);
+  }
+  .vert-label{
+    writing-mode:vertical-rl;transform:rotate(180deg);
+    font-family:'JetBrains Mono',monospace;font-size:0.68rem;font-weight:600;
+    letter-spacing:0.12em;text-transform:uppercase;color:var(--ink-soft);flex-shrink:0;
+  }
+  .photo-strip{display:flex;gap:12px;flex:1;overflow-x:auto;}
+  .photo-strip img{width:110px;height:110px;object-fit:cover;border-radius:6px;display:block;cursor:pointer;flex-shrink:0;}
+
+  .photo-album-cover{
+    display:none;position:relative;border:none;padding:0;cursor:pointer;
+    width:100%;max-width:320px;border-radius:10px;overflow:hidden;
+  }
+  .photo-album-cover img{width:100%;height:170px;object-fit:cover;display:block;}
+  .photo-album-badge{
+    position:absolute;bottom:12px;right:12px;
+    font-family:'JetBrains Mono',monospace;font-size:0.72rem;font-weight:600;letter-spacing:0.04em;
+    color:var(--white);background:rgba(15,33,28,0.72);
+    padding:6px 12px;border-radius:20px;
+  }
+
+  @media (max-width:820px){
+    .jtl-item{grid-template-columns:1fr;}
+    .jtl-marker{margin-bottom:6px;}
+    .journal-timeline::before{display:none;}
+    .journal-hero-inner{flex-direction:column;align-items:flex-start;}
+    .hero-stats{text-align:left;}
+  }
+  @media (max-width:760px){
+    .journal-hero h1{font-size:2.2rem;}
+    .more-photos-row{flex-direction:column;align-items:flex-start;}
+    .vert-label{writing-mode:horizontal-tb;transform:none;}
+    .photo-album-cover{display:block;}
+    .photo-strip{display:none;}
+  }
+
+  html{scroll-behavior:smooth;}
+  footer{background:#172242;color:#C7D6CF;padding:40px 0 0;margin-top:20px;}
+  .footer-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1.2fr;gap:40px;padding-bottom:44px;border-bottom:1px solid rgba(255,255,255,0.1);}
+  .footer-logo{display:flex;align-items:center;gap:10px;font-family:'Anton',sans-serif;color:var(--white);font-size:1.35rem;margin-bottom:14px;}
+  .footer-logo-img{width:56px;height:56px;object-fit:contain;flex-shrink:0;}
+  .footer-logo span{color:var(--gold);}
+  .footer-desc{font-size:0.88rem;max-width:260px;}
+  footer .col h5{font-family:'JetBrains Mono',monospace;font-size:0.76rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--gold);margin-bottom:16px;}
+  footer .col ul{list-style:none;margin:0;padding:0;}
+  footer .col ul li{margin-bottom:10px;font-size:0.9rem;}
+  footer .col ul li a{text-decoration:none;}
+  footer .col ul li a:hover{color:var(--white);}
+  .footer-contact li{display:flex;gap:10px;align-items:flex-start;font-size:0.9rem;margin-bottom:14px;}
+  .footer-contact svg{flex-shrink:0;margin-top:2px;color:var(--gold);}
+  .social-row{display:flex;gap:10px;margin-top:18px;}
+  .social-row a{
+    width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,0.08);
+    display:flex;align-items:center;justify-content:center;
+    transition:background .2s;
+  }
+  .social-row a:hover{background:var(--rust);}
+  .footer-bottom{
+    display:flex;justify-content:space-between;align-items:center;
+    padding:22px 0;font-size:0.82rem;color:#7E9089;flex-wrap:wrap;gap:10px;
+  }
+  .footer-bottom a{color:#A9BDB4;}
+  .back-to-top{
+    display:flex;align-items:center;gap:8px;
+    color:#A9BDB4;background:none;border:none;cursor:pointer;
+    font-family:'Work Sans',sans-serif;font-size:0.82rem;
+    transition:color .2s;
+  }
+  .back-to-top:hover{color:var(--gold);}
+  .back-to-top svg{flex-shrink:0;transition:transform .2s;}
+  .back-to-top:hover svg{transform:translateY(-2px);}
+  @media (max-width:980px){
+    .footer-grid{grid-template-columns:repeat(2,1fr);}
+  }
+  @media (max-width:760px){
+    .footer-grid{grid-template-columns:1fr;}
+  }
+</style>
+<style id="simple-tabs">
+/* simple category tabs: text with underline */
+.filter-tabs{gap:6px 22px}
+.tab,.tab:hover:not(.active){background:none;border:0;border-bottom:2px solid transparent;border-radius:0;padding:6px 0;font-size:.82rem;font-weight:700;color:var(--ink-soft,#5b5348);letter-spacing:.02em}
+.tab:hover:not(.active){color:var(--ink)}
+.tab.active{background:none;color:#2E5590;border-bottom-color:#2E5590}
+.filter-row{padding:18px 0}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="nav-inner">
+    <a href="../index.html#home" class="logo">
+      <img src="../Image/logo2.png" alt="Siem Ride logo" class="header-logo-img">
+    </a>
+
+    <nav class="main-nav" id="mainNav">
+      <!-- Bottom Flat Amber Line -->
+      <div id="bottomAmberLine" class="bottom-amber-line"></div>
+      <ul>
+        <li><a href="../index.html#home" data-i18n="nav_home">Home</a></li>
+        <li><a href="../Tours/Tours.html" data-i18n="nav_tours">Tour</a></li>
+        <li><a href="../Rentals/Rental.html" data-i18n="nav_rental">Rental</a></li>
+        <li><a href="Blog.html" class="active" data-i18n="nav_blog">Blog</a></li>
+        <li><a href="../About%20Us/About%20Us.html" data-i18n="nav_about">About Us</a></li>
+      </ul>
+    </nav>
+
+    <div class="nav-right-group">
+      <div class="nav-mid-spacer">
+        <div class="dd-wrap" id="langWrap">
+          <button class="lang-btn" id="langBtn" aria-label="Change language">
+            <img id="langFlagSlot" class="lang-flag-img" src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f1ec-1f1e7.svg" alt="EN">
+            <svg class="mini-caret" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+          <div class="dd-panel lang-panel" id="langPanel">
+            <a href="#" data-lang="en"><img class="lang-flag-img" src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f1ec-1f1e7.svg" alt="English" loading="lazy" decoding="async"> English</a>
+            <a href="#" data-lang="km"><img class="lang-flag-img" src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f1f0-1f1ed.svg" alt="Khmer" loading="lazy" decoding="async"> ខ្មែរ (Khmer)</a>
+            <a href="#" data-lang="vi"><img class="lang-flag-img" src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f1fb-1f1f3.svg" alt="Vietnamese" loading="lazy" decoding="async"> Tiếng Việt (Vietnamese)</a>
+            <a href="#" data-lang="th"><img class="lang-flag-img" src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f1f9-1f1ed.svg" alt="Thai" loading="lazy" decoding="async"> ภาษาไทย (Thai)</a>
+            <a href="#" data-lang="zh"><img class="lang-flag-img" src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f1e8-1f1f3.svg" alt="Chinese" loading="lazy" decoding="async"> 中文 (Chinese)</a>
+            <a href="#" data-lang="ja"><img class="lang-flag-img" src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f1ef-1f1f5.svg" alt="Japanese" loading="lazy" decoding="async"> 日本語 (Japanese)</a>
+            <a href="#" data-lang="ko"><img class="lang-flag-img" src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f1f0-1f1f7.svg" alt="Korean" loading="lazy" decoding="async"> 한국어 (Korean)</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="nav-actions">
+
+      <a class="call-btn" href="tel:+85512610269" aria-label="Call us +855 12 610 269"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4h3.5l1.8 4.6-2.2 1.4a11 11 0 0 0 5.9 5.9l1.4-2.2L20 15.5V19a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2-2z"/></svg>
+        <span class="call-copy">
+          <span class="call-label" data-i18n="call_label">Call Us</span>
+          <span class="call-text">+855 12 610 269</span>
+        </span>
+      </a>
+
+      <span class="nav-divider"></span>
+
+      <!-- Burger Menu Drawer -->
+      <div class="dd-wrap" id="burgerWrap">
+        <button class="burger" id="burgerBtn" aria-label="Menu">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+        </button>
+        <div class="side-panel-overlay" id="panelOverlay"></div>
+        <div class="dd-panel burger-panel side-panel" id="burgerPanel">
+          <button class="side-panel-close" id="panelClose" aria-label="Close menu">&times;</button>
+          <div class="panel-body">
+
+            <div class="panel-brand">
+              <img src="../Image/logo2.png" alt="Siem Ride logo" class="panel-logo" loading="lazy" decoding="async">
+              <span class="panel-brand-text">SIEM<span>RIDE</span></span>
+            </div>
+            <div class="panel-divider"></div>
+
+            <!-- GROUP 1: Nav Menu -->
+            <div class="panel-group panel-group-nav">
+              <nav class="panel-nav-list">
+                <a href="../index.html#home" data-i18n="nav_home">Home</a>
+                <a href="../Tours/Tours.html" data-i18n="nav_tours">Tour</a>
+                <a href="../Rentals/Rental.html" data-i18n="nav_rental">Rental</a>
+                <a href="Blog.html" class="active" data-i18n="nav_blog">Blog</a>
+                <a href="../About%20Us/About%20Us.html" data-i18n="nav_about">About Us</a>
+              </nav>
+            </div>
+
+            <!-- GROUP 2: Contact Info / Address -->
+            <div class="panel-group panel-group-contact">
+              <div class="panel-contact-item">
+                <div class="panel-contact-text">
+                  <h6 data-i18n="burger_officeAddress">Address:</h6>
+                  <a href="https://www.google.com/search?sca_esv=722160d45c52a345&sxsrf=APpeQnv_ufNh0-DdbDZDmF8cnXNRlVd7KA:1784443743758&q=celliers+d%27asie+siem+reap+branch+krong+siem+reap+address&ludocid=7669055108806559654&sa=X&ved=2ahUKEwi9iN_7kt6VAxVn3jgGHaILJsMQ6BN6BAg1EAI" target="_blank" rel="noopener" class="panel-contact-link panel-address-link">Wat Bo Road, Siem Reap, Cambodia</a>
+                </div>
+              </div>
+
+              <div class="panel-contact-item">
+                <div class="panel-contact-text">
+                  <h6 data-i18n="burger_phoneNumber">Mobile:</h6>
+                  <a href="tel:+85512610269" class="panel-contact-link panel-phone-link">+855 12 610 269</a>
+                </div>
+              </div>
+
+              <div class="panel-contact-item">
+                <div class="panel-contact-text">
+                  <h6 data-i18n="burger_emailAddress">E-Mail:</h6>
+                  <a href="mailto:siemride@gmail.com" class="panel-contact-link">siemride@gmail.com</a>
+                </div>
+              </div>
+            </div>
+
+            <!-- GROUP 3: Social Media -->
+            <div class="panel-group panel-group-social">
+              <div class="panel-social-icons">
+                <a href="https://wa.me/85512610269" target="_blank" rel="noopener" aria-label="WhatsApp"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></a>
+                <a href="https://www.facebook.com/share/1D3mPvHArv/" target="_blank" rel="noopener" aria-label="Facebook"><svg width="16" height="16" viewBox="-1 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h-2.5A4.5 4.5 0 0 0 8 7.5V10H5v4h3v7h4v-7h3l1-4h-4V7.5a.5.5 0 0 1 .5-.5H15z"/></svg></a>
+                <a href="https://t.me/CHENLAheab" target="_blank" rel="noopener" aria-label="Telegram"><svg width="16" height="16" viewBox="-0.5 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 3L2 11l7 2.5L11.5 21l3-4.5L19 20z"/><path d="M9 13.5L22 3"/></svg></a>
+                <a href="https://www.tiktok.com" target="_blank" rel="noopener" aria-label="TikTok"><svg width="16" height="16" viewBox="0 -1.5 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3v11.2a3.7 3.7 0 1 1-3.7-3.7"/><path d="M14 3c.3 2.6 2 4.2 4.8 4.4"/></svg></a>
+                <a href="https://www.youtube.com" target="_blank" rel="noopener" aria-label="YouTube"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.5" y="5.5" width="19" height="13" rx="4"/><path d="M10 9.5l5 2.5-5 2.5z" fill="currentColor"/></svg></a>
+                <a href="https://www.tripadvisor.com" target="_blank" rel="noopener" aria-label="TripAdvisor"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="7" cy="14" r="3.4"/><circle cx="17" cy="14" r="3.4"/><path d="M1.5 10l3 .6M22.5 10l-3 .6M5 8c3.6-2.6 10.4-2.6 14 0"/><circle cx="7" cy="14" r="1" fill="currentColor"/><circle cx="17" cy="14" r="1" fill="currentColor"/></svg></a>
+              </div>
+            </div>
+
+            <!-- Contact Us Button (Outside Group 3, down 3 lines, centered in sidebar) -->
+            <div class="panel-action-wrap">
+              <button type="button" class="sr-contact-btn">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                <span data-i18n="panel_contactUs">Contact us</span>
+              </button>
+            </div>
+
+          </div>
+        </div>
+      </div>
+      <!-- /Burger -->
+
+      </div><!-- /.nav-actions -->
+    </div><!-- /.nav-right-group -->
+
+  </div><!-- /.nav-inner -->
+</header>
+
+<div class="wrap back-row">
+  <a href="../index.html" class="back-link"><span class="bl-arrow">&larr;</span><span data-i18n="about2_back_link">Back to Home</span></a>
+</div>
+
+<div class="wrap">
+  <section class="journal-hero">
+    <div class="journal-hero-inner">
+      <div class="hero-left">
+        <span class="pill-badge" data-i18n="blog_pill_badge">From the garage</span>
+        <h1><span data-i18n="blog_hero_line1">Notes from</span><br><span class="accent" data-i18n="blog_hero_line2">the road</span></h1>
+        <p class="lede" data-i18n="blog_hero_lede">Riding tips, route notes, and the odd story from the guides — written on Wat Bo Road, between rides.</p>
+      </div>
+      <div class="hero-stats mono">
+        <p data-i18n="blog_stat_entries">Log entries — 005</p>
+        <p data-i18n="blog_stat_lastupdate">Last update — Jan 2026</p>
+        <p>Siem Reap, KH</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="filter-row">
+    <div class="filter-tabs">
+      <button type="button" class="tab active" data-filter="all" data-i18n="blog_tab_all">All</button>
+      <button type="button" class="tab" data-filter="routes" data-i18n="blog_tab_routes">Routes</button>
+      <button type="button" class="tab" data-filter="trip-prep" data-i18n="blog_tab_tripprep">Trip Prep</button>
+      <button type="button" class="tab" data-filter="season-notes" data-i18n="blog_tab_seasonnotes">Season Notes</button>
+      <button type="button" class="tab" data-filter="temple-guides" data-i18n="blog_tab_templeguides">Temple Guides</button>
+      <button type="button" class="tab" data-filter="local-eats" data-i18n="blog_tab_localeats">Local Eats</button>
+    </div>
+    <div class="journal-search">
+      <span class="search-icon">&#9906;</span>
+      <input type="text" id="journalSearch" placeholder="Search the journal..." data-i18n-placeholder="blog_search_placeholder">
+    </div>
+  </div>
+
+  <div class="journal-timeline" id="journalTimeline">
+
+    <article class="jtl-item" data-cat="routes">
+      <div class="jtl-marker"><span>01</span></div>
+      <div class="jtl-thumb">
+        <img src="../Image/Blog/Blog (1).webp" alt="Backroad near Banteay Srei" loading="lazy">
+      </div>
+      <div class="jtl-body">
+        <span class="cat-badge cat-routes" data-i18n="blog_tab_routes">Routes</span>
+        <h3 data-i18n="blog_post1_title">5 backroads only locals know</h3>
+        <p class="post-meta">Jan 12, 2026 <span class="dot"></span> <span data-i18n="blog_by">By</span> Sovann</p>
+        <p class="excerpt" data-i18n="blog_post1_excerpt">Skip the main road out to Banteay Srei, here are five backroads our guides actually use, from a rice-paddy shortcut to a quiet stretch along the river.</p>
+        <a href="#" class="read-more"><span data-i18n="blog_readmore">Read more</span> &rarr;</a>
+      </div>
+    </article>
+
+    <article class="jtl-item" data-cat="trip-prep">
+      <div class="jtl-marker"><span>02</span></div>
+      <div class="jtl-thumb">
+        <img src="../Image/Blog/Blog (3).webp" alt="Countryside trail near Siem Reap" loading="lazy">
+      </div>
+      <div class="jtl-body">
+        <span class="cat-badge cat-trip-prep" data-i18n="blog_tab_tripprep">Trip Prep</span>
+        <h3 data-i18n="blog_post2_title">What to pack for a day on two wheels</h3>
+        <p class="post-meta">Jan 5, 2026 <span class="dot"></span> <span data-i18n="blog_by">By</span> Dara</p>
+        <p class="excerpt" data-i18n="blog_post2_excerpt">A few things worth stashing in your bag before you head out, sun cover, a spare layer for temple visits, and one thing most first-timers forget.</p>
+        <a href="#" class="read-more"><span data-i18n="blog_readmore">Read more</span> &rarr;</a>
+      </div>
+    </article>
+
+    <article class="jtl-item" data-cat="season-notes">
+      <div class="jtl-marker"><span>03</span></div>
+      <div class="jtl-thumb">
+        <img src="../Image/Blog/Blog (4).webp" alt="Motorbike riders on a rural Cambodian road" loading="lazy">
+      </div>
+      <div class="jtl-body">
+        <span class="cat-badge cat-season-notes" data-i18n="blog_tab_seasonnotes">Season Notes</span>
+        <h3 data-i18n="blog_post3_title">Rainy season riding: what changes</h3>
+        <p class="post-meta">Dec 20, 2025 <span class="dot"></span> <span data-i18n="blog_by">By</span> Chenda</p>
+        <p class="excerpt" data-i18n="blog_post3_excerpt">Riding from June to October looks a little different, here's what we adjust with routes, gear, and timing so a downpour doesn't ruin the day.</p>
+        <a href="#" class="read-more"><span data-i18n="blog_readmore">Read more</span> &rarr;</a>
+      </div>
+    </article>
+
+    <article class="jtl-item" data-cat="temple-guides">
+      <div class="jtl-marker"><span>04</span></div>
+      <div class="jtl-thumb">
+        <img src="../Image/Blog/Blog (7).webp" alt="Quiet temple backroad" loading="lazy">
+      </div>
+      <div class="jtl-body">
+        <span class="cat-badge cat-temple-guides" data-i18n="blog_tab_templeguides">Temple Guides</span>
+        <h3 data-i18n="blog_post4_title">Beyond Angkor Wat: temples worth the detour</h3>
+        <p class="post-meta">Jan 18, 2026 <span class="dot"></span> <span data-i18n="blog_by">By</span> Sovann</p>
+        <p class="excerpt" data-i18n="blog_post4_excerpt">A handful of quieter temples our guides love, easy to reach by bike and almost always free of the crowds you get at the main gate.</p>
+        <a href="#" class="read-more"><span data-i18n="blog_readmore">Read more</span> &rarr;</a>
+      </div>
+    </article>
+
+    <article class="jtl-item" data-cat="local-eats">
+      <div class="jtl-marker"><span>05</span></div>
+      <div class="jtl-thumb">
+        <img src="../Image/Blog/Blog (9).webp" alt="Roadside food stop near Siem Reap" loading="lazy">
+      </div>
+      <div class="jtl-body">
+        <span class="cat-badge cat-local-eats" data-i18n="blog_tab_localeats">Local Eats</span>
+        <h3 data-i18n="blog_post5_title">Where our guides actually stop to eat</h3>
+        <p class="post-meta">Jan 22, 2026 <span class="dot"></span> <span data-i18n="blog_by">By</span> Dara</p>
+        <p class="excerpt" data-i18n="blog_post5_excerpt">No tourist menus here, just the roadside stalls and family kitchens we pull over at ourselves, from noodle soup at dawn to grilled skewers on the way back.</p>
+        <a href="#" class="read-more"><span data-i18n="blog_readmore">Read more</span> &rarr;</a>
+      </div>
+    </article>
+
+  </div>
+
+  <div class="load-more-row">
+    <button type="button" class="load-more-btn" id="blogLoadMoreBtn" data-i18n="blog_loadmore">Load more entries &darr;</button>
+  </div>
+
+  <div class="more-photos-row">
+    <div class="vert-label" data-i18n="blog_pill_badge">From the garage</div>
+
+    <button type="button" class="photo-album-cover" id="photoAlbumCover" aria-label="View all garage photos">
+      <img src="../Image/Blog/Blog (1).webp" alt="Temple backroads at sunset" loading="lazy">
+      <span class="photo-album-badge" id="photoAlbumBadge"></span>
+    </button>
+
+    <div class="photo-strip" id="photoStrip">
+      <img src="../Image/Blog/Blog (1).webp" alt="Temple backroads at sunset" loading="lazy">
+      <img src="../Image/Blog/Blog (3).webp" alt="Temple backroads at sunset" loading="lazy">
+      <img src="../Image/Blog/Blog (4).webp" alt="Temple backroads at sunset" loading="lazy">
+      <img src="../Image/Blog/Blog (7).webp" alt="Temple backroads at sunset" loading="lazy">
+      <img src="../Image/Blog/Blog (9).webp" alt="Temple backroads at sunset" loading="lazy">
+      <img src="../Image/Blog/Blog (10).webp" alt="Temple backroads at sunset" loading="lazy">
+      <img src="../Image/Blog/Blog (11).webp" alt="Temple backroads at sunset" loading="lazy">
+      <img src="../Image/Blog/Blog (12).webp" alt="Motorbike riders on a rural Cambodian road" loading="lazy">
+      <img src="../Image/Blog/Blog (2).webp" alt="Countryside dirt trail near Siem Reap" loading="lazy">
+    </div>
+  </div>
+</div>
+
+<div class="photo-lightbox-overlay" id="blogPhotoLightboxOverlay"></div>
+<div class="photo-lightbox" id="blogPhotoLightbox" role="dialog" aria-modal="true" aria-label="Photo preview">
+  <button type="button" class="photo-lightbox-close" id="blogPhotoLightboxClose" aria-label="Close">&times;</button>
+  <img id="blogPhotoLightboxImg" src="" alt="">
+  <button type="button" class="photo-lightbox-arrow prev" id="blogPhotoLightboxPrev" aria-label="Previous photo">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
+  </button>
+  <button type="button" class="photo-lightbox-arrow next" id="blogPhotoLightboxNext" aria-label="Next photo">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg>
+  </button>
+  <span class="photo-lightbox-counter" id="blogPhotoLightboxCounter"></span>
+</div>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-grid">
+      <div class="col">
+        <div class="footer-logo"><img src="../Image/logo2.png" alt="Siem Ride logo" class="footer-logo-img" loading="lazy" decoding="async"></div>
+        <p class="footer-desc" data-i18n="footer_desc">Motorbike and e-bike tours &amp; rentals, based in Siem Reap, Cambodia.</p>
+        <div class="social-row">
+          <a href="https://www.facebook.com/share/1D3mPvHArv/" target="_blank" rel="noopener" aria-label="Facebook"><svg width="16" height="16" viewBox="0 0 24 24" fill="#F3ECDD"><path d="M14 9h3V5h-3c-2.2 0-4 1.8-4 4v2H8v4h2v6h4v-6h3l1-4h-4V9c0-.6.4-1 1-1z"/></svg></a>
+          <a href="https://t.me/CHENLAheab" target="_blank" rel="noopener" aria-label="Telegram"><svg width="16" height="16" viewBox="0 0 24 24" fill="#F3ECDD"><path d="M21.9 4.4L18.6 20c-.2 1.1-.9 1.4-1.9.9l-5.1-3.8-2.5 2.4c-.3.3-.5.5-1 .5l.4-5.2L18 6c.5-.4-.1-.6-.7-.3L6.4 12.5 1.4 11c-1.1-.3-1.1-1.1.2-1.6L20.5 3c.9-.3 1.7.2 1.4 1.4z"/></svg></a>
+          <a href="https://www.instagram.com" target="_blank" rel="noopener" aria-label="Instagram"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#F3ECDD" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1"/></svg></a>
+          <a href="https://www.youtube.com" target="_blank" rel="noopener" aria-label="YouTube"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#F3ECDD" stroke-width="1.8"><path d="M23 12s0-3.5-.4-5.2c-.3-1-1-1.8-2-2C18.9 4.3 12 4.3 12 4.3s-6.9 0-8.6.5c-1 .2-1.8 1-2 2C1 8.5 1 12 1 12s0 3.5.4 5.2c.3 1 1 1.8 2 2 1.7.5 8.6.5 8.6.5s6.9 0 8.6-.5c1-.2 1.8-1 2-2 .4-1.7.4-5.2.4-5.2z"/><path d="M9.8 15.5V8.5l6 3.5-6 3.5z"/></svg></a>
+        </div>
+      </div>
+      <div class="col">
+        <h5 data-i18n="footer_col_rides">Rides</h5>
+        <ul>
+          <li><a href="../Tours/Tours.html#bike" data-i18n="nav_bikeTours">Bike Tours</a></li>
+          <li><a href="../Tours/Tours.html#ebike" data-i18n="nav_ebikeTours">E-Bike Tours</a></li>
+          <li><a href="../Rentals/Rental.html" data-i18n="nav_rental">Rental</a></li>
+        </ul>
+      </div>
+      <div class="col">
+        <h5 data-i18n="footer_col_company">Company</h5>
+        <ul>
+          <li><a href="../About%20Us/About%20Us.html" data-i18n="nav_about">About Us</a></li>
+          <li><a href="Blog.html" data-i18n="nav_blog">Blog</a></li>
+          <li><a href="../index.html#routes" data-i18n="btn_viewRoute_plural">Popular Routes</a></li>
+        </ul>
+      </div>
+      <div class="col">
+        <h5 data-i18n="footer_col_contact">Contact</h5>
+        <ul class="footer-contact">
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-6.2-7-11a7 7 0 1114 0c0 4.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg> <span class="footer-script">Siem Reap, Cambodia</span></li>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.9v3a2 2 0 01-2.2 2 19.8 19.8 0 01-8.6-3 19.5 19.5 0 01-6-6A19.8 19.8 0 012.1 4.2 2 2 0 014.1 2h3a2 2 0 012 1.7c.1.9.3 1.8.6 2.7a2 2 0 01-.4 2.1L8 9.9a16 16 0 006 6l1.4-1.4a2 2 0 012.1-.4c.9.3 1.8.5 2.7.6a2 2 0 011.8 2.2z"/></svg> +855 12 610 269 (WhatsApp)</li>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16v16H4z"/><path d="M4 6l8 7 8-7"/></svg> ride@siemride.com</li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 SiemRide. <span data-i18n="footer_rights">All rights reserved.</span></span>
+      <button type="button" class="back-to-top" id="backToTop" aria-label="Back to top">
+        <span data-i18n="footer_backToTop">Back to top</span>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+      </button>
+    </div>
+  </div>
+</footer>
+
+<a class="wa-float" href="https://wa.me/85512610269" target="_blank" rel="noopener" aria-label="Chat with us">
+  <svg width="52" height="52" viewBox="0 0 64 64" aria-hidden="true"><defs><linearGradient id="waFloatGrad" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#3DDC63"/><stop offset="100%" stop-color="#159040"/></linearGradient></defs><circle cx="32" cy="32" r="30" fill="url(#waFloatGrad)"/><g transform="translate(13 13) scale(1.5833)"><path fill="#fff" d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></g></svg>
+  <span class="wa-float-badge">?</span>
+</a>
+
+<script>
+  // Accordion toggles inside the mobile side panel (Tour Info / Rental)
+  document.querySelectorAll('.panel-accordion-toggle').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var acc = btn.closest('.panel-accordion');
+      var wasOpen = acc.classList.contains('open');
+      document.querySelectorAll('.panel-accordion.open').forEach(function (other) {
+        if (other !== acc) other.classList.remove('open');
+      });
+      acc.classList.toggle('open', !wasOpen);
+    });
+  });
+</script>
+<script src="../JavaScript/script.js?v=20261110-1"></script>
+<script>
+  // Load more button
+  var btn = document.getElementById('blogLoadMoreBtn');
+  if(btn){
+    btn.addEventListener('click', function(){
+      btn.removeAttribute('data-i18n');
+      btn.textContent = (typeof t === 'function') ? t('blog_caughtup') : "You're all caught up!";
+      btn.disabled = true;
+    });
+    document.addEventListener('langchange', function(){
+      if(btn.disabled && typeof t === 'function'){
+        btn.textContent = t('blog_caughtup');
+      }
+    });
+  }
+
+  // Category filter tabs
+  var tabs = document.querySelectorAll('.tab');
+  var items = document.querySelectorAll('.jtl-item');
+  tabs.forEach(function(tab){
+    tab.addEventListener('click', function(){
+      tabs.forEach(function(t){ t.classList.remove('active'); });
+      tab.classList.add('active');
+      var filter = tab.getAttribute('data-filter');
+      items.forEach(function(item){
+        var show = (filter === 'all' || item.getAttribute('data-cat') === filter);
+        item.style.display = show ? '' : 'none';
+      });
+    });
+  });
+
+  // Search filter
+  var searchInput = document.getElementById('journalSearch');
+  if(searchInput){
+    searchInput.addEventListener('input', function(){
+      var q = searchInput.value.trim().toLowerCase();
+      items.forEach(function(item){
+        var text = item.textContent.toLowerCase();
+        item.style.display = (q === '' || text.indexOf(q) !== -1) ? '' : 'none';
+      });
+      // reset tabs to "all" look when searching
+      if(q !== ''){
+        tabs.forEach(function(t){ t.classList.remove('active'); });
+        document.querySelector('.tab[data-filter="all"]').classList.add('active');
+      }
+    });
+  }
+
+  var backToTopBtn = document.getElementById('backToTop');
+  if(backToTopBtn){
+    backToTopBtn.addEventListener('click', function(){
+      window.scrollTo({top:0, behavior:'smooth'});
+    });
+  }
+
+  // ---- Garage photo album / lightbox (mobile: tap cover to browse all photos) ----
+  (function(){
+    var stripImgs   = Array.prototype.slice.call(document.querySelectorAll('#photoStrip img'));
+    var albumCover  = document.getElementById('photoAlbumCover');
+    var albumBadge  = document.getElementById('photoAlbumBadge');
+    var overlay     = document.getElementById('blogPhotoLightboxOverlay');
+    var box         = document.getElementById('blogPhotoLightbox');
+    var closeBtn    = document.getElementById('blogPhotoLightboxClose');
+    var prevBtn     = document.getElementById('blogPhotoLightboxPrev');
+    var nextBtn     = document.getElementById('blogPhotoLightboxNext');
+    var imgEl       = document.getElementById('blogPhotoLightboxImg');
+    var counterEl   = document.getElementById('blogPhotoLightboxCounter');
+
+    if(stripImgs.length === 0 || !overlay || !box) return;
+
+    if(albumBadge) albumBadge.textContent = stripImgs.length + ' Photos';
+
+    var current = 0;
+
+    function render(){
+      var img = stripImgs[current];
+      imgEl.setAttribute('src', img.getAttribute('src'));
+      imgEl.setAttribute('alt', img.getAttribute('alt') || '');
+      counterEl.textContent = (current + 1) + ' / ' + stripImgs.length;
+    }
+
+    function openLightbox(index){
+      current = index;
+      render();
+      overlay.classList.add('open');
+      box.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeLightbox(){
+      overlay.classList.remove('open');
+      box.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    function showPrev(){ current = (current - 1 + stripImgs.length) % stripImgs.length; render(); }
+    function showNext(){ current = (current + 1) % stripImgs.length; render(); }
+
+    if(albumCover) albumCover.addEventListener('click', function(){ openLightbox(0); });
+    stripImgs.forEach(function(img, i){
+      img.addEventListener('click', function(){ openLightbox(i); });
+    });
+
+    closeBtn.addEventListener('click', closeLightbox);
+    overlay.addEventListener('click', closeLightbox);
+    prevBtn.addEventListener('click', showPrev);
+    nextBtn.addEventListener('click', showNext);
+
+    document.addEventListener('keydown', function(e){
+      if(!box.classList.contains('open')) return;
+      if(e.key === 'Escape') closeLightbox();
+      if(e.key === 'ArrowLeft') showPrev();
+      if(e.key === 'ArrowRight') showNext();
+    });
+  })();
+</script>
+</body>
+</html>

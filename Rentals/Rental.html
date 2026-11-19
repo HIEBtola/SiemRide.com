@@ -1,0 +1,1620 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rental in Siem Reap | SIEMRIDE</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=JetBrains+Mono:wght@400;500;700&family=Work+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script>try{var l=localStorage.getItem("siemride_lang");if(l&&l!=="en"){document.documentElement.className+=" i18n-wait";setTimeout(function(){document.documentElement.classList.remove("i18n-wait")},1500)}}catch(e){}</script>
+<link rel="stylesheet" href="../CssStyle/style.css?v=20261110-1">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link rel="icon" type="image/png" href="../Image/logo2.png">
+<style>
+/* SIEMRIDE — ALL-IN-ONE RENTAL PAGE (Bicycle, E-Bike, Moto, Tuk Tuk, Car/Van) */
+:root{
+  --bg:#FFFDF8;--panel:#F5F1E5;--panel-2:#EFE9D9;--ink:#241F19;
+  --ink-dim:rgba(36,31,25,.68);--ink-faint:rgba(36,31,25,.4);--paper:#FFFFFF;--white:#FFFDF8;
+  --hazard:#1F5C3A;--hazard-dim:#153F28;--price:#FF5A1F;--lime:#D7F24C;--rust:#C4402B;
+  --line:rgba(36,31,25,.14);
+}
+*{box-sizing:border-box;}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:'Work Sans',sans-serif;font-size:1rem;line-height:1.55;-webkit-font-smoothing:antialiased;}
+.wrap{max-width:1180px;margin:0 auto;padding:0 28px;}
+a{color:inherit;}
+.stencil{font-family:'Anton',sans-serif;text-transform:uppercase;letter-spacing:.01em;color:var(--ink);line-height:.98;}
+.mono{font-family:'JetBrains Mono',monospace;}
+.back-row,.wrap.back-row{padding:0 28px;margin-top:16px;position:relative;z-index:2;}
+.main-nav > ul > li > a,.panel-nav-list > a{text-transform:uppercase;}
+html{scroll-padding-top:72px;}
+@media (max-width:640px){html{scroll-padding-top:66px;}}
+header{position:fixed;top:0;left:0;right:0;z-index:200;background:rgb(18,49,43);transition:box-shadow .25s ease;}
+header.scrolled{box-shadow:0 4px 18px rgba(0,0,0,.28);}
+body{padding-top:72px;padding-top:var(--hdr-h,72px);}
+@media (max-width:640px){body{padding-top:60px;padding-top:var(--hdr-h,60px);}}
+.back-link{display:inline-flex;align-items:center;gap:6px;font-family:'JetBrains Mono',monospace;font-size:0.8rem;font-weight:700;color:#2E5590;text-decoration:none;letter-spacing:0.03em;text-transform:uppercase;background:transparent;padding:0;}
+.back-link:hover{color:#2C5E1A;}
+
+/* hero */
+.rr-hero{padding:44px 0 30px;}
+.pill-badge{
+  display:inline-block;font-family:'JetBrains Mono',monospace;font-size:0.72rem;font-weight:600;
+  letter-spacing:0.12em;text-transform:uppercase;color:var(--ink-soft,#4A463E);
+  border:1px solid var(--ink-soft,#4A463E);border-radius:30px;padding:6px 16px;margin-bottom:18px;
+}
+.rr-hero h1{font-size:3.4rem;max-width:760px;margin:0 0 18px;}
+.rr-hero h1 .hl{color:var(--hazard);}
+.rr-hero p.lede{max-width:600px;color:var(--ink-dim);font-size:1.08rem;margin:0 0 30px;}
+
+/* tabs */
+.rt-tabs-bar{position:sticky;top:var(--hdr-h,66px);z-index:50;background:var(--bg);border-bottom:1px solid var(--line);margin-top:8px;}
+.rt-tabs{display:flex;gap:8px;overflow-x:auto;-webkit-overflow-scrolling:touch;padding:14px 0;scrollbar-width:none;}
+.rt-tabs::-webkit-scrollbar{display:none;}
+.rt-tab{flex:0 0 auto;display:inline-flex;align-items:center;gap:8px;background:var(--panel);color:var(--ink);border:1px solid var(--line);border-radius:30px;padding:11px 22px;font-family:'Work Sans',sans-serif;font-weight:700;font-size:.9rem;cursor:pointer;transition:.2s;}
+.rt-tab:hover{background:var(--panel-2);}
+.rt-tab.is-active{background:var(--hazard);color:var(--paper);border-color:var(--hazard);}
+.rt-tab .rt-emoji{font-size:1.05rem;line-height:1;}
+
+.rt-panel{display:none;}
+.rt-panel.is-active{display:block;animation:fadeIn .3s ease;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:none;}}
+
+.rr-cta-row{display:flex;align-items:center;gap:18px;flex-wrap:wrap;padding:40px 0 0;}
+.btn-rr{display:inline-flex;align-items:center;gap:10px;background:#2E5590;color:var(--paper);font-family:'Work Sans',sans-serif;font-weight:700;font-size:.95rem;letter-spacing:.01em;padding:15px 30px;border-radius:30px;text-decoration:none;transition:.2s;}
+.btn-rr:hover{opacity:.85;}
+.rr-stats{display:flex;gap:32px;flex-wrap:wrap;}
+.rr-stats div{font-family:'JetBrains Mono',monospace;font-size:.7rem;text-transform:uppercase;letter-spacing:.08em;color:var(--ink-dim);}
+.rr-stats strong{display:block;font-family:'Anton',sans-serif;font-size:2rem;color:var(--ink);letter-spacing:0;line-height:1;margin-bottom:6px;}
+.rr-stats strong.accent{color:var(--hazard);}
+
+/* gallery */
+.rr-gallery{padding:44px 0 60px;}
+.rr-section-head{margin-bottom:30px;}
+.rr-eyebrow{display:inline-block;font-family:'JetBrains Mono',monospace;font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--hazard);border:1px solid var(--hazard);padding:5px 14px;border-radius:2px;margin-bottom:14px;}
+.rr-section-head h2{font-size:2.1rem;margin:0 0 8px;}
+.rr-section-head p{color:var(--ink-dim);margin:0;max-width:600px;}
+.rr-gallery-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;background:var(--line);}
+.rr-gallery-grid figure{margin:0;position:relative;aspect-ratio:4/3;overflow:hidden;background:var(--panel);}
+.rr-gallery-grid img{width:100%;height:100%;object-fit:cover;display:block;filter:grayscale(35%) contrast(1.05);transition:.3s;}
+.rr-gallery-grid figure:hover img{filter:none;transform:scale(1.06);}
+.rr-gallery-grid figcaption{position:absolute;left:0;right:0;bottom:0;padding:8px 10px 7px;background:linear-gradient(0deg,rgba(58,52,44,.92),transparent);font-family:'JetBrains Mono',monospace;font-size:.68rem;letter-spacing:.04em;text-transform:uppercase;color:var(--paper);}
+@media(max-width:760px){.rr-gallery-grid{grid-template-columns:repeat(2,1fr);}}
+
+/* pricing */
+.rr-pricing{padding:60px 0;background:var(--panel);border-top:1px solid var(--line);border-bottom:1px solid var(--line);}
+.rr-legend{display:flex;gap:22px;flex-wrap:wrap;margin:0 0 30px;font-family:'JetBrains Mono',monospace;font-size:.72rem;text-transform:uppercase;letter-spacing:.04em;color:var(--ink-dim);}
+.rr-legend span{display:inline-flex;align-items:center;gap:7px;}
+.rr-legend .dot{width:10px;height:10px;display:inline-block;}
+.dot-hazard{background:var(--hazard);}.dot-lime{background:var(--lime);}.dot-rust{background:#C4402B;}
+.spec-table{width:100%;border-collapse:collapse;}
+.spec-table thead th{text-align:left;font-family:'JetBrains Mono',monospace;font-size:.68rem;text-transform:uppercase;letter-spacing:.08em;color:var(--ink-faint);padding:0 14px 14px;border-bottom:1px solid var(--line);font-weight:500;}
+.spec-table tbody tr{border-left:5px solid transparent;border-bottom:1px solid var(--line);}
+.spec-table tbody tr[data-cat="std"]{border-left-color:var(--hazard);}
+.spec-table tbody tr[data-cat="family"]{border-left-color:var(--lime);}
+.spec-table tbody tr[data-cat="premium"]{border-left-color:#C4402B;}
+.spec-table tbody tr:hover{background:rgba(31,92,58,.07);}
+.spec-table td{padding:16px 14px;font-size:.95rem;}
+.spec-table td.rt-type{white-space:nowrap;font-family:'Anton',sans-serif;text-transform:uppercase;font-size:1rem;letter-spacing:.01em;}
+.spec-table td.rt-price{font-family:'JetBrains Mono',monospace;font-weight:700;color:var(--price);font-size:1.05rem;}
+.rt-check{color:var(--hazard-dim);font-weight:800;font-size:1.1rem;}
+.rt-check::before{content:"\2713";}
+.spec-table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;}
+.rr-sample{margin-top:14px;font-size:.8rem;color:var(--ink-dim);}
+@media(max-width:640px){
+  .back-row{padding:0 18px;}
+  .rr-hero{padding:40px 18px 0;}
+  .rr-hero h1{font-size:2.6rem;}
+  .rr-pricing .wrap{padding:0 12px;}
+  .spec-table{min-width:0;table-layout:auto;}
+  .spec-table thead th{padding:0 5px 10px;font-size:.54rem;letter-spacing:.02em;}
+  .spec-table tbody tr{border-left-width:4px;}
+  .spec-table td{padding:13px 5px;font-size:.78rem;line-height:1.25;}
+  .spec-table td.rt-type{min-width:0;white-space:normal;font-size:.82rem;letter-spacing:0;}
+  .spec-table td.rt-price{font-size:.88rem;}
+  .spec-table td:nth-child(n+4),.spec-table th:nth-child(n+4){text-align:center;padding-left:2px;padding-right:2px;}
+}
+
+/* info grid */
+.rr-info{padding:64px 0;}
+.rr-info-grid{display:grid;grid-template-columns:1fr 1fr;gap:44px;}
+@media(max-width:760px){.rr-info-grid{grid-template-columns:1fr;}}
+.rr-tag{display:inline-block;font-family:'JetBrains Mono',monospace;font-size:.66rem;font-weight:700;letter-spacing:.09em;text-transform:uppercase;padding:5px 12px;border-radius:2px;margin-bottom:12px;}
+.tag-hazard{background:var(--hazard);color:var(--paper);}
+.tag-lime{background:var(--lime);color:var(--ink);}
+.tag-rust{background:#C4402B;color:var(--paper);}
+.rr-info-block{margin-bottom:38px;}
+.rr-info-block h3{font-size:1.5rem;margin:0 0 16px;}
+.rr-list{list-style:none;margin:0;padding:0;}
+.rr-list li{display:flex;gap:12px;align-items:flex-start;padding:9px 0;border-bottom:1px solid var(--line);color:var(--ink-dim);font-size:.94rem;}
+.rr-list li::before{content:"\2713";color:var(--hazard);font-weight:800;flex-shrink:0;}
+
+/* CTA band */
+.rr-cta{position:relative;padding:24px 0 64px;text-align:center;background:var(--bg);}
+.rr-cta .ornament{display:block;width:44px;height:2px;background:var(--hazard);margin:0 auto 22px;}
+.rr-cta h2{font-size:2.8rem;margin:0 0 10px;color:var(--hazard);letter-spacing:.02em;}
+.rr-cta .kicker{font-family:'JetBrains Mono',monospace;font-size:.78rem;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-dim);display:block;}
+
+/* footer */
+footer{background:#172242;color:#C7D6CF;padding:40px 0 0;margin-top:20px;font-family:'Work Sans',sans-serif;}
+.footer-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1.2fr;gap:40px;padding-bottom:44px;border-bottom:1px solid rgba(255,255,255,.1);}
+@media(max-width:980px){.footer-grid{grid-template-columns:repeat(2,1fr);}}
+@media(max-width:760px){.footer-grid{grid-template-columns:1fr;}}
+.footer-logo{display:flex;align-items:center;gap:10px;font-family:'Anton',sans-serif;color:#FFFDF8;font-size:1.35rem;margin-bottom:14px;}
+.footer-logo-img{width:56px;height:56px;object-fit:contain;flex-shrink:0;}
+.footer-desc{color:#C7D6CF;font-size:.88rem;max-width:260px;}
+.social-row{display:flex;gap:10px;margin-top:18px;}
+.social-row a{width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.08);display:flex;align-items:center;justify-content:center;transition:background .2s;}
+.social-row a:hover{background:#C1502E;}
+footer h5{font-family:'JetBrains Mono',monospace;font-size:.76rem;letter-spacing:.1em;text-transform:uppercase;color:#D9A441;margin:0 0 16px;}
+footer ul{list-style:none;padding:0;margin:0;}
+footer li{margin-bottom:10px;font-size:.9rem;}
+footer a{text-decoration:none;color:#C7D6CF;}
+footer a:hover{color:#FFFDF8;}
+.footer-contact li{display:flex;gap:10px;align-items:flex-start;color:#C7D6CF;}
+.footer-contact svg{flex-shrink:0;margin-top:2px;color:#D9A441;}
+.footer-bottom{display:flex;justify-content:space-between;align-items:center;padding:22px 0;font-size:.82rem;color:#7E9089;flex-wrap:wrap;gap:10px;font-family:'JetBrains Mono',monospace;}
+.back-to-top{display:flex;align-items:center;gap:8px;color:#A9BDB4;background:none;border:none;cursor:pointer;font-family:'Work Sans',sans-serif;font-size:.82rem;transition:color .2s;}
+.back-to-top:hover{color:#D9A441;}
+.back-to-top svg{flex-shrink:0;transition:transform .2s;}
+.back-to-top:hover svg{transform:translateY(-2px);}
+
+/* booking modal */
+.bk-overlay{position:fixed;inset:0;background:rgba(20,17,13,.55);opacity:0;visibility:hidden;transition:opacity .25s;z-index:200;}
+.bk-overlay.is-open{opacity:1;visibility:visible;}
+.bk-modal{position:fixed;top:50%;left:50%;transform:translate(-50%,-48%);width:min(646px,92vw);max-height:88vh;overflow-y:auto;background:var(--bg);border-top:4px solid var(--ink);border-radius:2px;box-shadow:0 24px 60px rgba(0,0,0,.35);opacity:0;visibility:hidden;transition:opacity .25s,transform .25s;z-index:201;}
+.bk-modal.is-open{opacity:1;visibility:visible;transform:translate(-50%,-50%);}
+.bk-inner{padding:38px 34px 30px;}
+.bk-close{position:absolute;top:16px;right:16px;width:32px;height:32px;border-radius:50%;background:var(--panel);border:none;font-size:1.2rem;line-height:1;cursor:pointer;color:var(--ink);}
+.bk-close:hover{background:var(--line);}
+.bk-eyebrow{color:#2E5590;font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;margin:0 0 6px;}
+.bk-head h3{font-size:1.7rem;margin:0 0 10px;}
+.bk-sub{color:var(--ink-dim);font-size:.94rem;line-height:1.5;margin:0 0 26px;max-width:520px;}
+.bk-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px 20px;}
+.bk-field label{display:block;font-family:'JetBrains Mono',monospace;font-size:.68rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-dim);margin-bottom:7px;}
+.bk-optional{text-transform:none;letter-spacing:0;color:var(--ink-faint);}
+.bk-field input,.bk-field select,.bk-field textarea{width:100%;box-sizing:border-box;background:var(--panel);border:1px solid var(--line);border-radius:3px;padding:11px 12px;font-family:'Work Sans',sans-serif;font-size:.92rem;color:var(--ink);appearance:none;-webkit-appearance:none;}
+.bk-field select{background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23241F19' stroke-width='3'><path d='M6 9l6 6 6-6'/></svg>");background-repeat:no-repeat;background-position:right 12px center;background-size:11px;padding-right:32px;}
+.bk-field input:focus,.bk-field select:focus,.bk-field textarea:focus{outline:none;border-color:#2E5590;box-shadow:0 0 0 3px rgba(46,85,144,.12);}
+.bk-field-full{margin-top:18px;}
+.bk-field textarea{resize:vertical;}
+.bk-error{display:none;color:var(--rust,#B23A24);font-size:.82rem;margin:14px 0 0;}
+.bk-error.is-visible{display:block;}
+.bk-actions{display:flex;align-items:center;gap:18px;flex-wrap:wrap;margin-top:26px;}
+.bk-btn-dark{display:inline-flex;align-items:center;gap:9px;background:var(--hazard);color:var(--paper);border:none;border-radius:30px;padding:14px 26px;font-family:'Work Sans',sans-serif;font-weight:700;font-size:.92rem;cursor:pointer;transition:.2s;}
+.bk-btn-dark:hover{opacity:.88;}
+.bk-alt-link{background:none;border:none;padding:0;font-size:.86rem;color:var(--ink-dim);text-decoration:underline;cursor:pointer;font-family:'Work Sans',sans-serif;}
+.bk-clear-btn{background:none;border:none;padding:0;font-size:.82rem;color:var(--ink-faint);text-decoration:underline;cursor:pointer;margin-left:auto;font-family:'Work Sans',sans-serif;}
+.bk-summary h4,.bk-success h4{font-size:1.4rem;margin:0 0 8px;}
+.bk-summary-list{display:grid;grid-template-columns:1fr 1fr;gap:12px 20px;margin:20px 0 6px;padding:18px;background:var(--panel);border-radius:3px;}
+.bk-summary-list div{display:flex;flex-direction:column;gap:2px;}
+.bk-summary-list dt{font-family:'JetBrains Mono',monospace;font-size:.66rem;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-faint);}
+.bk-summary-list dd{margin:0;font-size:.92rem;color:var(--ink);}
+.bk-success{text-align:center;padding:20px 0 10px;}
+.bk-success p{color:var(--ink-dim);font-size:.9rem;}
+@media(max-width:640px){.bk-grid{grid-template-columns:1fr;}.bk-inner{padding:30px 22px 24px;}}
+</style>
+<style id="rr-polish">
+/* ===== hero: two columns, photo collage on the right ===== */
+.rr-hero{position:relative;z-index:1;padding:44px 0 30px;max-width:1180px}
+.rr-hero-grid{display:grid;grid-template-columns:minmax(0,1.02fr) minmax(0,.98fr);gap:56px;align-items:start}
+.rr-hero h1{font-size:clamp(2.7rem,5.4vw,4.6rem);line-height:.96;margin:0 0 20px;max-width:none}
+.rr-hero h1 .hl{display:inline-block;position:relative;color:var(--hazard)}
+.rr-hero h1 .hl::after{content:"";position:absolute;left:0;right:0;bottom:-.08em;height:.14em;border-radius:99px;background:linear-gradient(90deg,var(--price),#ffb199);opacity:.9}
+.rr-hero p.lede{font-size:1.12rem;max-width:560px;margin:0 0 24px}
+.rr-hero-top{margin-bottom:22px}
+.rr-chips{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:10px}
+.rr-chips li{display:inline-flex;align-items:center;gap:8px;background:#fff;border:1px solid var(--line);border-radius:99px;padding:8px 16px 8px 8px;font-size:.84rem;font-weight:600;box-shadow:0 2px 8px rgba(36,31,25,.05)}
+.rr-chip-ico{width:22px;height:22px;border-radius:50%;background:var(--hazard);color:#fff;display:grid;place-items:center;font-size:.72rem;font-weight:800}
+.rr-hero-visual{position:relative;display:grid;grid-template-columns:1.3fr 1fr;grid-template-rows:1fr 1fr;gap:14px;height:min(500px,46vw);min-height:360px;user-select:none;-webkit-user-select:none}
+.rv-img{position:relative;overflow:hidden;border-radius:24px;background:var(--panel-2);box-shadow:0 18px 40px rgba(36,31,25,.18);transition:transform .5s cubic-bezier(.2,.8,.2,1)}
+.rv-img img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+.rv-img img.rv-active{z-index:1}
+.rv-img:hover img.rv-active{transform:scale(1.05);transition:transform .6s cubic-bezier(.2,.8,.2,1)}
+.rv-main{grid-row:1/3;border-radius:28px 28px 28px 90px}
+.rv-a{border-radius:24px 80px 24px 24px}
+.rv-b{border-radius:24px 24px 80px 24px}
+.rr-hero-visual.is-swap .rv-img img{opacity:0;transition:opacity .18s ease}
+.rv-badge{position:absolute;left:-22px;bottom:34px;z-index:5;background:#fff;border-radius:18px;padding:14px 22px 12px;box-shadow:0 16px 34px rgba(36,31,25,.22);animation:rvFloat 5s ease-in-out infinite;pointer-events:none}
+.rv-badge strong{display:block;font-family:'Anton',sans-serif;font-size:2.3rem;line-height:1;color:var(--price)}
+.rv-badge span{font-family:'JetBrains Mono',monospace;font-size:.66rem;letter-spacing:.09em;text-transform:uppercase;color:var(--ink-dim)}
+.rv-tag{position:absolute;right:16px;top:16px;z-index:5;display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.88);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);border-radius:99px;padding:8px 16px;font-weight:700;font-size:.85rem;box-shadow:0 6px 18px rgba(0,0,0,.14);pointer-events:none}
+.rv-dot{width:9px;height:9px;border-radius:50%;background:#2fbf6c;box-shadow:0 0 0 4px rgba(47,191,108,.25)}
+@keyframes rvFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+/* Hero collage slideshow controls */
+.rv-nav-btn{position:absolute;top:50%;transform:translateY(-50%);z-index:6;width:38px;height:38px;border-radius:50%;background:rgba(255,255,255,.9);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);border:1.5px solid rgba(255,255,255,.95);color:var(--ink);box-shadow:0 8px 22px rgba(0,0,0,.18);display:flex;align-items:center;justify-content:center;cursor:pointer;opacity:0;pointer-events:none;transition:opacity .25s ease,transform .25s cubic-bezier(.2,.8,.2,1),background .2s}
+.rr-hero-visual:hover .rv-nav-btn{opacity:1;pointer-events:auto}
+.rv-nav-prev{left:10px}
+.rv-nav-next{right:10px}
+.rv-nav-btn:hover{background:#fff;transform:translateY(-50%) scale(1.1);box-shadow:0 10px 26px rgba(0,0,0,.26)}
+.rv-nav-btn:active{transform:translateY(-50%) scale(.94)}
+.rv-dots{position:absolute;right:18px;bottom:18px;z-index:5;display:inline-flex;align-items:center;gap:6px;background:rgba(21,29,22,.55);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.2);border-radius:99px;padding:5px 9px;box-shadow:0 4px 14px rgba(0,0,0,.16)}
+.rv-slide-dot{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.45);border:none;padding:0;cursor:pointer;transition:width .3s cubic-bezier(.25,1,.5,1),background .25s,border-radius .3s}
+.rv-slide-dot:hover{background:rgba(255,255,255,.85)}
+.rv-slide-dot.is-active{width:16px;border-radius:99px;background:#fff;box-shadow:0 0 8px rgba(255,255,255,.5)}
+@media (max-width:900px){
+  .rr-hero{padding:44px 20px 40px}
+  .rr-hero-grid{grid-template-columns:1fr;gap:30px}
+  .rr-hero-visual{height:300px;min-height:0}
+  .rv-badge{left:10px;bottom:16px;padding:10px 16px 8px;z-index:5}
+  .rv-badge strong{font-size:1.7rem}
+  .rv-main{border-radius:22px 22px 22px 60px}.rv-a{border-radius:20px 56px 20px 20px}.rv-b{border-radius:20px 20px 56px 20px}
+  .rr-chips li{font-size:.8rem}
+  .rv-nav-btn{opacity:.85;pointer-events:auto;width:32px;height:32px}
+  .rv-nav-prev{left:6px}
+  .rv-nav-next{right:6px}
+  .rv-dots{right:12px;bottom:12px;padding:4px 8px;gap:5px}
+  .rv-slide-dot{width:5px;height:5px}
+  .rv-slide-dot.is-active{width:14px}
+}
+@media (prefers-reduced-motion:reduce){.rv-badge{animation:none}.rv-img img{transition:none}}
+
+/* ===== buttons ===== */
+.rt-tabs{gap:10px;padding:14px 4px 16px}
+.rt-tab{position:relative;gap:10px;background:#fff;border:1.5px solid rgba(36,31,25,.12);padding:8px 22px 8px 9px;font-size:.92rem;letter-spacing:.01em;box-shadow:0 2px 6px rgba(36,31,25,.06);transition:transform .22s cubic-bezier(.2,.8,.2,1),box-shadow .22s,background .22s,color .22s,border-color .22s}
+.rt-tab .rt-emoji{width:34px;height:34px;border-radius:50%;background:var(--panel);display:grid;place-items:center;font-size:1.1rem;transition:transform .3s cubic-bezier(.3,1.6,.5,1),background .22s}
+.rt-tab:hover{background:#fff;transform:translateY(-3px);border-color:var(--hazard);box-shadow:0 10px 22px rgba(31,92,58,.2)}
+.rt-tab:hover .rt-emoji{transform:rotate(-12deg) scale(1.12)}
+.rt-tab:active{transform:translateY(0) scale(.97)}
+.rt-tab.is-active{background:linear-gradient(135deg,#2e8a55 0%,#1F5C3A 55%,#153F28 100%);color:#fff;border-color:transparent;box-shadow:0 10px 24px rgba(31,92,58,.4)}
+.rt-tab.is-active .rt-emoji{background:#fff;transform:scale(1.08)}
+.rt-tab:focus-visible,.btn-rr:focus-visible{outline:3px solid rgba(62,114,184,.55);outline-offset:3px}
+.rt-tabs-bar{background:rgba(255,255,255,.94);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
+.btn-rr{position:relative;overflow:hidden;gap:14px;background:linear-gradient(135deg,#4a82cc 0%,#2E5590 55%,#213f70 100%);padding:12px 14px 12px 32px;font-size:1.02rem;border-radius:99px;box-shadow:0 12px 26px rgba(46,85,144,.4),inset 0 1px 0 rgba(255,255,255,.25);transition:transform .22s cubic-bezier(.2,.8,.2,1),box-shadow .22s;animation:rrPulse 3s ease-out infinite}
+.btn-rr svg{box-sizing:border-box;width:34px;height:34px;padding:9px;border-radius:50%;background:rgba(255,255,255,.2);transition:transform .25s,background .25s}
+.btn-rr::after{content:"";position:absolute;top:0;bottom:0;width:60px;left:-90px;background:linear-gradient(100deg,transparent,rgba(255,255,255,.45),transparent);transform:skewX(-20deg);transition:left .6s ease}
+.btn-rr:hover{opacity:1;transform:translateY(-3px);box-shadow:0 16px 32px rgba(46,85,144,.5),inset 0 1px 0 rgba(255,255,255,.3)}
+.btn-rr:hover::after{left:120%}
+.btn-rr:hover svg{transform:translateX(3px);background:rgba(255,255,255,.32)}
+.btn-rr:active{transform:translateY(0) scale(.98)}
+@keyframes rrPulse{0%{box-shadow:0 12px 26px rgba(46,85,144,.4),0 0 0 0 rgba(62,114,184,.45)}70%,100%{box-shadow:0 12px 26px rgba(46,85,144,.4),0 0 0 16px rgba(62,114,184,0)}}
+@media (prefers-reduced-motion:reduce){.btn-rr{animation:none}.btn-rr::after{display:none}}
+@media (max-width:640px){
+  .rt-tab{padding:7px 16px 7px 7px;font-size:.86rem}.rt-tab .rt-emoji{width:30px;height:30px}
+  .rr-cta-row{padding-top:28px}.btn-rr{width:100%;justify-content:space-between;padding-left:26px}
+  .rr-stats{gap:24px;width:100%}
+}
+</style>
+<style id="compact-btns">
+/* compact buttons: smaller everywhere, all tabs visible on a phone (no sideways scrolling) */
+.rt-tabs{gap:8px;padding:10px 4px 12px;overflow:visible}
+.rt-tab{gap:7px;padding:5px 15px 5px 5px;font-size:.84rem;border-width:1px}
+.rt-tab .rt-emoji{width:26px;height:26px;font-size:.95rem}
+.btn-rr{gap:10px;padding:8px 8px 8px 22px;font-size:.9rem;box-shadow:0 8px 18px rgba(46,85,144,.35),inset 0 1px 0 rgba(255,255,255,.25)}
+.btn-rr svg{width:26px;height:26px;padding:7px}
+@media (max-width:640px){
+  .rt-tabs{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:5px;padding:8px 2px 10px}
+  .rt-tab{flex-direction:column;justify-content:flex-start;gap:3px;padding:6px 2px 6px;border-radius:14px;font-size:.66rem;line-height:1.15;text-align:center;white-space:normal;word-break:break-word}
+  .rt-tab .rt-emoji{width:26px;height:26px;font-size:.95rem}
+  .rt-tab:hover{transform:none}
+  .btn-rr{width:auto;align-self:flex-start;justify-content:flex-start;padding:7px 7px 7px 20px;font-size:.88rem}
+  .rr-cta-row{padding-top:18px}
+}
+</style>
+<style id="simple-chips">
+/* simple trust points: one clean line, no pills */
+.rr-chips{display:flex;flex-wrap:wrap;gap:6px 22px}
+.rr-chips li{background:none;border:0;box-shadow:none;padding:0;gap:7px;font-size:.88rem;font-weight:600;color:var(--ink,#241f19)}
+.rr-chip-ico{width:16px;height:16px;font-size:.6rem}
+@media (max-width:640px){.rr-chips{flex-direction:column;gap:7px}.rr-chips li{font-size:.86rem}}
+</style>
+<style id="tight-center">
+/* tighter spacing, button + stats centred */
+.rr-hero{padding:44px 0 30px}
+.rr-cta-row{flex-direction:column;align-items:center;justify-content:center;gap:16px;padding:16px 0 0;text-align:center}
+.btn-rr{width:auto;align-self:center;justify-content:center}
+.rr-stats{justify-content:center;gap:34px;flex-wrap:nowrap;width:auto;text-align:center}
+.rr-stats strong{font-size:1.7rem;margin-bottom:4px}
+.rr-gallery{padding:24px 0 44px}
+.back-row,.wrap.back-row{padding:0 28px;margin-top:16px;position:relative;z-index:2;}
+@media (max-width:640px){
+  .rr-hero{padding:36px 20px 28px}
+  .rr-cta-row{padding:10px 0 0;gap:12px}
+  .btn-rr{align-self:center;justify-content:center;padding:7px 7px 7px 22px}
+  .rr-stats{width:100%;justify-content:space-around;gap:8px}
+  .rr-stats div{font-size:.6rem;letter-spacing:.05em}
+  .rr-stats strong{font-size:1.5rem}
+  .rr-gallery{padding:16px 0 36px}
+}
+</style>
+<style id="rt-pop-css">
+/* "Popular" live badge: shimmer + pulse ring + gentle bob */
+.rt-pop{position:relative;display:inline-flex;align-items:center;gap:4px;margin-left:8px;padding:3px 10px 3px 7px;border-radius:99px;background:linear-gradient(110deg,#ff4d12 0%,#ffb21f 45%,#ff4d12 90%);background-size:220% 100%;color:#fff;font-family:"Work Sans",sans-serif;font-size:.62rem;font-weight:800;line-height:1.2;letter-spacing:.06em;text-transform:uppercase;vertical-align:middle;white-space:nowrap;text-shadow:0 1px 1px rgba(120,30,0,.35);box-shadow:0 4px 10px rgba(255,90,31,.35);animation:popShine 2.6s linear infinite,popPulse 1.9s ease-out infinite,popBob 2.6s ease-in-out infinite}
+.rt-pop::before{content:"\1F525";font-size:.78rem;line-height:1;animation:popFlame 1s ease-in-out infinite alternate;display:inline-block}
+@keyframes popShine{0%{background-position:200% 0}100%{background-position:-20% 0}}
+@keyframes popPulse{0%{box-shadow:0 4px 10px rgba(255,90,31,.35),0 0 0 0 rgba(255,140,40,.6)}70%,100%{box-shadow:0 4px 10px rgba(255,90,31,.35),0 0 0 9px rgba(255,140,40,0)}}
+@keyframes popBob{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-2px) scale(1.06)}}
+@keyframes popFlame{from{transform:rotate(-8deg) scale(.95)}to{transform:rotate(8deg) scale(1.12)}}
+.spec-table tbody tr.is-popular{background:linear-gradient(90deg,rgba(255,140,66,.16),rgba(255,140,66,0) 75%)}
+.spec-table tbody tr.is-popular td.rt-price{color:#E8440A}
+@media (prefers-reduced-motion:reduce){.rt-pop,.rt-pop::before{animation:none}}
+.rt-perday{font-family:"Work Sans",sans-serif;font-size:.72rem;font-weight:600;color:var(--ink-dim,#6b6258);margin-left:2px}
+</style>
+<style id="rt-name-font">
+/* easier-to-read vehicle names */
+.spec-table td.rt-type{font-family:'Work Sans',system-ui,sans-serif;font-weight:700;text-transform:none;letter-spacing:0;font-size:1.02rem;color:var(--ink,#241f19)}
+@media (max-width:640px){.spec-table td.rt-type{font-size:.9rem;line-height:1.25}}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="nav-inner">
+    <a href="../index.html#home" class="logo">
+      <img src="../Image/logo2.png" alt="Siem Ride logo" class="header-logo-img">
+    </a>
+
+    <nav class="main-nav" id="mainNav">
+      <!-- Bottom Flat Amber Line -->
+      <div id="bottomAmberLine" class="bottom-amber-line"></div>
+      <ul>
+        <li><a href="../index.html#home" data-i18n="nav_home">Home</a></li>
+        <li><a href="../Tours/Tours.html" data-i18n="nav_tours">Tour</a></li>
+        <li><a href="Rental.html" class="active" data-i18n="nav_rental">Rental</a></li>
+        <li><a href="../Blog/Blog.html" data-i18n="nav_blog">Blog</a></li>
+        <li><a href="../About%20Us/About%20Us.html" data-i18n="nav_about">About Us</a></li>
+      </ul>
+    </nav>
+
+    <div class="nav-right-group">
+      <div class="nav-mid-spacer">
+        <div class="dd-wrap" id="langWrap">
+          <button class="lang-btn" id="langBtn" aria-label="Change language">
+            <img id="langFlagSlot" class="lang-flag-img" src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f1ec-1f1e7.svg" alt="EN">
+            <svg class="mini-caret" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+          <div class="dd-panel lang-panel" id="langPanel">
+            <a href="#" data-lang="en"><img class="lang-flag-img" src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f1ec-1f1e7.svg" alt="English" loading="lazy" decoding="async"> English</a>
+            <a href="#" data-lang="km"><img class="lang-flag-img" src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f1f0-1f1ed.svg" alt="Khmer" loading="lazy" decoding="async"> ខ្មែរ (Khmer)</a>
+            <a href="#" data-lang="vi"><img class="lang-flag-img" src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f1fb-1f1f3.svg" alt="Vietnamese" loading="lazy" decoding="async"> Tiếng Việt (Vietnamese)</a>
+            <a href="#" data-lang="th"><img class="lang-flag-img" src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f1f9-1f1ed.svg" alt="Thai" loading="lazy" decoding="async"> ภาษาไทย (Thai)</a>
+            <a href="#" data-lang="zh"><img class="lang-flag-img" src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f1e8-1f1f3.svg" alt="Chinese" loading="lazy" decoding="async"> 中文 (Chinese)</a>
+            <a href="#" data-lang="ja"><img class="lang-flag-img" src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f1ef-1f1f5.svg" alt="Japanese" loading="lazy" decoding="async"> 日本語 (Japanese)</a>
+            <a href="#" data-lang="ko"><img class="lang-flag-img" src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f1f0-1f1f7.svg" alt="Korean" loading="lazy" decoding="async"> 한국어 (Korean)</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="nav-actions">
+
+      <a class="call-btn" href="tel:+85512610269" aria-label="Call us +855 12 610 269"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4h3.5l1.8 4.6-2.2 1.4a11 11 0 0 0 5.9 5.9l1.4-2.2L20 15.5V19a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg>
+        <span class="call-copy">
+          <span class="call-label" data-i18n="call_label">Call Us</span>
+          <span class="call-text">+855 12 610 269</span>
+        </span>
+      </a>
+
+      <span class="nav-divider"></span>
+
+      <!-- Burger Menu Drawer -->
+      <div class="dd-wrap" id="burgerWrap">
+        <button class="burger" id="burgerBtn" aria-label="Menu">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+        </button>
+        <div class="side-panel-overlay" id="panelOverlay"></div>
+        <div class="dd-panel burger-panel side-panel" id="burgerPanel">
+          <button class="side-panel-close" id="panelClose" aria-label="Close menu">&times;</button>
+          <div class="panel-body">
+
+            <div class="panel-brand">
+              <img src="../Image/logo2.png" alt="Siem Ride logo" class="panel-logo" loading="lazy" decoding="async">
+              <span class="panel-brand-text">SIEM<span>RIDE</span></span>
+            </div>
+            <div class="panel-divider"></div>
+
+            <!-- GROUP 1: Nav Menu -->
+            <div class="panel-group panel-group-nav">
+              <nav class="panel-nav-list">
+                <a href="../index.html#home" data-i18n="nav_home">Home</a>
+                <a href="../Tours/Tours.html" data-i18n="nav_tours">Tour</a>
+                <a href="Rental.html" class="active" data-i18n="nav_rental">Rental</a>
+                <a href="../Blog/Blog.html" data-i18n="nav_blog">Blog</a>
+                <a href="../About%20Us/About%20Us.html" data-i18n="nav_about">About Us</a>
+              </nav>
+            </div>
+
+            <!-- GROUP 2: Contact Info / Address -->
+            <div class="panel-group panel-group-contact">
+              <div class="panel-contact-item">
+                <div class="panel-contact-text">
+                  <h6 data-i18n="burger_officeAddress">Address:</h6>
+                  <a href="https://www.google.com/search?sca_esv=722160d45c52a345&sxsrf=APpeQnv_ufNh0-DdbDZDmF8cnXNRlVd7KA:1784443743758&q=celliers+d%27asie+siem+reap+branch+krong+siem+reap+address&ludocid=7669055108806559654&sa=X&ved=2ahUKEwi9iN_7kt6VAxVn3jgGHaILJsMQ6BN6BAg1EAI" target="_blank" rel="noopener" class="panel-contact-link panel-address-link">Wat Bo Road, Siem Reap, Cambodia</a>
+                </div>
+              </div>
+
+              <div class="panel-contact-item">
+                <div class="panel-contact-text">
+                  <h6 data-i18n="burger_phoneNumber">Mobile:</h6>
+                  <a href="tel:+85512610269" class="panel-contact-link panel-phone-link">+855 12 610 269</a>
+                </div>
+              </div>
+
+              <div class="panel-contact-item">
+                <div class="panel-contact-text">
+                  <h6 data-i18n="burger_emailAddress">E-Mail:</h6>
+                  <a href="mailto:siemride@gmail.com" class="panel-contact-link">siemride@gmail.com</a>
+                </div>
+              </div>
+            </div>
+
+            <!-- GROUP 3: Social Media -->
+            <div class="panel-group panel-group-social">
+              <div class="panel-social-icons">
+                <a href="https://wa.me/85512610269" target="_blank" rel="noopener" aria-label="WhatsApp"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></a>
+                <a href="https://www.facebook.com/share/1D3mPvHArv/" target="_blank" rel="noopener" aria-label="Facebook"><svg width="16" height="16" viewBox="-1 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h-2.5A4.5 4.5 0 0 0 8 7.5V10H5v4h3v7h4v-7h3l1-4h-4V7.5a.5.5 0 0 1 .5-.5H15z"/></svg></a>
+                <a href="https://t.me/CHENLAheab" target="_blank" rel="noopener" aria-label="Telegram"><svg width="16" height="16" viewBox="-0.5 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 3L2 11l7 2.5L11.5 21l3-4.5L19 20z"/><path d="M9 13.5L22 3"/></svg></a>
+                <a href="https://www.tiktok.com" target="_blank" rel="noopener" aria-label="TikTok"><svg width="16" height="16" viewBox="0 -1.5 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3v11.2a3.7 3.7 0 1 1-3.7-3.7"/><path d="M14 3c.3 2.6 2 4.2 4.8 4.4"/></svg></a>
+                <a href="https://www.youtube.com" target="_blank" rel="noopener" aria-label="YouTube"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.5" y="5.5" width="19" height="13" rx="4"/><path d="M10 9.5l5 2.5-5 2.5z" fill="currentColor"/></svg></a>
+                <a href="https://www.tripadvisor.com" target="_blank" rel="noopener" aria-label="TripAdvisor"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="7" cy="14" r="3.4"/><circle cx="17" cy="14" r="3.4"/><path d="M1.5 10l3 .6M22.5 10l-3 .6M5 8c3.6-2.6 10.4-2.6 14 0"/><circle cx="7" cy="14" r="1" fill="currentColor"/><circle cx="17" cy="14" r="1" fill="currentColor"/></svg></a>
+              </div>
+            </div>
+
+            <!-- Contact Us Button (Outside Group 3, down 3 lines, centered in sidebar) -->
+            <div class="panel-action-wrap">
+              <button type="button" class="sr-contact-btn">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                <span data-i18n="panel_contactUs">Contact us</span>
+              </button>
+            </div>
+
+          </div>
+        </div>
+      </div>
+      <!-- /Burger -->
+
+      </div><!-- /.nav-actions -->
+    </div><!-- /.nav-right-group -->
+
+  </div><!-- /.nav-inner -->
+</header>
+
+<div class="wrap back-row">
+  <a href="../index.html" class="back-link"><span class="bl-arrow">&larr;</span><span data-i18n="rn_back_to_home">Back to Home</span></a>
+</div>
+
+<div class="wrap">
+  <section class="rr-hero">
+  <div class="rr-hero-grid">
+    <div class="rr-hero-copy">
+      <span class="pill-badge" data-i18n="hero_eyebrow">Siem Reap, Cambodia</span>
+      <h1 class="stencil"><span data-i18n="nav_rental">Rental</span><br><span class="hl" data-i18n="rn_in_siem_reap">in Siem Reap</span></h1>
+      <p data-i18n="rn_bicycles_e_bikes_motos_tuk" class="lede">Bicycles, e-bikes, motos, tuk tuks and cars &amp; vans &mdash; pick the ride that suits your day and explore Angkor and the countryside your way. Every rental includes free delivery in town.</p>
+      <ul class="rr-chips">
+        <li><span class="rr-chip-ico">✓</span><span data-i18n="rn_chip_delivery">Free delivery in town</span></li>
+        <li><span class="rr-chip-ico">✓</span><span data-i18n="rn_chip_gear">Helmet &amp; lock included</span></li>
+        <li><span class="rr-chip-ico">✓</span><span data-i18n="rn_chip_reply">Replies within the hour</span></li>
+      </ul>
+    </div>
+    <div class="rr-hero-visual" id="rrVisual" aria-label="Rental photo showcase">
+      <div class="rv-img rv-main" id="rvSlot0"><img id="rvImg0" alt="" decoding="async" class="rv-active"></div>
+      <div class="rv-img rv-a" id="rvSlot1"><img id="rvImg1" alt="" decoding="async" class="rv-active"></div>
+      <div class="rv-img rv-b" id="rvSlot2"><img id="rvImg2" alt="" decoding="async" class="rv-active"></div>
+      <div class="rv-badge"><strong id="rvPrice">$7</strong><span id="rvPriceLbl">Starting / Day</span></div>
+      <div class="rv-tag"><span class="rv-dot"></span><span id="rvName">Bicycle</span></div>
+      <button type="button" class="rv-nav-btn rv-nav-prev" id="rvPrev" aria-label="Previous photos">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+      </button>
+      <button type="button" class="rv-nav-btn rv-nav-next" id="rvNext" aria-label="Next photos">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+      </button>
+      <div class="rv-dots" id="rvDots" role="tablist" aria-label="Slide indicators"></div>
+    </div>
+  </div>
+  </section>
+</div>
+
+<div class="rt-tabs-bar">
+  <div class="wrap">
+    <div class="rt-tabs" role="tablist" aria-label="Rental type">
+      <button type="button" class="rt-tab is-active" role="tab" data-tab="bike"><span class="rt-emoji">🚲</span><span data-i18n="dd_bicycle">Bicycle</span></button>
+      <button type="button" class="rt-tab" role="tab" data-tab="ebike"><span class="rt-emoji">⚡</span><span data-i18n="dd_ebike">E-Bike</span></button>
+      <button type="button" class="rt-tab" role="tab" data-tab="moto"><span class="rt-emoji">🛵</span><span data-i18n="dd_moto">Moto</span></button>
+      <button type="button" class="rt-tab" role="tab" data-tab="tuktuk"><span class="rt-emoji">🛺</span><span data-i18n="dd_tukTuk">Tuk Tuk</span></button>
+      <button type="button" class="rt-tab" role="tab" data-tab="carvan"><span class="rt-emoji">🚐</span><span data-i18n="dd_carVan">Car / Van</span></button>
+    </div>
+  </div>
+</div>
+
+<!-- ============ 1. BICYCLE ============ -->
+<div class="rt-panel is-active" id="panel-bike" data-label="Bicycle" role="tabpanel">
+  <div class="wrap">
+    <div class="rr-cta-row">
+      <a href="#" class="btn-rr" onclick="openBookingModal();return false;"><span data-i18n="rn_book_now">Book Now</span>
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </a>
+      <div class="rr-stats">
+        <div><strong class="accent">3</strong><span data-i18n="rn_bike_models">Bike Models</span></div>
+        <div><strong>$7</strong><span data-i18n="rn_starting_day">Starting / Day</span></div>
+        <div><strong data-i18n="rn_free">Free</strong><span data-i18n="rn_delivery_in_town">Delivery In Town</span></div>
+      </div>
+    </div>
+  </div>
+
+  <section class="rr-gallery">
+    <div class="wrap">
+      <div class="rr-gallery-grid">
+        <figure><img src="../Image/Rental/Bicycle/Bike (1).webp" alt="Bike rental fleet" loading="lazy"><figcaption data-i18n="rn_our_bike_fleet">Our Bike Fleet</figcaption></figure>
+        <figure><img src="../Image/Rental/Bicycle/Bike (2).webp" alt="Bike rental fleet" loading="lazy"><figcaption data-i18n="rn_our_bike_fleet">Our Bike Fleet</figcaption></figure>
+        <figure><img src="../Image/Rental/Bicycle/Bike (3).webp" alt="Mountain bike" loading="lazy"><figcaption data-i18n="rn_mountain_bike">Mountain Bike</figcaption></figure>
+        <figure><img src="../Image/Rental/Bicycle/Bike (4).webp" alt="Bikes ready to ride" loading="lazy"><figcaption data-i18n="rn_ready_to_ride">Ready To Ride</figcaption></figure>
+        <figure><img src="../Image/Rental/Bicycle/Bike (5).webp" alt="Bike on countryside trail" loading="lazy"><figcaption data-i18n="rn_countryside_trail">Countryside Trail</figcaption></figure>
+        <figure><img src="../Image/Rental/Bicycle/Bike (6).webp" alt="Riders on the road" loading="lazy"><figcaption data-i18n="rn_riders_on_the_road">Riders On The Road</figcaption></figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="rr-pricing">
+    <div class="wrap">
+      <div class="rr-section-head">
+        <span data-i18n="rn_spec_sheet" class="rr-eyebrow mono">Spec Sheet</span>
+        <h2 data-i18n="rn_bicycle_pricing_options" class="stencil">Bicycle Pricing &amp; Options</h2>
+        <p data-i18n="rn_all_rentals_include_a_keylock">All rentals include a keylock and helmet, and free delivery in town.</p>
+      </div>
+      <div class="rr-legend">
+        <span><i class="dot dot-hazard"></i><span data-i18n="rn_everyday">Everyday</span></span>
+        <span><i class="dot dot-lime"></i><span data-i18n="rn_family_tandem">Family &amp; Tandem</span></span>
+      </div>
+      <div class="spec-table-wrap">
+        <table class="spec-table">
+          <thead><tr><th data-i18n="rn_type_of_bicycle">Type of Bicycle</th><th data-i18n="rn_brand">Brand</th><th data-i18n="rn_price_day">Price / Day</th><th data-i18n="rn_keylock">Keylock</th><th data-i18n="rn_helmet">Helmet</th></tr></thead>
+          <tbody>
+            <tr data-cat="family" class="is-popular"><td data-i18n="rn_mountain_bike" class="rt-type">Mountain Bike</td><td>Klee <span class="rt-pop">Popular</span></td><td class="rt-price">$7</td><td><span class="rt-check"></span></td><td><span class="rt-check"></span></td></tr>
+            <tr data-cat="std"><td data-i18n="rn_mountain_bike" class="rt-type">Mountain Bike</td><td>Trek</td><td class="rt-price">$9</td><td><span class="rt-check"></span></td><td><span class="rt-check"></span></td></tr>
+            <tr data-cat="premium"><td data-i18n="rn_mountain_bike" class="rt-type">Mountain Bike</td><td>Scott</td><td class="rt-price">$11</td><td><span class="rt-check"></span></td><td><span class="rt-check"></span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section class="rr-info">
+    <div class="wrap">
+      <div class="rr-info-grid">
+        <div>
+          <div class="rr-info-block">
+            <span data-i18n="rn_good_to_know" class="rr-tag tag-hazard mono">Good To Know</span>
+            <h3 data-i18n="rn_why_rent_from_us" class="stencil">Why Rent From Us</h3>
+            <ul class="rr-list">
+              <li><span data-i18n="rn_trusted_quality_every_bike_checked">Trusted quality &mdash; every bike checked before it leaves our shop</span></li>
+              <li><span data-i18n="rn_well_maintained_serviced_after_every">Well maintained, serviced after every rental</span></li>
+              <li><span data-i18n="rn_reasonable_transparent_daily_pricing_no">Reasonable, transparent daily pricing &mdash; no hidden fees</span></li>
+              <li><span data-i18n="rn_voted_best_rental_shop_on">Voted best rental shop on TripAdvisor, Google &amp; Facebook</span></li>
+              <li><span data-i18n="rn_free_delivery_in_town_except">Free delivery in town (except City Bike)</span></li>
+              <li><span data-i18n="rn_free_mechanic_call_out_if">Free mechanic call-out if you run into trouble on the road</span></li>
+              <li><span data-i18n="rn_free_bike_pickup_the_evening">Free bike pickup the evening before for early sunrise starts</span></li>
+            </ul>
+          </div>
+          <div class="rr-info-block">
+            <span data-i18n="rn_policy" class="rr-tag tag-rust mono">Policy</span>
+            <h3 data-i18n="rn_rental_policy" class="stencil">Rental Policy</h3>
+            <ul class="rr-list"><li><span data-i18n="rn_minimum_1_day_charge_7">Minimum 1 day charge (7:00am &ndash; 7:00pm)</span></li></ul>
+          </div>
+        </div>
+        <div>
+          <div class="rr-info-block">
+            <span data-i18n="rn_booking_info" class="rr-tag tag-lime mono">Booking Info</span>
+            <h3 data-i18n="rn_information_needed_for_booking" class="stencil">Information Needed For Booking</h3>
+            <ul class="rr-list">
+              <li><span data-i18n="rn_rental_style_you_d_like">Rental style you'd like</span></li>
+              <li><span data-i18n="rn_rental_dates">Rental dates</span></li>
+              <li><span data-i18n="rn_type_number_of_vehicles">Type &amp; number of vehicles</span></li>
+              <li><span data-i18n="rn_rider_height_size_of_bike">Rider height / size of bike you have at home</span></li>
+              <li><span data-i18n="rn_hotel_name_room_number">Hotel name &amp; room number</span></li>
+            </ul>
+          </div>
+          <div class="rr-info-block">
+            <span data-i18n="rn_deposit" class="rr-tag tag-hazard mono">Deposit</span>
+            <h3 data-i18n="rn_deposit" class="stencil">Deposit</h3>
+            <ul class="rr-list"><li><span data-i18n="rn_passport_driving_license_id_card">Passport, driving license, ID card, or cash (returned in full when the vehicle is returned)</span></li></ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ============ 2. E-BIKE ============ -->
+<div class="rt-panel" id="panel-ebike" data-label="E-Bike" role="tabpanel">
+  <div class="wrap">
+    <div class="rr-cta-row">
+      <a href="#" class="btn-rr" onclick="openBookingModal();return false;"><span data-i18n="rn_book_now">Book Now</span>
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </a>
+      <div class="rr-stats">
+        <div><strong class="accent">5</strong><span data-i18n="rn_e_bike_models">E-Bike Models</span></div>
+        <div><strong>$12</strong><span data-i18n="rn_starting_day">Starting / Day</span></div>
+        <div><strong data-i18n="rn_free">Free</strong><span data-i18n="rn_delivery_in_town">Delivery In Town</span></div>
+      </div>
+    </div>
+  </div>
+
+  <section class="rr-gallery">
+    <div class="wrap">
+      <div class="rr-gallery-grid">
+        <figure><img src="../Image/Rental/Ebikes/eBike (1).webp" alt="Electric bike" loading="lazy"><figcaption data-i18n="rn_e_bike_close_up">E-Bike Close-Up</figcaption></figure>
+        <figure><img src="../Image/Rental/Ebikes/eBike (2).webp" alt="Group ready to ride e-bikes" loading="lazy"><figcaption data-i18n="rn_group_ready_to_ride">Group Ready To Ride</figcaption></figure>
+        <figure><img src="../Image/Rental/Ebikes/eBike (3).webp" alt="Countryside rice field view" loading="lazy"><figcaption data-i18n="rn_countryside_views">Countryside Views</figcaption></figure>
+        <figure><img src="../Image/Rental/Ebikes/eBike (4).webp" alt="Riders on countryside trail" loading="lazy"><figcaption data-i18n="rn_riding_the_trail">Riding The Trail</figcaption></figure>
+        <figure><img src="../Image/Rental/Ebikes/eBike (5).webp" alt="Riders on temple route" loading="lazy"><figcaption data-i18n="rn_temple_route">Temple Route</figcaption></figure>
+        <figure><img src="../Image/Rental/Ebikes/eBike (6).webp" alt="Forest trail" loading="lazy"><figcaption data-i18n="rn_forest_trail">Forest Trail</figcaption></figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="rr-pricing">
+    <div class="wrap">
+      <div class="rr-section-head">
+        <span data-i18n="rn_spec_sheet" class="rr-eyebrow mono">Spec Sheet</span>
+        <h2 data-i18n="rn_e_bike_pricing_options" class="stencil">E-Bike Pricing &amp; Options</h2>
+        <p data-i18n="rn_all_rentals_include_a_charger">All rentals include a charger, keylock and helmet, and free delivery in town.</p>
+      </div>
+      <div class="rr-legend">
+        <span><i class="dot dot-hazard"></i><span data-i18n="rn_everyday">Everyday</span></span>
+        <span><i class="dot dot-lime"></i><span data-i18n="rn_family">Family</span></span>
+        <span><i class="dot dot-rust"></i><span data-i18n="rn_performance">Performance</span></span>
+      </div>
+      <div class="spec-table-wrap">
+        <table class="spec-table">
+          <thead><tr><th data-i18n="rn_type_of_e_bike">Type of E-Bike</th><th data-i18n="rn_brand">Brand</th><th data-i18n="rn_price_day">Price / Day</th><th data-i18n="rn_keylock">Keylock</th><th data-i18n="rn_helmet">Helmet</th></tr></thead>
+          <tbody>
+            <tr data-cat="family"><td data-i18n="rn_folding_e_bike" class="rt-type">Folding E-Bike</td><td>Dahon</td><td class="rt-price">$12</td><td><span class="rt-check"></span></td><td><span class="rt-check"></span></td></tr>
+            <tr data-cat="std"><td data-i18n="rn_city_e_bike" class="rt-type">City E-Bike</td><td>Yadea</td><td class="rt-price">$17</td><td><span class="rt-check"></span></td><td><span class="rt-check"></span></td></tr>
+            <tr data-cat="std"><td data-i18n="rn_city_e_bike" class="rt-type">City E-Bike</td><td>Dahon</td><td class="rt-price">$17</td><td><span class="rt-check"></span></td><td><span class="rt-check"></span></td></tr>
+            <tr data-cat="family"><td data-i18n="rn_e_bike_with_child_seat" class="rt-type">E-Bike with Child Seat</td><td>Yadea</td><td class="rt-price">$17</td><td><span class="rt-check"></span></td><td><span class="rt-check"></span></td></tr>
+            <tr data-cat="premium"><td data-i18n="rn_e_mountain_bike" class="rt-type">E-Mountain Bike</td><td>Giant Trance E+</td><td class="rt-price">$20</td><td><span class="rt-check"></span></td><td><span class="rt-check"></span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section class="rr-info">
+    <div class="wrap">
+      <div class="rr-info-grid">
+        <div>
+          <div class="rr-info-block">
+            <span data-i18n="rn_good_to_know" class="rr-tag tag-hazard mono">Good To Know</span>
+            <h3 data-i18n="rn_why_rent_from_us" class="stencil">Why Rent From Us</h3>
+            <ul class="rr-list">
+              <li><span data-i18n="rn_trusted_quality_every_e_bike">Trusted quality &mdash; every e-bike checked and charged before it leaves our shop</span></li>
+              <li><span data-i18n="rn_well_maintained_serviced_after_every">Well maintained, serviced after every rental</span></li>
+              <li><span data-i18n="rn_reasonable_transparent_daily_pricing_no">Reasonable, transparent daily pricing &mdash; no hidden fees</span></li>
+              <li><span data-i18n="rn_voted_best_rental_shop_on">Voted best rental shop on TripAdvisor, Google &amp; Facebook</span></li>
+              <li><span data-i18n="rn_free_delivery_in_town">Free delivery in town</span></li>
+              <li><span data-i18n="rn_free_mechanic_call_out_if">Free mechanic call-out if you run into trouble on the road</span></li>
+              <li><span data-i18n="rn_free_e_bike_pickup_the">Free e-bike pickup the evening before for early sunrise starts</span></li>
+            </ul>
+          </div>
+          <div class="rr-info-block">
+            <span data-i18n="rn_policy" class="rr-tag tag-rust mono">Policy</span>
+            <h3 data-i18n="rn_rental_policy" class="stencil">Rental Policy</h3>
+            <ul class="rr-list"><li><span data-i18n="rn_minimum_1_day_charge_7">Minimum 1 day charge (7:00am &ndash; 7:00pm)</span></li></ul>
+          </div>
+        </div>
+        <div>
+          <div class="rr-info-block">
+            <span data-i18n="rn_booking_info" class="rr-tag tag-lime mono">Booking Info</span>
+            <h3 data-i18n="rn_information_needed_for_booking" class="stencil">Information Needed For Booking</h3>
+            <ul class="rr-list">
+              <li><span data-i18n="rn_rental_style_you_d_like">Rental style you'd like</span></li>
+              <li><span data-i18n="rn_rental_dates">Rental dates</span></li>
+              <li><span data-i18n="rn_type_number_of_e_bikes">Type &amp; number of e-bikes</span></li>
+              <li><span data-i18n="rn_rider_height_size_of_e">Rider height / size of e-bike you have at home</span></li>
+              <li><span data-i18n="rn_hotel_name_room_number">Hotel name &amp; room number</span></li>
+            </ul>
+          </div>
+          <div class="rr-info-block">
+            <span data-i18n="rn_deposit" class="rr-tag tag-hazard mono">Deposit</span>
+            <h3 data-i18n="rn_deposit" class="stencil">Deposit</h3>
+            <ul class="rr-list"><li><span data-i18n="rn_passport_driving_license_id_card">Passport, driving license, ID card, or cash (returned in full when the vehicle is returned)</span></li></ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ============ 3. MOTO ============ -->
+<div class="rt-panel" id="panel-moto" data-label="Moto" role="tabpanel">
+  <div class="wrap">
+    <div class="rr-cta-row">
+      <a href="#" class="btn-rr" onclick="openBookingModal();return false;"><span data-i18n="rn_book_now">Book Now</span>
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </a>
+      <div class="rr-stats">
+        <div><strong class="accent">3</strong><span data-i18n="rn_moto_models">Moto Models</span></div>
+        <div><strong>$17</strong><span data-i18n="rn_starting_day">Starting / Day</span></div>
+        <div><strong data-i18n="rn_free">Free</strong><span data-i18n="rn_delivery_in_town">Delivery In Town</span></div>
+      </div>
+    </div>
+  </div>
+
+  <section class="rr-gallery">
+    <div class="wrap">
+      <div class="rr-gallery-grid">
+        <figure><img src="../Image/Rental/Moto/Scooter (1).webp" alt="Moto parked at temple" loading="lazy"><figcaption data-i18n="rn_moto_at_the_temple">Moto At The Temple</figcaption></figure>
+        <figure><img src="../Image/Rental/Moto/Scooter (2).webp" alt="Motos on the road" loading="lazy"><figcaption data-i18n="rn_motos_on_the_road">Motos On The Road</figcaption></figure>
+        <figure><img src="../Image/Rental/Moto/Scooter (3).webp" alt="Motos parked and ready" loading="lazy"><figcaption data-i18n="rn_parked_ready">Parked &amp; Ready</figcaption></figure>
+        <figure><img src="../Image/Rental/Moto/Scooter (4).webp" alt="Group ready to ride motos" loading="lazy"><figcaption data-i18n="rn_group_ready_to_ride">Group Ready To Ride</figcaption></figure>
+        <figure><img src="../Image/Rental/Moto/Scooter (5).webp" alt="Moto close-up" loading="lazy"><figcaption data-i18n="rn_moto_close_up">Moto Close-Up</figcaption></figure>
+        <figure><img src="../Image/Rental/Moto/Scooter (6).webp" alt="Our moto fleet" loading="lazy"><figcaption data-i18n="rn_our_moto_fleet">Our Moto Fleet</figcaption></figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="rr-pricing">
+    <div class="wrap">
+      <div class="rr-section-head">
+        <span data-i18n="rn_spec_sheet" class="rr-eyebrow mono">Spec Sheet</span>
+        <h2 data-i18n="rn_moto_pricing_options" class="stencil">Moto Pricing &amp; Options</h2>
+        <p data-i18n="rn_all_rentals_include_a_keylock_2">All rentals include a keylock, helmet, and free delivery in town. Cambodian driving license or International Driving Permit required.</p>
+      </div>
+      <div class="rr-legend">
+        <span><i class="dot dot-hazard"></i><span data-i18n="rn_everyday">Everyday</span></span>
+        <span><i class="dot dot-rust"></i><span data-i18n="rn_performance">Performance</span></span>
+      </div>
+      <div class="spec-table-wrap">
+        <table class="spec-table">
+          <thead><tr><th data-i18n="rn_type_of_moto">Type of Moto</th><th data-i18n="rn_brand">Brand</th><th data-i18n="rn_price_day">Price / Day</th><th data-i18n="rn_keylock">Keylock</th><th data-i18n="rn_helmet">Helmet</th></tr></thead>
+          <tbody>
+            <tr data-cat="std"><td class="rt-type"><span data-i18n="rn_automatic_moto">Automatic Moto</span> 110cc</td><td>Honda Wave</td><td class="rt-price">$17</td><td><span class="rt-check"></span></td><td><span class="rt-check"></span></td></tr>
+            <tr data-cat="std"><td class="rt-type"><span data-i18n="rn_automatic_moto">Automatic Moto</span> 125cc</td><td>Honda Click</td><td class="rt-price">$20</td><td><span class="rt-check"></span></td><td><span class="rt-check"></span></td></tr>
+            <tr data-cat="premium"><td class="rt-type"><span data-i18n="rn_automatic_moto">Automatic Moto</span> 150cc</td><td>Honda PCX</td><td class="rt-price">$24</td><td><span class="rt-check"></span></td><td><span class="rt-check"></span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section class="rr-info">
+    <div class="wrap">
+      <div class="rr-info-grid">
+        <div>
+          <div class="rr-info-block">
+            <span data-i18n="rn_good_to_know" class="rr-tag tag-hazard mono">Good To Know</span>
+            <h3 data-i18n="rn_why_rent_from_us" class="stencil">Why Rent From Us</h3>
+            <ul class="rr-list">
+              <li><span data-i18n="rn_trusted_quality_every_moto_serviced">Trusted quality &mdash; every moto serviced and checked before it leaves our shop</span></li>
+              <li><span data-i18n="rn_well_maintained_serviced_after_every">Well maintained, serviced after every rental</span></li>
+              <li><span data-i18n="rn_reasonable_transparent_daily_pricing_no">Reasonable, transparent daily pricing &mdash; no hidden fees</span></li>
+              <li><span data-i18n="rn_voted_best_rental_shop_on">Voted best rental shop on TripAdvisor, Google &amp; Facebook</span></li>
+              <li><span data-i18n="rn_free_delivery_in_town">Free delivery in town</span></li>
+              <li><span data-i18n="rn_free_mechanic_call_out_if">Free mechanic call-out if you run into trouble on the road</span></li>
+              <li><span data-i18n="rn_free_moto_pickup_the_evening">Free moto pickup the evening before for early sunrise starts</span></li>
+            </ul>
+          </div>
+          <div class="rr-info-block">
+            <span data-i18n="rn_policy" class="rr-tag tag-rust mono">Policy</span>
+            <h3 data-i18n="rn_rental_policy" class="stencil">Rental Policy</h3>
+            <ul class="rr-list">
+              <li><span data-i18n="rn_minimum_1_day_charge_7">Minimum 1 day charge (7:00am &ndash; 7:00pm)</span></li>
+              <li><span data-i18n="rn_valid_driving_license_required_cambodian">Valid driving license required &mdash; Cambodian license or International Driving Permit</span></li>
+            </ul>
+          </div>
+        </div>
+        <div>
+          <div class="rr-info-block">
+            <span data-i18n="rn_booking_info" class="rr-tag tag-lime mono">Booking Info</span>
+            <h3 data-i18n="rn_information_needed_for_booking" class="stencil">Information Needed For Booking</h3>
+            <ul class="rr-list">
+              <li><span data-i18n="rn_rental_style_you_d_like">Rental style you'd like</span></li>
+              <li><span data-i18n="rn_rental_dates">Rental dates</span></li>
+              <li><span data-i18n="rn_type_number_of_motos">Type &amp; number of motos</span></li>
+              <li><span data-i18n="rn_valid_driving_license_cambodian_or">Valid driving license (Cambodian or IDP)</span></li>
+              <li><span data-i18n="rn_hotel_name_room_number">Hotel name &amp; room number</span></li>
+            </ul>
+          </div>
+          <div class="rr-info-block">
+            <span data-i18n="rn_deposit" class="rr-tag tag-hazard mono">Deposit</span>
+            <h3 data-i18n="rn_deposit" class="stencil">Deposit</h3>
+            <ul class="rr-list"><li><span data-i18n="rn_passport_driving_license_id_card">Passport, driving license, ID card, or cash (returned in full when the vehicle is returned)</span></li></ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ============ 4. TUK TUK ============ -->
+<div class="rt-panel" id="panel-tuktuk" data-label="Tuk Tuk" role="tabpanel">
+  <div class="wrap">
+    <div class="rr-cta-row">
+      <a href="#" class="btn-rr" onclick="openBookingModal();return false;"><span data-i18n="rn_book_now">Book Now</span>
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </a>
+      <div class="rr-stats">
+        <div><strong class="accent">2</strong><span data-i18n="rn_tuk_tuk_options">Tuk Tuk Options</span></div>
+        <div><strong>$30</strong><span data-i18n="rn_starting_day">Starting / Day</span></div>
+        <div><strong data-i18n="rn_free">Free</strong><span data-i18n="rn_hotel_pickup">Hotel Pickup</span></div>
+      </div>
+    </div>
+  </div>
+
+  <section class="rr-gallery">
+    <div class="wrap">
+      <div class="rr-gallery-grid">
+        <figure><img src="../Image/Rental/TukTuk/TukTuk (1).webp" alt="Tuk tuk parked at temple" loading="lazy"><figcaption data-i18n="rn_tuk_tuk_at_the_temple">Tuk Tuk At The Temple</figcaption></figure>
+        <figure><img src="../Image/Rental/TukTuk/TukTuk (2).webp" alt="Tuk tuk fleet" loading="lazy"><figcaption data-i18n="rn_our_tuk_tuk_fleet">Our Tuk Tuk Fleet</figcaption></figure>
+        <figure><img src="../Image/Rental/TukTuk/TukTuk (3).webp" alt="Tuk tuk on countryside road" loading="lazy"><figcaption data-i18n="rn_countryside_road">Countryside Road</figcaption></figure>
+        <figure><img src="../Image/Rental/TukTuk/TukTuk (4).webp" alt="Tuk tuk interior seating" loading="lazy"><figcaption data-i18n="rn_comfortable_seating">Comfortable Seating</figcaption></figure>
+        <figure><img src="../Image/Rental/TukTuk/TukTuk (5).webp" alt="Tuk tuk driver ready to go" loading="lazy"><figcaption data-i18n="rn_ready_to_go">Ready To Go</figcaption></figure>
+        <figure><img src="../Image/Rental/TukTuk/TukTuk (6).webp" alt="Tuk tuk at sunset" loading="lazy"><figcaption data-i18n="rn_tuk_tuk_at_sunset">Tuk Tuk At Sunset</figcaption></figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="rr-pricing">
+    <div class="wrap">
+      <div class="rr-section-head">
+        <span data-i18n="rn_spec_sheet" class="rr-eyebrow mono">Spec Sheet</span>
+        <h2 data-i18n="rn_tuk_tuk_pricing_options" class="stencil">Tuk Tuk Pricing &amp; Options</h2>
+        <p data-i18n="rn_all_tuk_tuk_hires_include">All tuk tuk hires include a driver, fuel, and free hotel pickup in town.</p>
+      </div>
+      <div class="rr-legend">
+        <span><i class="dot dot-hazard"></i><span data-i18n="rn_point_to_point">Point-to-Point</span></span>
+        <span><i class="dot dot-lime"></i><span data-i18n="rn_half_full_day">Half &amp; Full Day</span></span>
+      </div>
+      <div class="spec-table-wrap">
+        <table class="spec-table">
+          <thead><tr><th data-i18n="rn_type_of_service">Type of Service</th><th data-i18n="rn_capacity">Capacity</th><th data-i18n="rn_price">Price</th><th data-i18n="rn_driver">Driver</th><th data-i18n="rn_fuel">Fuel</th></tr></thead>
+          <tbody>
+            <tr data-cat="std" class="is-popular"><td class="rt-type">Tuktuk Baja <span class="rt-pop">Popular</span></td><td><span data-i18n="rn_up_to">Up to</span> 4</td><td class="rt-price">$30</td><td><span class="rt-check"></span></td><td><span class="rt-check"></span></td></tr>
+            <tr data-cat="premium"><td class="rt-type">Tuktuk Khmer</td><td><span data-i18n="rn_up_to">Up to</span> 4</td><td class="rt-price">$49</td><td><span class="rt-check"></span></td><td><span class="rt-check"></span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section class="rr-info">
+    <div class="wrap">
+      <div class="rr-info-grid">
+        <div>
+          <div class="rr-info-block">
+            <span data-i18n="rn_good_to_know" class="rr-tag tag-hazard mono">Good To Know</span>
+            <h3 data-i18n="rn_why_ride_with_us" class="stencil">Why Ride With Us</h3>
+            <ul class="rr-list">
+              <li><span data-i18n="rn_friendly_local_drivers_who_know">Friendly local drivers who know the town and the temples</span></li>
+              <li><span data-i18n="rn_well_maintained_tuk_tuks_checked">Well maintained tuk tuks, checked before every trip</span></li>
+              <li><span data-i18n="rn_reasonable_transparent_pricing_no_hidden">Reasonable, transparent pricing &mdash; no hidden fees</span></li>
+              <li><span data-i18n="rn_voted_best_rental_shop_on">Voted best rental shop on TripAdvisor, Google &amp; Facebook</span></li>
+              <li><span data-i18n="rn_free_hotel_pickup_for_half">Free hotel pickup for half &amp; full-day charters</span></li>
+              <li><span data-i18n="rn_flexible_stops_ask_your_driver">Flexible stops &mdash; ask your driver to wait while you explore</span></li>
+              <li><span data-i18n="rn_available_for_early_sunrise_temple">Available for early sunrise temple starts</span></li>
+            </ul>
+          </div>
+          <div class="rr-info-block">
+            <span data-i18n="rn_policy" class="rr-tag tag-rust mono">Policy</span>
+            <h3 data-i18n="rn_rental_policy" class="stencil">Rental Policy</h3>
+            <ul class="rr-list"><li><span data-i18n="rn_minimum_charge_applies_for_point">Minimum charge applies for point-to-point trips; half &amp; full-day charters cover 4 or 8 hours</span></li></ul>
+          </div>
+        </div>
+        <div>
+          <div class="rr-info-block">
+            <span data-i18n="rn_booking_info" class="rr-tag tag-lime mono">Booking Info</span>
+            <h3 data-i18n="rn_information_needed_for_booking" class="stencil">Information Needed For Booking</h3>
+            <ul class="rr-list">
+              <li><span data-i18n="rn_service_style_you_d_like">Service style you'd like</span></li>
+              <li><span data-i18n="rn_date_pickup_time">Date &amp; pickup time</span></li>
+              <li><span data-i18n="rn_number_of_passengers">Number of passengers</span></li>
+              <li><span data-i18n="rn_where_you_d_like_to">Where you'd like to go (or let your driver suggest a route)</span></li>
+              <li><span data-i18n="rn_hotel_name_room_number">Hotel name &amp; room number</span></li>
+            </ul>
+          </div>
+          <div class="rr-info-block">
+            <span data-i18n="rn_deposit" class="rr-tag tag-hazard mono">Deposit</span>
+            <h3 data-i18n="rn_deposit" class="stencil">Deposit</h3>
+            <ul class="rr-list"><li><span data-i18n="rn_no_deposit_required_pay_your">No deposit required &mdash; pay your driver directly at the end of the trip</span></li></ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ============ 5. CAR / VAN ============ -->
+<div class="rt-panel" id="panel-carvan" data-label="Car / Van" role="tabpanel">
+  <div class="wrap">
+    <div class="rr-cta-row">
+      <a href="#" class="btn-rr" onclick="openBookingModal();return false;"><span data-i18n="rn_book_now">Book Now</span>
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </a>
+      <div class="rr-stats">
+        <div><strong class="accent">3</strong><span data-i18n="rn_vehicle_types">Vehicle Types</span></div>
+        <div><strong>$50</strong><span data-i18n="rn_starting_from">Starting From</span></div>
+        <div><strong data-i18n="rn_free">Free</strong><span data-i18n="rn_hotel_pickup">Hotel Pickup</span></div>
+      </div>
+    </div>
+  </div>
+
+  <section class="rr-gallery">
+    <div class="wrap">
+      <div class="rr-gallery-grid">
+        <figure><img src="../Image/Rental/Car%26Ven/Toyota%20Prius.webp" alt="Toyota Prius" loading="lazy"><figcaption data-i18n="rn_toyota_prius">Toyota Prius</figcaption></figure>
+        <figure><img src="../Image/Rental/Car%26Ven/Car.jpg" alt="Private car" loading="lazy"><figcaption data-i18n="rn_private_car">Private Car</figcaption></figure>
+        <figure><img src="../Image/Rental/Car%26Ven/White%20Ven.png" alt="White van" loading="lazy"><figcaption data-i18n="rn_white_van">White Van</figcaption></figure>
+        <figure><img src="../Image/Rental/Car%26Ven/Ven.jpg" alt="Van at the temple" loading="lazy"><figcaption data-i18n="rn_van_at_the_temple">Van At The Temple</figcaption></figure>
+        <figure><img src="../Image/Rental/Car%26Ven/Mercedes-Benz.webp" alt="Mercedes-Benz" loading="lazy"><figcaption data-i18n="rn_mercedes_benz">Mercedes-Benz</figcaption></figure>
+        <figure><img src="../Image/Rental/Car%26Ven/Caers.jpg" alt="Our car fleet" loading="lazy"><figcaption data-i18n="rn_our_car_fleet">Our Car Fleet</figcaption></figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="rr-pricing">
+    <div class="wrap">
+      <div class="rr-section-head">
+        <span data-i18n="rn_spec_sheet" class="rr-eyebrow mono">Spec Sheet</span>
+        <h2 data-i18n="rn_car_van_pricing_options" class="stencil">Car / Van Pricing &amp; Options</h2>
+        <p data-i18n="rn_air_conditioned_cars_and_vans">Air-conditioned cars and vans with a driver, fuel and free hotel pickup in town &mdash; ideal for families, groups and longer trips.</p>
+      </div>
+      <div class="rr-legend">
+        <span><i class="dot dot-hazard"></i><span data-i18n="rn_transfers">Transfers</span></span>
+        <span><i class="dot dot-lime"></i><span data-i18n="rn_day_hire">Day Hire</span></span>
+        <span><i class="dot dot-rust"></i><span data-i18n="rn_groups">Groups</span></span>
+      </div>
+      <div class="spec-table-wrap">
+        <table class="spec-table">
+          <thead><tr><th data-i18n="rn_type_of_vehicle">Type of Vehicle</th><th data-i18n="rn_capacity">Capacity</th><th data-i18n="rn_price">Price</th><th data-i18n="rn_driver">Driver</th><th data-i18n="rn_fuel">Fuel</th></tr></thead>
+          <tbody>
+            <tr data-cat="std" class="is-popular"><td class="rt-type">Toyota Prius <span class="rt-pop">Popular</span></td><td><span data-i18n="rn_up_to">Up to</span> 3</td><td class="rt-price">$50 <span class="rt-perday">/ day</span></td><td><span class="rt-check"></span></td><td><span class="rt-check"></span></td></tr>
+            <tr data-cat="family"><td class="rt-type">Passenger Van</td><td><span data-i18n="rn_up_to">Up to</span> 9</td><td class="rt-price">$90 <span class="rt-perday">/ day</span></td><td><span class="rt-check"></span></td><td><span class="rt-check"></span></td></tr>
+            <tr data-cat="premium"><td class="rt-type">Mercedes-Benz</td><td><span data-i18n="rn_up_to">Up to</span> 3</td><td class="rt-price">$150 <span class="rt-perday">/ day</span></td><td><span class="rt-check"></span></td><td><span class="rt-check"></span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section class="rr-info">
+    <div class="wrap">
+      <div class="rr-info-grid">
+        <div>
+          <div class="rr-info-block">
+            <span data-i18n="rn_good_to_know" class="rr-tag tag-hazard mono">Good To Know</span>
+            <h3 data-i18n="rn_why_ride_with_us" class="stencil">Why Ride With Us</h3>
+            <ul class="rr-list">
+              <li><span data-i18n="rn_professional_english_speaking_local_drivers">Professional, English-speaking local drivers</span></li>
+              <li><span data-i18n="rn_clean_air_conditioned_well_maintained">Clean, air-conditioned, well-maintained vehicles</span></li>
+              <li><span data-i18n="rn_reasonable_transparent_pricing_no_hidden">Reasonable, transparent pricing &mdash; no hidden fees</span></li>
+              <li><span data-i18n="rn_free_hotel_pickup_in_town">Free hotel pickup in town</span></li>
+              <li><span data-i18n="rn_perfect_for_families_groups_and">Perfect for families, groups and longer trips beyond Siem Reap</span></li>
+              <li><span data-i18n="rn_available_for_early_sunrise_temple">Available for early sunrise temple starts</span></li>
+            </ul>
+          </div>
+          <div class="rr-info-block">
+            <span data-i18n="rn_policy" class="rr-tag tag-rust mono">Policy</span>
+            <h3 data-i18n="rn_rental_policy" class="stencil">Rental Policy</h3>
+            <ul class="rr-list"><li><span data-i18n="rn_day_hire_covers_up_to">Day hire covers up to 8 hours; extra hours and trips outside Siem Reap on request</span></li></ul>
+          </div>
+        </div>
+        <div>
+          <div class="rr-info-block">
+            <span data-i18n="rn_booking_info" class="rr-tag tag-lime mono">Booking Info</span>
+            <h3 data-i18n="rn_information_needed_for_booking" class="stencil">Information Needed For Booking</h3>
+            <ul class="rr-list">
+              <li><span data-i18n="rn_service_style_you_d_like_2">Service style you'd like (transfer or day hire)</span></li>
+              <li><span data-i18n="rn_date_pickup_time">Date &amp; pickup time</span></li>
+              <li><span data-i18n="rn_number_of_passengers_luggage">Number of passengers &amp; luggage</span></li>
+              <li><span data-i18n="rn_where_you_d_like_to_2">Where you'd like to go</span></li>
+              <li><span data-i18n="rn_hotel_name_room_number">Hotel name &amp; room number</span></li>
+            </ul>
+          </div>
+          <div class="rr-info-block">
+            <span data-i18n="rn_deposit" class="rr-tag tag-hazard mono">Deposit</span>
+            <h3 data-i18n="rn_deposit" class="stencil">Deposit</h3>
+            <ul class="rr-list"><li><span data-i18n="rn_no_deposit_required_pay_your">No deposit required &mdash; pay your driver directly at the end of the trip</span></li></ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<section class="rr-cta">
+  <div class="wrap">
+    <span class="ornament"></span>
+    <h2 class="stencil">Som Arkoun</h2>
+    <span class="kicker mono">&mdash; <span data-i18n="rn_thank_you">Thank You</span> &mdash;</span>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-grid">
+      <div class="col">
+        <div class="footer-logo"><img src="../Image/logo2.png" alt="Siem Ride logo" class="footer-logo-img" loading="lazy" decoding="async"></div>
+        <p data-i18n="footer_desc" class="footer-desc">Motorbike and e-bike tours &amp; rentals, based in Siem Reap, Cambodia.</p>
+        <div class="social-row">
+          <a href="https://www.facebook.com/share/1D3mPvHArv/" target="_blank" rel="noopener" aria-label="Facebook"><svg width="16" height="16" viewBox="0 0 24 24" fill="#FFFDF8"><path d="M14 9h3V5h-3c-2.2 0-4 1.8-4 4v2H8v4h2v6h4v-6h3l1-4h-4V9c0-.6.4-1 1-1z"/></svg></a>
+          <a href="https://t.me/CHENLAheab" target="_blank" rel="noopener" aria-label="Telegram"><svg width="16" height="16" viewBox="0 0 24 24" fill="#FFFDF8"><path d="M21.9 4.4L18.6 20c-.2 1.1-.9 1.4-1.9.9l-5.1-3.8-2.5 2.4c-.3.3-.5.5-1 .5l.4-5.2L18 6c.5-.4-.1-.6-.7-.3L6.4 12.5 1.4 11c-1.1-.3-1.1-1.1.2-1.6L20.5 3c.9-.3 1.7.2 1.4 1.4z"/></svg></a>
+          <a href="https://www.instagram.com" target="_blank" rel="noopener" aria-label="Instagram"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FFFDF8" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1"/></svg></a>
+          <a href="https://www.youtube.com" target="_blank" rel="noopener" aria-label="YouTube"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FFFDF8" stroke-width="1.8"><path d="M23 12s0-3.5-.4-5.2c-.3-1-1-1.8-2-2C18.9 4.3 12 4.3 12 4.3s-6.9 0-8.6.5c-1 .2-1.8 1-2 2C1 8.5 1 12 1 12s0 3.5.4 5.2c.3 1 1 1.8 2 2 1.7.5 8.6.5 8.6.5s6.9 0 8.6-.5c1-.2 1.8-1 2-2 .4-1.7.4-5.2.4-5.2z"/><path d="M9.8 15.5V8.5l6 3.5-6 3.5z"/></svg></a>
+        </div>
+      </div>
+      <div class="col">
+        <h5 data-i18n="footer_col_rides">Rides</h5>
+        <ul>
+          <li><a data-i18n="nav_bikeTours" href="../Tours/Tours.html#bike">Bike Tours</a></li>
+          <li><a data-i18n="nav_ebikeTours" href="../Tours/Tours.html#ebike">E-Bike Tours</a></li>
+          <li><a data-i18n="nav_rental" href="Rental.html">Rental</a></li>
+        </ul>
+      </div>
+      <div class="col">
+        <h5 data-i18n="footer_col_company">Company</h5>
+        <ul>
+          <li><a data-i18n="nav_about" href="../About%20Us/About%20Us.html">About Us</a></li>
+          <li><a data-i18n="nav_blog" href="../Blog/Blog.html">Blog</a></li>
+          <li><a data-i18n="btn_viewRoute_plural" href="../index.html#routes">Popular Routes</a></li>
+        </ul>
+      </div>
+      <div class="col">
+        <h5 data-i18n="footer_col_contact">Contact</h5>
+        <ul class="footer-contact">
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-6.2-7-11a7 7 0 1114 0c0 4.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg> <span data-i18n="hero_eyebrow">Siem Reap, Cambodia</span></li>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.9v3a2 2 0 01-2.2 2 19.8 19.8 0 01-8.6-3 19.5 19.5 0 01-6-6A19.8 19.8 0 012.1 4.2 2 2 0 014.1 2h3a2 2 0 012 1.7c.1.9.3 1.8.6 2.7a2 2 0 01-.4 2.1L8 9.9a16 16 0 006 6l1.4-1.4a2 2 0 012.1-.4c.9.3 1.8.5 2.7.6a2 2 0 011.8 2.2z"/></svg> +855 12 610 269 (WhatsApp)</li>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16v16H4z"/><path d="M4 6l8 7 8-7"/></svg> ride@siemride.com</li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span><span data-i18n="rn_2026_siemride">&copy; 2026 SiemRide.</span> <span data-i18n="footer_rights">All rights reserved.</span></span>
+      <button type="button" class="back-to-top" id="backToTop" aria-label="Back to top">
+        <span data-i18n="footer_backToTop">Back to top</span>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+      </button>
+    </div>
+  </div>
+</footer>
+
+<a class="wa-float" href="https://wa.me/85512610269" target="_blank" rel="noopener" aria-label="Chat with us">
+  <svg width="52" height="52" viewBox="0 0 64 64" aria-hidden="true"><defs><linearGradient id="waFloatGrad" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#3DDC63"/><stop offset="100%" stop-color="#159040"/></linearGradient></defs><circle cx="32" cy="32" r="30" fill="url(#waFloatGrad)"/><g transform="translate(13 13) scale(1.5833)"><path fill="#fff" d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></g></svg>
+  <span class="wa-float-badge">?</span>
+</a>
+
+<!-- ===== BOOKING FORM MODAL (shared by all rental types) ===== -->
+<div class="bk-overlay" id="bkOverlay"></div>
+<div class="bk-modal" id="bkModal" role="dialog" aria-modal="true" aria-labelledby="bkTitle">
+  <button type="button" class="bk-close" id="bkClose" aria-label="Close form">&times;</button>
+  <div class="bk-inner">
+
+    <div class="bk-head" id="bkHead">
+      <p data-i18n="booking_eyebrow" class="bk-eyebrow mono">Let's plan it</p>
+      <h3 data-i18n="booking_h3" id="bkTitle" class="stencil">Tell us about your ride</h3>
+      <p data-i18n="booking_sub" class="bk-sub">Fill this in and send it straight to us on WhatsApp &mdash; we'll reply with a route and price within the hour.</p>
+    </div>
+
+    <form id="bkForm" class="bk-form" novalidate>
+      <div class="bk-grid">
+        <div class="bk-field">
+          <label data-i18n="booking_name" for="bkName" class="mono">Full name</label>
+          <input type="text" id="bkName" placeholder="Jane Smith" required>
+        </div>
+        <div class="bk-field">
+          <label data-i18n="booking_contact" for="bkContact" class="mono">WhatsApp / phone number</label>
+          <input type="tel" id="bkContact" placeholder="+855 ..." required>
+        </div>
+        <div class="bk-field">
+          <label for="bkEmail" class="mono"><span data-i18n="booking_email">Email</span> <span data-i18n="booking_optional" class="bk-optional">(optional)</span></label>
+          <input type="email" id="bkEmail" placeholder="jane@email.com">
+        </div>
+        <div class="bk-field">
+          <label data-i18n="booking_riders" for="bkRiders" class="mono">Number of riders</label>
+          <select id="bkRiders">
+            <option value="1">1</option><option value="2" selected>2</option><option value="3">3</option><option value="4">4</option><option value="5+">5+</option>
+          </select>
+        </div>
+        <div class="bk-field">
+          <label data-i18n="filter_destination" for="bkDestination" class="mono">Destination</label>
+          <select id="bkDestination">
+            <option data-i18n="filter_opt_angkor" value="Angkor Temples" selected>Angkor Temples</option>
+            <option data-i18n="filter_opt_countryside" value="Countryside">Countryside</option>
+            <option data-i18n="filter_opt_tonlesap" value="Tonl&eacute; Sap">Tonl&eacute; Sap</option>
+            <option data-i18n="booking_notSure" value="Not sure yet">Not sure yet</option>
+          </select>
+        </div>
+        <div class="bk-field">
+          <label data-i18n="filter_vehicle" for="bkVehicle" class="mono">Vehicle</label>
+          <select id="bkVehicle">
+            <option data-i18n="dd_bicycle" value="Bicycle" selected>Bicycle</option>
+            <option data-i18n="dd_ebike" value="E-Bike">E-Bike</option>
+            <option data-i18n="dd_moto" value="Moto">Moto</option>
+            <option data-i18n="dd_tukTuk" value="Tuk Tuk">Tuk Tuk</option>
+            <option data-i18n="dd_carVan" value="Car / Van">Car / Van</option>
+          </select>
+        </div>
+        <div class="bk-field">
+          <label data-i18n="booking_type" for="bkType" class="mono">Guided or rental?</label>
+          <select id="bkType">
+            <option data-i18n="dd_guidedTour" value="Guided Tour">Guided Tour</option>
+            <option data-i18n="dd_selfDriveRental" value="Self-Drive Rental" selected>Self-Drive Rental</option>
+            <option data-i18n="rn_rental_with_driver" value="Rental with Driver">Rental with Driver</option>
+          </select>
+        </div>
+        <div class="bk-field">
+          <label data-i18n="booking_duration" for="bkDuration" class="mono">Duration</label>
+          <select id="bkDuration">
+            <option data-i18n="rn_1_day" value="1 Day" selected>1 Day</option><option data-i18n="rn_2_days" value="2 Days">2 Days</option><option data-i18n="rn_3_days" value="3 Days">3 Days</option><option data-i18n="rn_4_days" value="4 Days">4 Days</option><option data-i18n="rn_5_days" value="5+ Days">5+ Days</option>
+          </select>
+        </div>
+        <div class="bk-field">
+          <label data-i18n="booking_date" for="bkDate" class="mono">Travel date(s)</label>
+          <input type="date" id="bkDate">
+        </div>
+        <div class="bk-field">
+          <label for="bkTime" class="mono"><span data-i18n="booking_time">Preferred time</span> <span data-i18n="booking_optional" class="bk-optional">(optional)</span></label>
+          <select id="bkTime">
+            <option value="6:00 AM">6:00 AM</option><option value="6:30 AM">6:30 AM</option><option value="7:00 AM">7:00 AM</option><option value="7:30 AM">7:30 AM</option><option value="8:00 AM">8:00 AM</option><option value="8:30 AM">8:30 AM</option>
+            <option value="9:00 AM" selected>9:00 AM</option><option value="9:30 AM">9:30 AM</option><option value="10:00 AM">10:00 AM</option><option value="10:30 AM">10:30 AM</option><option value="11:00 AM">11:00 AM</option><option value="11:30 AM">11:30 AM</option>
+            <option value="12:00 PM">12:00 PM</option><option value="12:30 PM">12:30 PM</option><option value="1:00 PM">1:00 PM</option><option value="1:30 PM">1:30 PM</option><option value="2:00 PM">2:00 PM</option><option value="2:30 PM">2:30 PM</option>
+            <option value="3:00 PM">3:00 PM</option><option value="3:30 PM">3:30 PM</option><option value="4:00 PM">4:00 PM</option><option value="4:30 PM">4:30 PM</option><option value="5:00 PM">5:00 PM</option><option value="5:30 PM">5:30 PM</option><option value="6:00 PM">6:00 PM</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="bk-field bk-field-full">
+        <label for="bkMessage" class="mono"><span data-i18n="booking_message">Anything else we should know?</span> <span data-i18n="booking_optional" class="bk-optional">(optional)</span></label>
+        <textarea data-i18n-placeholder="booking_message_ph" id="bkMessage" rows="3" placeholder="Riding experience, timing, special requests..."></textarea>
+      </div>
+
+      <p data-i18n="booking_error" class="bk-error" id="bkError">Please add your name and a WhatsApp/phone number so we can reach you.</p>
+
+      <div class="bk-actions">
+        <button type="button" class="bk-btn-dark" id="bkViewStatementBtn">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16v16H4z"/><path d="M8 9h8M8 13h5"/></svg>
+          <span data-i18n="rn_view_statement">View statement</span>
+        </button>
+        <a data-i18n="booking_emailInstead" href="mailto:ride@siemride.com" class="bk-alt-link">or email us instead</a>
+        <button data-i18n="rn_clear_form" type="button" class="bk-clear-btn" id="bkClearFormBtn">Clear form</button>
+      </div>
+    </form>
+
+    <div class="bk-summary" id="bkSummary" hidden>
+      <h4 data-i18n="rn_review_your_request" class="stencil">Review your request</h4>
+      <p data-i18n="rn_double_check_the_details_below" class="bk-sub">Double-check the details below, then send it straight to us on WhatsApp.</p>
+      <dl class="bk-summary-list" id="bkSummaryList"></dl>
+      <div class="bk-actions">
+        <button type="button" class="bk-btn-dark" id="bkConfirmSendBtn">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 00-8.5 15.2L2 22l4.9-1.4A10 10 0 1012 2zm0 18.2c-1.6 0-3.1-.4-4.4-1.2l-.3-.2-3.3 1 1-3.2-.2-.3A8.2 8.2 0 1112 20.2z"/></svg>
+          <span data-i18n="booking_submit">Send via WhatsApp</span>
+        </button>
+        <button data-i18n="rn_edit_details" type="button" class="bk-alt-link" id="bkEditDetailsBtn">Edit details</button>
+      </div>
+    </div>
+
+    <div class="bk-success" id="bkSuccess" hidden>
+      <svg width="46" height="46" viewBox="0 0 24 24" fill="none" stroke="#1F5C3A" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M8 12.5l2.5 2.5L16 9"/></svg>
+      <h4 data-i18n="booking_success_h4" class="stencil">Opening WhatsApp&hellip;</h4>
+      <p data-i18n="booking_success_p">If it didn't open automatically, message us directly at +855 12 610 269.</p>
+    </div>
+
+  </div>
+</div>
+
+<script>
+/* ---- Rental tabs (deep-linkable: Rental.html#ebike, #moto, #tuktuk, #carvan) ---- */
+(function(){
+  var TABS={
+    bike:  {vehicle:'Bicycle', type:'Self-Drive Rental',  title:'Bicycle Rental'},
+    ebike: {vehicle:'E-Bike',  type:'Self-Drive Rental',  title:'E-Bike Rental'},
+    moto:  {vehicle:'Moto',    type:'Self-Drive Rental',  title:'Moto Rental'},
+    tuktuk:{vehicle:'Tuk Tuk', type:'Rental with Driver', title:'Tuk Tuk Rental'},
+    carvan:{vehicle:'Car / Van',type:'Rental with Driver',title:'Car / Van Rental'}
+  };
+  /* translated helpers (SR is the language engine in script.js; English fallback if absent) */
+  function T(key,fallback){return (window.SR&&window.SR.t)?window.SR.t(key):fallback;}
+  function tabTitle(key){return T('rt_title_'+key,TABS[key].title);}
+  function paintTitle(){
+    document.title=tabTitle(current)+' | SIEMRIDE';
+    var label=document.querySelector('.stamp-label strong');
+    if(label)label.textContent=tabTitle(current);
+  }
+  function esc(v){return String(v).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+  var tabs=document.querySelectorAll('.rt-tab');
+  var panels=document.querySelectorAll('.rt-panel');
+  var current='bike';
+
+  function showTab(key,updateHash){
+    if(!TABS[key])key='bike';
+    current=key;
+    tabs.forEach(function(t){
+      var on=t.getAttribute('data-tab')===key;
+      t.classList.toggle('is-active',on);
+      t.setAttribute('aria-selected',on?'true':'false');
+      if(on&&t.parentNode){var sc=t.parentNode;try{sc.scrollTo({left:t.offsetLeft-(sc.clientWidth-t.offsetWidth)/2,behavior:'smooth'});}catch(e){sc.scrollLeft=t.offsetLeft-(sc.clientWidth-t.offsetWidth)/2;}}
+    });
+    panels.forEach(function(p){p.classList.toggle('is-active',p.id==='panel-'+key);});
+    paintTitle();
+    document.getElementById('bkVehicle').value=TABS[key].vehicle;
+    document.getElementById('bkType').value=TABS[key].type;
+    if(updateHash){
+      try{history.replaceState(null,'','#'+key);}catch(e){location.hash=key;}
+    }
+  }
+
+  tabs.forEach(function(t){
+    t.addEventListener('click',function(){showTab(t.getAttribute('data-tab'),true);});
+  });
+  window.addEventListener('hashchange',function(){
+    showTab((location.hash||'').replace('#',''),false);
+  });
+  showTab((location.hash||'').replace('#','')||'bike',false);
+  document.addEventListener('langchange',paintTitle);
+  /* ===== HERO COLLAGE SLIDESHOW (Rotates/slides photos from active tab's folder) ===== */
+  var visual=document.getElementById('rrVisual');
+  var slot0=document.getElementById('rvSlot0');
+  var slot1=document.getElementById('rvSlot1');
+  var slot2=document.getElementById('rvSlot2');
+  var prevBtn=document.getElementById('rvPrev');
+  var nextBtn=document.getElementById('rvNext');
+  var dotsWrap=document.getElementById('rvDots');
+
+  var currentTabKey='';
+  var currentImages=[];
+  var slots=[slot0,slot1,slot2];
+  var slotIndices=[0,2,4];
+  var turn=0;
+  var slideTimer=null;
+  var AUTOPLAY_DELAY=2800; // changes ONE photo every 2.8s
+
+  function getTabImages(tabKey){
+    var p=document.getElementById('panel-'+tabKey);
+    if(!p)return [];
+    var imgs=p.querySelectorAll('.rr-gallery-grid img');
+    var list=[];
+    for(var i=0;i<imgs.length;i++){
+      var s=imgs[i].getAttribute('src');
+      if(s&&list.indexOf(s)===-1)list.push(s);
+    }
+    return list;
+  }
+
+  function slideSlot(slot,newSrc,direction,delay,instant){
+    if(!slot||!newSrc)return;
+    var currentImg=slot.querySelector('.rv-active')||slot.querySelector('img');
+    if(instant||!currentImg||!currentImg.getAttribute('src')){
+      slot.innerHTML='';
+      var img=document.createElement('img');
+      img.className='rv-active';
+      img.src=newSrc;
+      img.alt='';
+      img.decoding='async';
+      slot.appendChild(img);
+      return;
+    }
+    if(currentImg.getAttribute('src')===newSrc)return;
+
+    var prefersReduced=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    setTimeout(function(){
+      var stale=slot.querySelectorAll('.rv-slide-incoming');
+      for(var k=0;k<stale.length;k++){
+        if(stale[k].parentNode===slot)slot.removeChild(stale[k]);
+      }
+
+      var incoming=document.createElement('img');
+      incoming.className='rv-slide-incoming';
+      incoming.src=newSrc;
+      incoming.alt='';
+      incoming.decoding='async';
+      incoming.style.position='absolute';
+      incoming.style.inset='0';
+      incoming.style.width='100%';
+      incoming.style.height='100%';
+      incoming.style.objectFit='cover';
+      incoming.style.display='block';
+
+      if(prefersReduced){
+        incoming.style.opacity='0';
+        incoming.style.zIndex='2';
+        slot.appendChild(incoming);
+        incoming.offsetWidth;
+        incoming.style.transition='opacity .4s ease';
+        currentImg.style.transition='opacity .4s ease';
+        incoming.style.opacity='1';
+        currentImg.style.opacity='0';
+        setTimeout(function(){
+          incoming.className='rv-active';
+          incoming.removeAttribute('style');
+          if(currentImg&&currentImg.parentNode===slot)slot.removeChild(currentImg);
+        },450);
+        return;
+      }
+
+      var startX=direction==='prev'?'-100%':'100%';
+      var exitX=direction==='prev'?'30%':'-30%';
+
+      incoming.style.transform='translateX('+startX+')';
+      incoming.style.opacity='0';
+      incoming.style.zIndex='2';
+      slot.appendChild(incoming);
+      incoming.offsetWidth;
+
+      incoming.style.transition='transform .65s cubic-bezier(.22, 1, .36, 1), opacity .55s ease';
+      currentImg.style.transition='transform .65s cubic-bezier(.22, 1, .36, 1), opacity .55s ease';
+
+      incoming.style.transform='translateX(0)';
+      incoming.style.opacity='1';
+      currentImg.style.transform='translateX('+exitX+')';
+      currentImg.style.opacity='0';
+
+      setTimeout(function(){
+        incoming.className='rv-active';
+        incoming.removeAttribute('style');
+        if(currentImg&&currentImg.parentNode===slot)slot.removeChild(currentImg);
+      },680);
+    },delay||0);
+  }
+
+  function updateDots(){
+    if(!dotsWrap||!currentImages.length)return;
+    var dots=dotsWrap.querySelectorAll('.rv-slide-dot');
+    var activeIdx=slotIndices[0]%currentImages.length;
+    for(var i=0;i<dots.length;i++){
+      if(i===activeIdx){
+        dots[i].classList.add('is-active');
+        dots[i].setAttribute('aria-selected','true');
+      }else{
+        dots[i].classList.remove('is-active');
+        dots[i].setAttribute('aria-selected','false');
+      }
+    }
+  }
+
+  function renderDots(){
+    if(!dotsWrap)return;
+    dotsWrap.innerHTML='';
+    var n=currentImages.length;
+    if(n<=1){
+      dotsWrap.style.display='none';
+      return;
+    }
+    dotsWrap.style.display='inline-flex';
+    for(var i=0;i<n;i++){
+      var btn=document.createElement('button');
+      btn.type='button';
+      btn.className='rv-slide-dot'+(i===(slotIndices[0]%n)?' is-active':'');
+      btn.setAttribute('aria-label','Go to photo '+(i+1));
+      (function(idx){
+        btn.addEventListener('click',function(e){
+          e.stopPropagation();
+          var dir=idx>slotIndices[0]?'next':'prev';
+          slotIndices[0]=idx;
+          slideSlot(slot0,currentImages[idx],dir,0,false);
+          updateDots();
+          restartTimer();
+        });
+      })(i);
+      dotsWrap.appendChild(btn);
+    }
+  }
+
+  /* Advances exactly ONE photo slot at a time */
+  function advanceOneSlot(direction){
+    if(!currentImages.length)return;
+    var n=currentImages.length;
+    if(direction==='prev'){
+      turn=((turn-1)%3+3)%3;
+      var slot=slots[turn];
+      slotIndices[turn]=((slotIndices[turn]-1)%n+n)%n;
+      slideSlot(slot,currentImages[slotIndices[turn]],'prev',0,false);
+    }else{
+      var slot=slots[turn];
+      slotIndices[turn]=(slotIndices[turn]+1)%n;
+      slideSlot(slot,currentImages[slotIndices[turn]],'next',0,false);
+      turn=(turn+1)%3;
+    }
+    updateDots();
+  }
+
+  function nextSlide(){advanceOneSlot('next');}
+  function prevSlide(){advanceOneSlot('prev');}
+
+  function startTimer(){
+    stopTimer();
+    if(currentImages.length>1){
+      slideTimer=setInterval(function(){advanceOneSlot('next');},AUTOPLAY_DELAY);
+    }
+  }
+  function stopTimer(){
+    if(slideTimer){clearInterval(slideTimer);slideTimer=null;}
+  }
+  function restartTimer(){
+    stopTimer();
+    startTimer();
+  }
+
+  if(prevBtn){
+    prevBtn.addEventListener('click',function(e){
+      e.stopPropagation();
+      prevSlide();
+      restartTimer();
+    });
+  }
+  if(nextBtn){
+    nextBtn.addEventListener('click',function(e){
+      e.stopPropagation();
+      nextSlide();
+      restartTimer();
+    });
+  }
+
+  if(visual){
+    visual.addEventListener('mouseenter',stopTimer);
+    visual.addEventListener('mouseleave',startTimer);
+
+    var touchStartX=0,touchStartY=0;
+    visual.addEventListener('touchstart',function(e){
+      if(e.changedTouches&&e.changedTouches[0]){
+        touchStartX=e.changedTouches[0].screenX;
+        touchStartY=e.changedTouches[0].screenY;
+      }
+    },{passive:true});
+    visual.addEventListener('touchend',function(e){
+      if(e.changedTouches&&e.changedTouches[0]){
+        var diffX=e.changedTouches[0].screenX-touchStartX;
+        var diffY=e.changedTouches[0].screenY-touchStartY;
+        if(Math.abs(diffX)>35&&Math.abs(diffX)>Math.abs(diffY)){
+          if(diffX<0)nextSlide(); else prevSlide();
+          restartTimer();
+        }
+      }
+    },{passive:true});
+  }
+
+  document.addEventListener('visibilitychange',function(){
+    if(document.hidden)stopTimer(); else startTimer();
+  });
+
+  function paintVisual(){
+    var p=document.getElementById('panel-'+current); if(!p||!visual)return;
+
+    var stats=p.querySelectorAll('.rr-stats div');
+    if(stats[1]){
+      document.getElementById('rvPrice').textContent=stats[1].querySelector('strong').textContent;
+      document.getElementById('rvPriceLbl').textContent=stats[1].querySelector('span').textContent;
+    }
+    var nm=document.querySelector('.rt-tab.is-active span:last-child');
+    if(nm)document.getElementById('rvName').textContent=nm.textContent;
+
+    if(currentTabKey===current){
+      return;
+    }
+
+    currentTabKey=current;
+    currentImages=getTabImages(current);
+    var n=currentImages.length;
+    slotIndices=[0, 2%Math.max(n,1), 4%Math.max(n,1)];
+    turn=0;
+
+    renderDots();
+
+    slideSlot(slot0,currentImages[slotIndices[0]],'next',0,true);
+    slideSlot(slot1,currentImages[slotIndices[1]],'next',0,true);
+    slideSlot(slot2,currentImages[slotIndices[2]],'next',0,true);
+
+    for(var j=0;j<currentImages.length;j++){
+      var pi=new Image();
+      pi.src=currentImages[j];
+    }
+
+    restartTimer();
+  }
+  var _show=showTab;
+  showTab=function(k,u){var first=!visual.__ok;visual.__ok=true;if(!first)visual.classList.add('is-swap');setTimeout(function(){_show(k,u);paintVisual();visual.classList.remove('is-swap');},first?0:180);};
+  document.addEventListener('langchange',function(){setTimeout(paintVisual,0);});
+
+  /* ---- Booking form modal ---- */
+  var overlay=document.getElementById('bkOverlay');
+  var modal=document.getElementById('bkModal');
+  var closeBtn=document.getElementById('bkClose');
+  var form=document.getElementById('bkForm');
+  var summary=document.getElementById('bkSummary');
+  var success=document.getElementById('bkSuccess');
+  var errorMsg=document.getElementById('bkError');
+  var summaryList=document.getElementById('bkSummaryList');
+
+  function openModal(){
+    document.getElementById('bkVehicle').value=TABS[current].vehicle;
+    document.getElementById('bkType').value=TABS[current].type;
+    overlay.classList.add('is-open');modal.classList.add('is-open');
+    document.body.style.overflow='hidden';
+    form.hidden=false;summary.hidden=true;success.hidden=true;
+  }
+  function closeModal(){
+    overlay.classList.remove('is-open');modal.classList.remove('is-open');
+    document.body.style.overflow='';
+  }
+  window.openBookingModal=openModal;
+
+  overlay.addEventListener('click',closeModal);
+  closeBtn.addEventListener('click',closeModal);
+  document.addEventListener('keydown',function(e){if(e.key==='Escape')closeModal();});
+
+  function fieldVal(id){return document.getElementById(id).value.trim();}
+  /* what the visitor sees: selects show the translated option text */
+  function shown(id){
+    var e=document.getElementById(id);
+    if(e.selectedOptions&&e.selectedOptions[0])return e.selectedOptions[0].textContent.trim();
+    return e.value.trim();
+  }
+
+  document.getElementById('bkViewStatementBtn').addEventListener('click',function(){
+    var name=fieldVal('bkName'),contact=fieldVal('bkContact');
+    if(!name||!contact){errorMsg.classList.add('is-visible');return;}
+    errorMsg.classList.remove('is-visible');
+
+    var dash='—';
+    var rows=[
+      [T('summary_name','Name'),name],[T('summary_contact','Contact'),contact],[T('summary_email','Email'),fieldVal('bkEmail')||dash],
+      [T('summary_riders','Riders'),shown('bkRiders')],[T('summary_destination','Destination'),shown('bkDestination')],
+      [T('summary_vehicle','Vehicle'),shown('bkVehicle')],[T('summary_type','Type'),shown('bkType')],
+      [T('summary_duration','Duration'),shown('bkDuration')],[T('summary_dates','Travel date(s)'),fieldVal('bkDate')||T('booking_notSure','Not sure yet')],
+      [T('summary_time','Preferred time'),shown('bkTime')],[T('summary_notes','Notes'),fieldVal('bkMessage')||dash]
+    ];
+    summaryList.innerHTML=rows.map(function(r){
+      return '<div><dt>'+esc(r[0])+'</dt><dd>'+esc(r[1])+'</dd></div>';
+    }).join('');
+    form.hidden=true;summary.hidden=false;
+  });
+
+  document.getElementById('bkEditDetailsBtn').addEventListener('click',function(){
+    summary.hidden=true;form.hidden=false;
+  });
+
+  document.getElementById('bkConfirmSendBtn').addEventListener('click',function(){
+    var msg=
+      T('summary_greeting',"Hi SiemRide! I'd like to plan a ride.")+"\n"+
+      T('summary_name','Name')+": "+fieldVal('bkName')+"\n"+
+      T('summary_contact','Contact')+": "+fieldVal('bkContact')+"\n"+
+      (fieldVal('bkEmail')?T('summary_email','Email')+": "+fieldVal('bkEmail')+"\n":"")+
+      T('summary_riders','Riders')+": "+shown('bkRiders')+"\n"+
+      T('summary_destination','Destination')+": "+shown('bkDestination')+"\n"+
+      T('summary_vehicle','Vehicle')+": "+shown('bkVehicle')+"\n"+
+      T('summary_type','Type')+": "+shown('bkType')+"\n"+
+      T('summary_duration','Duration')+": "+shown('bkDuration')+"\n"+
+      T('summary_dates','Travel date(s)')+": "+(fieldVal('bkDate')||T('booking_notSure','Not sure yet'))+"\n"+
+      T('summary_time','Preferred time')+": "+shown('bkTime')+
+      (fieldVal('bkMessage')?"\n"+T('summary_notes','Notes')+": "+fieldVal('bkMessage'):"");
+    window.open('https://wa.me/'+(window.SR_WA_NUMBER||'85512610269')+'?text='+encodeURIComponent(msg),'_blank','noopener');
+    summary.hidden=true;success.hidden=false;
+  });
+
+  document.getElementById('bkClearFormBtn').addEventListener('click',function(){
+    form.reset();errorMsg.classList.remove('is-visible');
+    document.getElementById('bkVehicle').value=TABS[current].vehicle;
+    document.getElementById('bkType').value=TABS[current].type;
+  });
+})();
+
+document.getElementById('backToTop').addEventListener('click',function(){window.scrollTo({top:0,behavior:'smooth'});});
+</script>
+<script>
+  // Accordion toggles inside the mobile side panel (Tour / Rental)
+  document.querySelectorAll('.panel-accordion-toggle').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var acc = btn.closest('.panel-accordion');
+      var wasOpen = acc.classList.contains('open');
+      document.querySelectorAll('.panel-accordion.open').forEach(function (other) {
+        if (other !== acc) other.classList.remove('open');
+      });
+      acc.classList.toggle('open', !wasOpen);
+    });
+  });
+</script>
+<script src="../JavaScript/script.js?v=20261110-1"></script>
+<script>
+/* "Popular" badge + "/ day" label in all 7 languages (self-contained in this page) */
+(function(){
+  var W={popular:{en:'Popular',km:'ពេញនិយម',zh:'热门',ja:'人気',ko:'인기',vi:'Phổ biến',th:'ยอดนิยม'},
+         day:{en:'/ day',km:'/ ថ្ងៃ',zh:'/ 天',ja:'/ 日',ko:'/ 일',vi:'/ ngày',th:'/ วัน'}};
+  function run(){
+    var l=(window.SR&&SR.lang&&SR.lang())||'en';
+    [].forEach.call(document.querySelectorAll('.rt-pop'),function(e){e.textContent=W.popular[l]||W.popular.en;});
+    [].forEach.call(document.querySelectorAll('.rt-perday'),function(e){e.textContent=W.day[l]||W.day.en;});
+  }
+  run(); document.addEventListener('langchange',run);
+})();
+</script>
+</body>
+</html>

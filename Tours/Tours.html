@@ -1,0 +1,3178 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MOTO TOURS | SIEMRIDE</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Playfair+Display:ital,wght@0,600;0,700;1,600;1,700&family=JetBrains+Mono:wght@400;500&family=Work+Sans:wght@400;500;600;700&family=Noto+Sans+Khmer:wght@400;500;700&display=swap" rel="stylesheet">
+<script>try{var l=localStorage.getItem("siemride_lang");if(l&&l!=="en"){document.documentElement.className+=" i18n-wait";setTimeout(function(){document.documentElement.classList.remove("i18n-wait")},1500)}}catch(e){}</script>
+<link rel="stylesheet" href="../CssStyle/style.css?v=20261110-1">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link rel="icon" type="image/png" href="../Image/logo2.png">
+<style>
+  /* Sticky "Book Now" bar for the tour detail panel — shows once the main
+     Book this tour button has scrolled out of view, hides again above it. */
+  .tl-sticky-bar {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 10000;
+    display: flex;
+    justify-content: center;
+    padding: 12px 16px calc(12px + env(safe-area-inset-bottom, 0px));
+    background: linear-gradient(to top, rgba(255,255,255,0.98) 65%, rgba(255,255,255,0));
+    opacity: 0;
+    transform: translateY(14px);
+    pointer-events: none;
+    transition: opacity 0.25s ease, transform 0.25s ease;
+  }
+  .tl-sticky-bar.show {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+  .tl-sticky-bar-inner {
+    width: 100%;
+    max-width: 420px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+  }
+  #tlStickyBookBtn.tour-lightbox-cta {
+    display: inline-flex !important;
+    box-sizing: border-box !important;
+    width: 130px !important;
+    max-width: 130px !important;
+    min-width: 0 !important;
+    flex: none !important;
+    align-self: center !important;
+    margin: 0 auto !important;
+    padding: 9px 14px !important;
+    font-size: 13px !important;
+    min-height: 0 !important;
+    box-shadow: 0 6px 16px rgba(0,0,0,0.22);
+  }
+  #tlStickyBookBtn.tour-lightbox-cta svg {
+    width: 10px !important;
+    height: 10px !important;
+  }
+  .tl-sticky-paylater {
+    margin: 0;
+    font-size: 12.5px;
+    color: #6b6b6b;
+    font-style: italic;
+    text-align: center;
+  }
+
+  /* Mobile side-menu accordion for Bike Tours / E-Bike Tours / Rental.
+     Self-contained so it works even where style.css doesn't yet have rules
+     for it — safe to move into the shared stylesheet later. */
+  .panel-nav-list details.panel-nav-group{border:none;}
+  .panel-nav-list details.panel-nav-group summary{
+    display:flex;align-items:center;justify-content:space-between;
+    cursor:pointer;list-style:none;color:inherit;font:inherit;
+  }
+  .panel-nav-list details.panel-nav-group summary::-webkit-details-marker{display:none;}
+  .panel-nav-list details.panel-nav-group summary::marker{content:"";}
+  .panel-nav-list details.panel-nav-group summary .caret{
+    transition:transform .2s ease;flex-shrink:0;margin-left:8px;
+  }
+  .panel-nav-list details.panel-nav-group[open] summary .caret{
+    transform:rotate(180deg);
+  }
+  .panel-nav-list .panel-nav-subgroup{
+    display:flex;flex-direction:column;
+    padding-left:16px;
+  }
+  .panel-nav-list .panel-nav-subgroup a{
+    display:block;color:inherit;font:inherit;
+    font-size:0.92em;opacity:0.82;
+    padding:8px 0 8px 4px;text-decoration:none;
+  }
+
+  /* Page-specific tweaks for Tailor-Made (kept local, not added to shared style.css) */
+  .bt-cta-row{display:flex;justify-content:center;margin-top:36px;}
+
+  /* Left-align the 'Starting Points for Inspiration' heading (default is centered) */
+  .bt-listing-head{text-align:left;margin-bottom:6px;}
+  .bt-listing-head h2{text-transform:uppercase;padding-bottom:0;display:block;font-size:1.23rem;}
+  .bt-listing-head h2::after{display:none;}
+
+  /* Big two-tone headline for "Building Your Own Route", styled like the blog hero */
+  .tm-big-heading{
+    font-family:'Anton',sans-serif;text-transform:uppercase;
+    font-size:clamp(2.1rem,4.6vw,3.4rem);line-height:1.02;
+    letter-spacing:0.01em;margin:18px 0 16px;
+  }
+  .tm-big-heading-line1{display:block;color:var(--ink);}
+  .tm-big-heading-line2{display:block;color:#DD7A2E;}
+  .tm-big-heading-sub{
+    max-width:640px;font-size:1rem;line-height:1.6;color:var(--ink-soft);
+    margin:0;
+  }
+
+  /* Taller itinerary + map to better match the height of the cards column */
+  #btItinerary .bt-sidebar-title{font-size:1.05rem;}
+  #btItinerary .bt-itin-subtitle{font-size:0.82rem;}
+  #btItinerary .bt-itin-content strong{font-size:0.9rem;}
+  #btItinerary .bt-itin-content p{font-size:0.8rem;}
+  #btItinerary .bt-itin-item{padding-bottom:18px;}
+  #btItinerary .bt-itin-map-label{font-size:0.78rem;}
+  #btItinerary .bt-itin-map{margin-top:22px;}
+
+  .bt-itin-map-locate{
+    position:absolute;top:10px;right:10px;z-index:2;
+    display:inline-flex;align-items:center;gap:5px;
+    background:var(--white);color:var(--ink);border:none;cursor:pointer;
+    font-family:'Work Sans',sans-serif;font-size:0.7rem;font-weight:600;
+    padding:5px 10px;border-radius:20px;
+    box-shadow:0 3px 10px rgba(0,0,0,0.12);
+    transition:color .15s;
+  }
+  .bt-itin-map-locate:hover{color:var(--bt-accent);}
+  .bt-itin-map-locate svg{color:var(--bt-accent);flex-shrink:0;}
+  .bt-itin-map-locate.is-active{color:var(--bt-accent);}
+
+  /* On small / phone screens, stack the itinerary+map under the tour cards.
+     JS (see bottom of page) then moves #btItinerary to sit right above the
+     "Book a Moto Tour" button. */
+  @media (max-width:900px){
+    .bt-layout{grid-template-columns:1fr !important;gap:24px !important;}
+    .bt-sidebar-col{position:static;}
+    #btItinerary{margin-top:0;}
+  }
+
+  /* Tour-selector dropdown: "Tour Options & Highlights" heading + custom styled trigger/list
+     (replaces the old Moto/Bike/E-Bike pill row, moved to sit under the page H2) */
+  .tour-select-wrap{margin-bottom:32px;}
+  .tour-select-heading{
+    font-family:'Work Sans',sans-serif;font-weight:800;font-size:0.92rem;
+    text-transform:uppercase;letter-spacing:0.02em;
+    color:var(--bt-accent);margin:0 0 10px;
+  }
+  .tour-select-custom{position:relative;}
+  .tour-select-trigger{
+    width:100%;display:flex;align-items:center;justify-content:space-between;gap:12px;
+    padding:13px 18px;border-radius:10px;
+    border:1.5px solid var(--teal-deep);background:var(--white);
+    font-family:'Work Sans',sans-serif;font-size:0.94rem;color:var(--ink);
+    cursor:pointer;text-align:left;transition:border-color .2s,box-shadow .2s;
+  }
+  .tour-select-trigger:hover,.tour-select-trigger[aria-expanded="true"]{
+    border-color:var(--bt-accent);box-shadow:0 4px 14px rgba(18,49,43,0.08);
+  }
+  .tour-select-current{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .tour-select-current strong{color:var(--ink);font-weight:700;margin-right:4px;}
+  .tour-select-current-title{color:var(--ink-soft);}
+  .tour-select-chevron{color:var(--bt-accent);flex-shrink:0;transition:transform .2s ease;}
+  .tour-select-trigger[aria-expanded="true"] .tour-select-chevron{transform:rotate(180deg);}
+
+  .tour-select-list{
+    position:absolute;left:0;right:0;top:calc(100% + 6px);z-index:20;
+    list-style:none;margin:0;padding:6px;
+    background:var(--white);border:1px solid var(--sand-deep);border-radius:10px;
+    box-shadow:0 14px 34px rgba(18,49,43,0.14);
+    max-height:280px;overflow-y:auto;
+  }
+  .tour-select-list[hidden]{display:none;}
+  .tour-select-option{
+    padding:10px 12px;border-radius:7px;cursor:pointer;
+    font-family:'Work Sans',sans-serif;font-size:0.9rem;color:var(--ink-soft);
+    transition:background .15s,color .15s;
+  }
+  .tour-select-option strong{color:var(--ink);font-weight:700;margin-right:4px;}
+  .tour-select-option:hover{background:rgba(221,122,46,0.08);color:var(--bt-accent);}
+  .tour-select-option.active{background:rgba(221,122,46,0.1);color:var(--bt-accent);}
+  .tour-select-option.active strong{color:var(--bt-accent);}
+  @media (max-width:600px){
+    .tour-select-heading{font-size:1.02rem;}
+    .tour-select-trigger{padding:11px 14px;font-size:0.86rem;}
+  }
+
+  /* Narrow the price column a touch so the card text/body area gets more width */
+  .bt-cards-inspiration .bt-card-price{flex-basis:105px;padding:22px 12px;}
+
+  /* Bigger text box: rectangular thumbnail on the left, stretched to match the text box's full height */
+  .bt-cards-inspiration .bt-card-thumb{
+    flex:0 0 380px;width:380px;aspect-ratio:auto;align-self:stretch;
+    display:flex;flex-direction:column;background:#dfe4e0;
+  }
+  .bt-cards-inspiration .bt-card-body{padding:20px 24px;}
+  .bt-cards-inspiration .bt-card-body h3{font-size:1.05rem;margin-bottom:8px;}
+  .bt-cards-inspiration .bt-card-list{gap:6px;}
+  .bt-cards-inspiration .bt-card-list li{font-size:0.82rem;line-height:1.45;}
+
+  /* Photo viewport (top) + arrow-nav strip (bottom, centered) inside the bigger thumbnail */
+  .bt-cards-inspiration .bt-card-thumb-viewport{position:relative;flex:1;min-height:0;overflow:hidden;}
+  .bt-cards-inspiration .bt-card-thumb-viewport img{
+    width:100%;height:100%;object-fit:cover;display:block;
+    transition:opacity .35s ease,transform .4s ease;
+  }
+  .bt-cards-inspiration .bt-card:hover .bt-card-thumb-viewport img{transform:scale(1.06);}
+  .bt-cards-inspiration .bt-card-thumb-nav{
+    display:flex;align-items:center;justify-content:center;gap:36px;
+    padding:10px 0 4px;background:var(--white);
+    flex-shrink:0;
+  }
+  .bt-cards-inspiration .bt-card-thumb-nav.bt-thumb-nav-hidden{display:none;}
+  .bt-cards-inspiration .bt-thumb-arrow{
+    width:auto;height:auto;padding:2px;border:none;background:none;
+    display:flex;align-items:center;justify-content:center;
+    color:#4A90D9;cursor:pointer;transition:color .2s ease,transform .2s ease;
+  }
+  .bt-cards-inspiration .bt-thumb-arrow:hover{color:#2C6DB4;transform:scale(1.12);}
+  .bt-cards-inspiration .bt-thumb-arrow:disabled{opacity:0.4;cursor:default;transform:none;}
+  .bt-cards-inspiration .bt-thumb-arrow svg{width:20px;height:20px;}
+  @media (max-width:900px){
+    .bt-cards-inspiration .bt-card-thumb{width:100%;flex-basis:auto;}
+    .bt-cards-inspiration .bt-card-thumb-viewport{aspect-ratio:16/9;}
+  }
+
+  /* Tour-detail lightbox: prev/next arrows overlaid on the main photo itself
+     (instead of sitting in the sidebar), plus a click-to-fullscreen viewer. */
+  #tourLightboxImg{cursor:zoom-in;}
+
+  .tl-gallery-nav-onimage{
+    position:absolute;top:0;left:0;right:0;bottom:0;
+    display:flex;align-items:center;justify-content:space-between;
+    padding:0 14px;pointer-events:none;
+  }
+  .tl-onimage-arrow{
+    pointer-events:auto;
+    width:44px;height:44px;border-radius:50%;border:none;
+    display:flex;align-items:center;justify-content:center;
+    background:rgba(255,255,255,0.85);color:var(--teal-deep,#1D4E4E);
+    box-shadow:0 2px 10px rgba(0,0,0,0.18);
+    cursor:pointer;transition:background .2s ease,transform .2s ease;
+  }
+  .tl-onimage-arrow:hover{background:#fff;transform:scale(1.08);}
+  .tl-onimage-arrow:disabled{opacity:0.45;cursor:default;transform:none;}
+
+  .tl-fullscreen-overlay{
+    position:fixed;inset:0;z-index:700;
+    display:flex;align-items:center;justify-content:center;
+    background:rgba(10,12,10,0.94);
+    opacity:0;visibility:hidden;
+    transition:opacity .25s ease,visibility .25s ease;
+  }
+  .tl-fullscreen-overlay.open{opacity:1;visibility:visible;}
+  .tl-fullscreen-overlay img{
+    max-width:88vw;max-height:86vh;object-fit:contain;
+    border-radius:8px;box-shadow:0 10px 60px rgba(0,0,0,0.5);
+    transition:opacity .2s ease;
+  }
+  .tl-fullscreen-close{
+    position:absolute;top:22px;right:26px;
+    width:44px;height:44px;border-radius:50%;border:none;
+    display:flex;align-items:center;justify-content:center;
+    font-size:1.7rem;line-height:1;color:#fff;
+    background:rgba(255,255,255,0.14);
+    cursor:pointer;transition:background .2s,transform .2s;
+  }
+  .tl-fullscreen-close:hover{background:rgba(255,255,255,0.26);transform:rotate(90deg);}
+  .tl-fullscreen-arrow{
+    position:absolute;top:50%;transform:translateY(-50%);
+    width:56px;height:56px;border-radius:50%;border:none;
+    display:flex;align-items:center;justify-content:center;
+    background:rgba(255,255,255,0.85);color:var(--teal-deep,#1D4E4E);
+    box-shadow:0 4px 18px rgba(0,0,0,0.3);
+    cursor:pointer;transition:background .2s ease,transform .2s ease;
+  }
+  .tl-fullscreen-arrow:hover{background:#fff;transform:translateY(-50%) scale(1.08);}
+  .tl-fullscreen-arrow:disabled{opacity:0.4;cursor:default;transform:translateY(-50%);}
+  .tl-fullscreen-prev{left:22px;}
+  .tl-fullscreen-next{right:22px;}
+  .tl-fullscreen-counter{
+    position:absolute;bottom:26px;left:50%;transform:translateX(-50%);
+    color:#fff;font-family:'JetBrains Mono',monospace;font-size:0.82rem;
+    background:rgba(255,255,255,0.14);padding:5px 14px;border-radius:20px;
+  }
+  @media (max-width:640px){
+    .tl-fullscreen-arrow{width:44px;height:44px;}
+    .tl-fullscreen-prev{left:10px;}
+    .tl-fullscreen-next{right:10px;}
+    .tl-onimage-arrow{width:36px;height:36px;}
+  }
+</style>
+<style>
+/* Fixed header on tour pages */
+header{
+  position:fixed;
+  top:0;
+  left:0;
+  right:0;
+  z-index:200;
+  transition:background .25s ease, box-shadow .25s ease, backdrop-filter .25s ease;
+}
+header.scrolled{
+  background:rgba(18,49,43,0.96);
+  -webkit-backdrop-filter:blur(10px);
+  backdrop-filter:blur(10px);
+  box-shadow:0 2px 18px rgba(0,0,0,0.18);
+}
+html{scroll-padding-top:72px;}
+@media (max-width:640px){
+  html{scroll-padding-top:66px;}
+}
+body:has(#burgerWrap.open) .wa-float{
+  opacity:0;
+  pointer-events:none;
+}
+</style>
+<style>
+/* ---- merged Tours page: tab bar (sticky under the header) ---- */
+.tours-tabs{position:sticky;top:var(--hdr-h,66px);z-index:90;display:flex;justify-content:center;gap:10px;flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;
+  padding:14px 16px 16px;background:rgba(255,253,248,.94);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border-bottom:1px solid var(--sand-deep,#E7DCC3)}
+.tours-tabs::-webkit-scrollbar{display:none}
+.tours-tab{flex:0 0 auto;display:inline-flex;align-items:center;gap:10px;font-family:'Work Sans',sans-serif;font-weight:700;font-size:.92rem;cursor:pointer;
+  background:#fff;color:var(--ink,#221F1A);border:1.5px solid rgba(36,31,25,.12);border-radius:99px;padding:8px 22px 8px 9px;box-shadow:0 2px 6px rgba(36,31,25,.06);
+  transition:transform .22s cubic-bezier(.2,.8,.2,1),box-shadow .22s,background .22s,color .22s,border-color .22s}
+.tours-tab-ico{width:34px;height:34px;border-radius:50%;background:var(--sand,#F3ECDD);display:grid;place-items:center;font-size:1.1rem;line-height:1;transition:transform .3s cubic-bezier(.3,1.6,.5,1),background .22s}
+.tours-tab:hover{transform:translateY(-3px);border-color:var(--teal-deep,#2C5E1A);box-shadow:0 10px 22px rgba(44,94,26,.2)}
+.tours-tab:hover .tours-tab-ico{transform:rotate(-12deg) scale(1.12)}
+.tours-tab:active{transform:translateY(0) scale(.97)}
+.tours-tab.is-active{background:linear-gradient(135deg,#3f8a2a 0%,#2C5E1A 55%,#1b3d10 100%);color:#fff;border-color:transparent;box-shadow:0 10px 24px rgba(44,94,26,.4)}
+.tours-tab.is-active .tours-tab-ico{background:#fff;transform:scale(1.08)}
+.tours-tab:focus-visible{outline:3px solid rgba(62,114,184,.55);outline-offset:3px}
+.tours-panel[hidden]{display:none}
+@media (min-width:760px){.tours-tabs{overflow:visible}}
+@media (max-width:759px){.tours-tabs{justify-content:flex-start}.tours-tab{padding:7px 16px 7px 7px;font-size:.86rem}.tours-tab-ico{width:30px;height:30px}}
+</style>
+<style id="compact-btns">
+.tours-tabs{gap:8px;padding:10px 12px 12px}
+.tours-tab{gap:7px;padding:5px 15px 5px 5px;font-size:.84rem;border-width:1px}
+.tours-tab-ico{width:26px;height:26px;font-size:.95rem}
+@media (max-width:759px){
+  .tours-tabs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;padding:8px 10px 10px;overflow:visible}
+  .tours-tab{flex-direction:column;justify-content:flex-start;gap:3px;padding:6px 3px;border-radius:14px;font-size:.7rem;line-height:1.15;text-align:center;white-space:normal}
+  .tours-tab-ico{width:26px;height:26px}
+  .tours-tab:hover{transform:none}
+}
+.btn-dark{padding:10px 18px;font-size:.9rem}
+.btn-dark svg{width:12px;height:12px;padding:6px}
+</style>
+</head>
+
+<body>
+<header>
+  <div class="nav-inner">
+    <a href="../index.html#home" class="logo">
+      <img src="../Image/logo2.png" alt="Siem Ride logo" class="header-logo-img">
+    </a>
+
+    <nav class="main-nav" id="mainNav">
+      <!-- Bottom Flat Amber Line -->
+      <div id="bottomAmberLine" class="bottom-amber-line"></div>
+      <ul>
+        <li><a href="../index.html#home" data-i18n="nav_home">Home</a></li>
+        <li><a href="Tours.html" class="active" data-i18n="nav_tours">Tour</a></li>
+        <li><a href="../Rentals/Rental.html" data-i18n="nav_rental">Rental</a></li>
+        <li><a href="../Blog/Blog.html" data-i18n="nav_blog">Blog</a></li>
+        <li><a href="../About%20Us/About%20Us.html" data-i18n="nav_about">About Us</a></li>
+      </ul>
+    </nav>
+
+    <div class="nav-right-group">
+      <div class="nav-mid-spacer">
+        <div class="dd-wrap" id="langWrap">
+          <button class="lang-btn" id="langBtn" aria-label="Change language">
+            <img id="langFlagSlot" class="lang-flag-img" src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f1ec-1f1e7.svg" alt="EN">
+            <svg class="mini-caret" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+          <div class="dd-panel lang-panel" id="langPanel">
+            <a href="#" data-lang="en"><img class="lang-flag-img" src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f1ec-1f1e7.svg" alt="English" loading="lazy" decoding="async"> English</a>
+            <a href="#" data-lang="km"><img class="lang-flag-img" src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f1f0-1f1ed.svg" alt="Khmer" loading="lazy" decoding="async"> ខ្មែរ (Khmer)</a>
+            <a href="#" data-lang="vi"><img class="lang-flag-img" src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f1fb-1f1f3.svg" alt="Vietnamese" loading="lazy" decoding="async"> Tiếng Việt (Vietnamese)</a>
+            <a href="#" data-lang="th"><img class="lang-flag-img" src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f1f9-1f1ed.svg" alt="Thai" loading="lazy" decoding="async"> ภาษาไทย (Thai)</a>
+            <a href="#" data-lang="zh"><img class="lang-flag-img" src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f1e8-1f1f3.svg" alt="Chinese" loading="lazy" decoding="async"> 中文 (Chinese)</a>
+            <a href="#" data-lang="ja"><img class="lang-flag-img" src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f1ef-1f1f5.svg" alt="Japanese" loading="lazy" decoding="async"> 日本語 (Japanese)</a>
+            <a href="#" data-lang="ko"><img class="lang-flag-img" src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f1f0-1f1f7.svg" alt="Korean" loading="lazy" decoding="async"> 한국어 (Korean)</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="nav-actions">
+
+      <a class="call-btn" href="tel:+85512610269" aria-label="Call us +855 12 610 269"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4h3.5l1.8 4.6-2.2 1.4a11 11 0 0 0 5.9 5.9l1.4-2.2L20 15.5V19a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2-2z"/></svg>
+        <span class="call-copy">
+          <span class="call-label" data-i18n="call_label">Call Us</span>
+          <span class="call-text">+855 12 610 269</span>
+        </span>
+      </a>
+
+      <span class="nav-divider"></span>
+
+      <!-- Burger Menu Drawer -->
+      <div class="dd-wrap" id="burgerWrap">
+        <button class="burger" id="burgerBtn" aria-label="Menu">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+        </button>
+        <div class="side-panel-overlay" id="panelOverlay"></div>
+        <div class="dd-panel burger-panel side-panel" id="burgerPanel">
+          <button class="side-panel-close" id="panelClose" aria-label="Close menu">&times;</button>
+          <div class="panel-body">
+
+            <div class="panel-brand">
+              <img src="../Image/logo2.png" alt="Siem Ride logo" class="panel-logo" loading="lazy" decoding="async">
+              <span class="panel-brand-text">SIEM<span>RIDE</span></span>
+            </div>
+            <div class="panel-divider"></div>
+
+            <!-- GROUP 1: Nav Menu -->
+            <div class="panel-group panel-group-nav">
+              <nav class="panel-nav-list">
+                <a href="../index.html#home" data-i18n="nav_home">Home</a>
+                <a href="Tours.html" class="active" data-i18n="nav_tours">Tour</a>
+                <a href="../Rentals/Rental.html" data-i18n="nav_rental">Rental</a>
+                <a href="../Blog/Blog.html" data-i18n="nav_blog">Blog</a>
+                <a href="../About%20Us/About%20Us.html" data-i18n="nav_about">About Us</a>
+              </nav>
+            </div>
+
+            <!-- GROUP 2: Contact Info / Address -->
+            <div class="panel-group panel-group-contact">
+              <div class="panel-contact-item">
+                <div class="panel-contact-text">
+                  <h6 data-i18n="burger_officeAddress">Address:</h6>
+                  <a href="https://www.google.com/search?sca_esv=722160d45c52a345&sxsrf=APpeQnv_ufNh0-DdbDZDmF8cnXNRlVd7KA:1784443743758&q=celliers+d%27asie+siem+reap+branch+krong+siem+reap+address&ludocid=7669055108806559654&sa=X&ved=2ahUKEwi9iN_7kt6VAxVn3jgGHaILJsMQ6BN6BAg1EAI" target="_blank" rel="noopener" class="panel-contact-link panel-address-link">Wat Bo Road, Siem Reap, Cambodia</a>
+                </div>
+              </div>
+
+              <div class="panel-contact-item">
+                <div class="panel-contact-text">
+                  <h6 data-i18n="burger_phoneNumber">Mobile:</h6>
+                  <a href="tel:+85512610269" class="panel-contact-link panel-phone-link">+855 12 610 269</a>
+                </div>
+              </div>
+
+              <div class="panel-contact-item">
+                <div class="panel-contact-text">
+                  <h6 data-i18n="burger_emailAddress">E-Mail:</h6>
+                  <a href="mailto:siemride@gmail.com" class="panel-contact-link">siemride@gmail.com</a>
+                </div>
+              </div>
+            </div>
+
+            <!-- GROUP 3: Social Media -->
+            <div class="panel-group panel-group-social">
+              <div class="panel-social-icons">
+                <a href="https://wa.me/85512610269" target="_blank" rel="noopener" aria-label="WhatsApp"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></a>
+                <a href="https://www.facebook.com/share/1D3mPvHArv/" target="_blank" rel="noopener" aria-label="Facebook"><svg width="16" height="16" viewBox="-1 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h-2.5A4.5 4.5 0 0 0 8 7.5V10H5v4h3v7h4v-7h3l1-4h-4V7.5a.5.5 0 0 1 .5-.5H15z"/></svg></a>
+                <a href="https://t.me/CHENLAheab" target="_blank" rel="noopener" aria-label="Telegram"><svg width="16" height="16" viewBox="-0.5 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 3L2 11l7 2.5L11.5 21l3-4.5L19 20z"/><path d="M9 13.5L22 3"/></svg></a>
+                <a href="https://www.tiktok.com" target="_blank" rel="noopener" aria-label="TikTok"><svg width="16" height="16" viewBox="0 -1.5 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3v11.2a3.7 3.7 0 1 1-3.7-3.7"/><path d="M14 3c.3 2.6 2 4.2 4.8 4.4"/></svg></a>
+                <a href="https://www.youtube.com" target="_blank" rel="noopener" aria-label="YouTube"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.5" y="5.5" width="19" height="13" rx="4"/><path d="M10 9.5l5 2.5-5 2.5z" fill="currentColor"/></svg></a>
+                <a href="https://www.tripadvisor.com" target="_blank" rel="noopener" aria-label="TripAdvisor"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="7" cy="14" r="3.4"/><circle cx="17" cy="14" r="3.4"/><path d="M1.5 10l3 .6M22.5 10l-3 .6M5 8c3.6-2.6 10.4-2.6 14 0"/><circle cx="7" cy="14" r="1" fill="currentColor"/><circle cx="17" cy="14" r="1" fill="currentColor"/></svg></a>
+              </div>
+            </div>
+
+            <!-- Contact Us Button (Outside Group 3, down 3 lines, centered in sidebar) -->
+            <div class="panel-action-wrap">
+              <button type="button" class="sr-contact-btn">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                <span data-i18n="panel_contactUs">Contact us</span>
+              </button>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+      <!-- /Burger -->
+
+      </div><!-- /.nav-actions -->
+    </div><!-- /.nav-right-group -->
+
+  </div><!-- /.nav-inner -->
+</header>
+<section class="hero tour-hero-centered" id="top">
+  <div class="hero-inner">
+    <div>
+      <span class="tour-hero-badge" data-i18n="tr_badge">KINGDOM OF CAMBODIA</span>
+      <h1 id="toursHeroTitle" data-i18n="dd_groupTours">Moto Tours</h1>
+      <p class="lede" id="toursHeroLede" data-i18n="tr_lede_moto">Real motorbikes, real backroads. Ride yourself or hop on the back with a local guide.</p>
+    </div>
+  </div>
+</section>
+
+<nav class="tours-tabs" id="toursTabs" role="tablist" aria-label="Tours">
+  <button type="button" class="tours-tab is-active" role="tab" aria-selected="true" data-tab="moto"><span class="tours-tab-ico">🏍️</span> <span data-i18n="dd_groupTours">Moto Tours</span></button>
+  <button type="button" class="tours-tab" role="tab" aria-selected="false" data-tab="bike"><span class="tours-tab-ico">🚲</span> <span data-i18n="dd_privateTours">Bike Tours</span></button>
+  <button type="button" class="tours-tab" role="tab" aria-selected="false" data-tab="ebike"><span class="tours-tab-ico">⚡</span> <span data-i18n="dd_tailorMade">E-Bike Tours</span></button>
+</nav>
+
+<div class="tours-panel" id="panel-moto" data-tab="moto" data-vehicle="Motorbike" data-package="Moto Tours">
+<section class="bt-listing" style="padding-top:32px;">
+  <div class="wrap">
+    <div class="bt-listing-head">
+      <h2 data-i18n="tr_h2_moto">Siem Reap Motorbike Tours</h2>
+    </div>
+
+    <div class="tour-select-wrap">
+      <div class="tour-select-heading" data-i18n="tr_options">Tour Options & Highlights</div>
+      <div class="tour-select-custom" id="tourSelectCustom">
+        <button type="button" class="tour-select-trigger" id="tourSelectTrigger" aria-haspopup="listbox" aria-expanded="false">
+          <span class="tour-select-current"><strong>1.</strong> <span class="tour-select-current-title">Kick-Start Motorbike Adventure to Kulen Mountain</span></span>
+          <svg class="tour-select-chevron" width="14" height="9" viewBox="0 0 14 9" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 1l6 6 6-6"/></svg>
+        </button>
+        <ul class="tour-select-list" id="tourSelectList" role="listbox" hidden>
+          <li role="option" data-value="1" class="tour-select-option active"><strong>1.</strong> Siem Reap Motorbike Tour to Phnom Kulen Mountain &amp; Waterfall, Local Village Experience</li>
+          <li role="option" data-value="2" class="tour-select-option"><strong>2.</strong> 2-Day Phnom Kulen &amp; Koh Ker Motorbike Tour, Cambodia Jungle Temple Adventure</li>
+          <li role="option" data-value="3" class="tour-select-option"><strong>3.</strong> Koh Ker Temple Motorbike Day Tour – Ancient Khmer Capital from Siem Reap</li>
+          <li role="option" data-value="4" class="tour-select-option"><strong>4.</strong> Kampong Phluk Floating Village &amp; Tonle Sap Sunset Motorbike Tour, Siem Reap</li>
+          <li role="option" data-value="5" class="tour-select-option"><strong>5.</strong> 3-Day Siem Reap to Battambang Motorbike Tour – Bat Cave, Bamboo Train &amp; Rural Cambodia</li>
+        </ul>
+      </div>
+    </div>
+
+
+    <div class="bt-layout" style="grid-template-columns:225px 1fr;gap:16px;">
+      <div class="bt-sidebar-col">
+        <div class="bt-itinerary" id="btItinerary">
+          <h4 class="bt-sidebar-title"><span data-i18n="bt_itinerary">Itinerary</span> <span class="bt-itin-subtitle">— 1. Kick-Start Motorbike Adventure to Kulen Mountain</span></h4>
+          <ol class="bt-itin-list" id="btItinList">
+            <li class="bt-itin-item bt-itin-endpoint">
+              <span class="bt-itin-dot bt-itin-dot-endpoint">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2a10 10 0 00-8.5 15.2L2 22l4.9-1.4A10 10 0 1012 2z"/></svg>
+              </span>
+              <div class="bt-itin-content">
+                <strong>7:00 AM</strong>
+                <p>Hotel lobby pickup and quick route briefing.</p>
+              </div>
+            </li>
+            <li class="bt-itin-item">
+              <span class="bt-itin-dot">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 21s-7-6.2-7-11a7 7 0 1114 0c0 4.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>
+              </span>
+              <div class="bt-itin-content">
+                <strong>7:30 AM</strong>
+                <p>Ride through countryside rice paddies.</p>
+              </div>
+            </li>
+            <li class="bt-itin-item">
+              <span class="bt-itin-dot">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 21s-7-6.2-7-11a7 7 0 1114 0c0 4.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>
+              </span>
+              <div class="bt-itin-content">
+                <strong>9:00 AM</strong>
+                <p>Stop at Wat Run and Tbaeng village.</p>
+              </div>
+            </li>
+            <li class="bt-itin-item">
+              <span class="bt-itin-dot">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 21s-7-6.2-7-11a7 7 0 1114 0c0 4.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>
+              </span>
+              <div class="bt-itin-content">
+                <strong>10:30 AM</strong>
+                <p>Jungle track climbs up Phnom Kulen.</p>
+              </div>
+            </li>
+            <li class="bt-itin-item">
+              <span class="bt-itin-dot">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 21s-7-6.2-7-11a7 7 0 1114 0c0 4.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>
+              </span>
+              <div class="bt-itin-content">
+                <strong>11:15 AM</strong>
+                <p>Swim at Kulen Waterfall.</p>
+              </div>
+            </li>
+            <li class="bt-itin-item">
+              <span class="bt-itin-dot">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 21s-7-6.2-7-11a7 7 0 1114 0c0 4.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>
+              </span>
+              <div class="bt-itin-content">
+                <strong>12:30 PM</strong>
+                <p>Lunch near the falls.</p>
+              </div>
+            </li>
+            <li class="bt-itin-item">
+              <span class="bt-itin-dot">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 21s-7-6.2-7-11a7 7 0 1114 0c0 4.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>
+              </span>
+              <div class="bt-itin-content">
+                <strong>1:30 PM</strong>
+                <p>Visit the Reclining Buddha.</p>
+              </div>
+            </li>
+            <li class="bt-itin-item">
+              <span class="bt-itin-dot">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 21s-7-6.2-7-11a7 7 0 1114 0c0 4.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>
+              </span>
+              <div class="bt-itin-content">
+                <strong>2:15 PM</strong>
+                <p>Walk the River of a Thousand Lingas.</p>
+              </div>
+            </li>
+            <li class="bt-itin-item">
+              <span class="bt-itin-dot">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 21s-7-6.2-7-11a7 7 0 1114 0c0 4.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>
+              </span>
+              <div class="bt-itin-content">
+                <strong>3:00 PM</strong>
+                <p>Scenic ride back to Siem Reap.</p>
+              </div>
+            </li>
+            <li class="bt-itin-item bt-itin-endpoint bt-itin-last">
+              <span class="bt-itin-dot bt-itin-dot-endpoint"></span>
+              <div class="bt-itin-content">
+                <strong>4:00 PM</strong>
+                <p>Arrive back at your hotel.</p>
+              </div>
+            </li>
+          </ol>
+
+          <a href="#" class="bt-itin-toggle" id="btItinToggle">Hide itinerary</a>
+
+          <div class="bt-itin-map" id="btItinMap">
+            <iframe
+              src="https://www.google.com/maps?saddr=Siem+Reap,+Cambodia&daddr=Wat+Run,+Cambodia+to:Phnom+Kulen+National+Park,+Cambodia+to:Kulen+Waterfall,+Cambodia+to:Preah+Ang+Thom+Reclining+Buddha,+Phnom+Kulen,+Cambodia+to:River+of+a+Thousand+Lingas,+Phnom+Kulen,+Cambodia+to:Siem+Reap,+Cambodia&output=embed"
+              width="100%" height="260" style="border:0;"
+              loading="lazy" allowfullscreen
+              referrerpolicy="no-referrer-when-downgrade"
+              title="Tour route map"></iframe>
+            <button type="button" class="bt-itin-map-locate" id="btItinMapLocate" title="Use my current location as the start point">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/></svg>
+              <span>Use my location</span>
+            </button>
+            <span class="bt-itin-map-label">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 21s-7-6.2-7-11a7 7 0 1114 0c0 4.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>
+              <span id="btItinMapLabel">7 route stops</span>
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <div class="bt-main-col">
+        <div class="bt-cards bt-cards-inspiration" id="btCards">
+         
+          <article class="bt-card"
+            data-full="Swing a leg over your kick-start motorbike and leave the city behind. Your journey winds through quiet villages where water buffaloes graze beside emerald rice paddies, past the Buddhist temple of Wat Run near Phnom Bok, and on through the rustic charm of Tbaeng village. As the road climbs toward Phnom Kulen — Cambodia's sacred mountain — jungle tracks replace pavement and panoramic views open up around every bend.||At the top, plunge into the cool waters of Kulen Waterfall, a refreshing reward after the ride, complete with a changing room for a proper swim. After a relaxed lunch near the falls, continue on to marvel at a Reclining Buddha carved in the 16th century, then follow the River of a Thousand Lingas, where centuries-old carvings rest beneath flowing water. The day winds down with a scenic ride back through local villages to Siem Reap, leaving you with dust on your boots and a head full of memories."
+            data-highlights="Motorbike ride through authentic local villages|Farm animals, rice paddies &amp; palm groves along rural roads|Off-road jungle trails with sweeping mountain views|Swim at the sacred Kulen Waterfall|Reclining Buddha &amp; the River of a Thousand Lingas"
+            data-included="Manual motorbike rental|Bottled water|Lunch|Hotel pick-up &amp; drop-off"
+            data-excluded="Phnom Kulen mountain entrance/pass fee"
+            data-location="Phnom Kulen National Park"
+            data-duration="9 hours (approx)"
+            data-tourstart="7:00 AM"
+            data-distance="90-100km (approx)"
+            data-pricenote="The price is per rider, for a small group tour."
+            data-seotitle="Siem Reap Motorbike Tour to Phnom Kulen Mountain &amp; Waterfall – Local Village Experience"
+            data-shortdesc="A full-day motorbike ride to Phnom Kulen for jungle trails, a sacred waterfall swim, and ancient Khmer relics."
+            data-notice="Wear closed shoes and clothing you don't mind getting dusty or wet — you'll be riding off-road and swimming at the waterfall. Cover shoulders and knees to visit the Reclining Buddha."
+            data-itinerary="7:00 AM::Our guide and driver pick you up from your hotel lobby. Gear check and a quick route briefing before setting off.||7:30 AM::Ride out through Siem Reap's back roads into the countryside, passing rice paddies and water buffalo grazing beside the road.||9:00 AM::Stop at Wat Run, a Buddhist temple near Phnom Bok, then continue on through the rustic charm of Tbaeng village.||10:30 AM::Pavement gives way to jungle track as the road climbs toward Phnom Kulen, Cambodia's sacred mountain, with panoramic views opening up around every bend.||11:15 AM::Arrive at Kulen Waterfall — plunge into the cool water, a refreshing reward after the ride (changing room on site).||12:30 PM::Relaxed lunch near the falls.||1:30 PM::Visit the Reclining Buddha, carved into the rock in the 16th century.||2:15 PM::Walk the River of a Thousand Lingas, where centuries-old carvings rest beneath flowing water.||3:00 PM::Begin the scenic ride back to Siem Reap through local villages.||4:00 PM::Arrive back at your hotel by tuk-tuk or moto.">
+            <div class="bt-card-thumb" data-images="../Image/Tour/Moto%20Tours/Kulen%20Mountain/Kulen%20Mountain%20%281%29.webp|../Image/Tour/Moto%20Tours/Kulen%20Mountain/Kulen%20Mountain%20%282%29.webp|../Image/Tour/Moto%20Tours/Kulen%20Mountain/Kulen%20Mountain%20%283%29.webp|../Image/Tour/Moto%20Tours/Kulen%20Mountain/Kulen%20Mountain%20%284%29.webp|../Image/Tour/Moto%20Tours/Kulen%20Mountain/Kulen%20Mountain%20%285%29.webp|../Image/Tour/Moto%20Tours/Kulen%20Mountain/Kulen%20Mountain%20%286%29.webp|../Image/Tour/Moto%20Tours/Kulen%20Mountain/Kulen%20Mountain%20%287%29.webp">
+              <div class="bt-card-thumb-viewport">
+                <img src="../Image/Tour/Moto%20Tours/Kulen%20Mountain/Kulen%20Mountain%20%281%29.webp" alt="Siem Reap motorbike tour to Phnom Kulen Mountain and waterfall" loading="lazy" decoding="async">
+                <span class="bt-badge-location">📍 <span>Phnom Kulen National Park</span></span>
+                <span class="bt-card-caption"><span class="bt-cat-icon">🏍️</span> <span>
+                  1. Kick-Start Motorbike Adventure to Kulen Mountain</span></span>
+              </div>
+            </div>
+            <div class="bt-card-body">
+              <h3 onclick="openTourDetail(this); return false;">1. Siem Reap Motorbike Tour to Phnom Kulen Mountain &amp; Waterfall, Local Village Experience</h3>
+              <ul class="bt-card-list">
+                <li>Motorbike ride through authentic local villages</li>
+                <li>Farm animals, rice paddies &amp; palm groves along rural roads</li>
+                <li>Off-road jungle trails with sweeping mountain views</li>
+                <li>Swim at the sacred Kulen Waterfall</li>
+                <li>Reclining Buddha &amp; the River of a Thousand Lingas</li>
+              </ul>
+            </div>
+            <div class="bt-card-price">
+              <div class="bt-price"><span class="bt-currency">$</span>119</div>
+              <div class="bt-price-note">*starting price</div>
+              <div class="bt-price-note">*per rider, group tour</div>
+              <a href="#" class="bt-details" onclick="openTourDetail(this); return false;">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+                <span>Details</span>
+              </a>
+            </div>
+          </article>
+
+          <article class="bt-card"
+            data-full="Some adventures need more than a day — this is one of them. Setting off from Siem Reap, your motorbike carries you through rice fields and jungle trails to Phnom Kulen, Cambodia's most revered mountain. Here you'll stand before the Reclining Buddha, trace the River of a Thousand Lingas, and cool off beneath the cascading Kulen waterfalls before settling in for a comfortable night's rest.||Day two takes you deeper into the wild, toward Koh Ker — the forgotten 10th-century capital of the Khmer Empire, swallowed by jungle for centuries. Arrive at the towering pyramid temple of Prasat Thom and wander among crumbling ruins far from the tourist crowds, guided by a rider who knows every trail and every story behind the stones."
+            data-highlights="Motorbike ride through countryside and dense jungle|Swimming at Phnom Kulen's sacred waterfalls|Reclining Buddha &amp; the River of a Thousand Lingas|Prasat Thom pyramid temple at Koh Ker|Overnight resort stay with an experienced local guide"
+            data-included="Motorcycle, fuel &amp; experienced guide|Helmet|1-night accommodation|Entrance fees (Phnom Kulen &amp; Koh Ker)|Breakfast &amp; lunch"
+            data-excluded="Dinner|Drinks|Personal travel insurance"
+            data-location="Phnom Kulen &amp; Koh Ker"
+            data-pricenote="The price is per rider, for a small group tour."
+            data-seotitle="2-Day Phnom Kulen &amp; Koh Ker Motorbike Tour – Cambodia Jungle Temple Adventure"
+            data-shortdesc="A two-day motorbike journey from Kulen's sacred waterfalls to the jungle pyramid of Koh Ker, with an overnight stay along the way.">
+            <div class="bt-card-thumb" data-images="../Image/Tour/Moto%20Tours/Kulen%20Kohker/Kulen%20Kohker%20%281%29.webp|../Image/Tour/Moto%20Tours/Kulen%20Kohker/Kulen%20Kohker%20%282%29.webp|../Image/Tour/Moto%20Tours/Kulen%20Kohker/Kulen%20Kohker%20%283%29.webp|../Image/Tour/Moto%20Tours/Kulen%20Kohker/Kulen%20Kohker%20%284%29.webp|../Image/Tour/Moto%20Tours/Kulen%20Kohker/Kulen%20Kohker%20%285%29.webp|../Image/Tour/Moto%20Tours/Kulen%20Kohker/Kulen%20Kohker%20%286%29.webp|../Image/Tour/Moto%20Tours/Kulen%20Kohker/Kulen%20Kohker%20%287%29.webp">
+              <div class="bt-card-thumb-viewport">
+                <img src="../Image/Tour/Moto%20Tours/Kulen%20Kohker/Kulen%20Kohker%20%281%29.webp" alt="Phnom Kulen and Koh Ker two-day motorbike expedition" loading="lazy" decoding="async">
+                <span class="bt-badge-location">📍 <span>Phnom Kulen &amp; Koh Ker</span></span>
+                <span class="bt-card-caption"><span class="bt-cat-icon">🏍️</span> <span>2. Phnom Kulen – Koh Ker Two-Day Expedition</span></span>
+              </div>
+            </div>
+            <div class="bt-card-body">
+              <h3 onclick="openTourDetail(this); return false;">2. 2-Day Phnom Kulen &amp; Koh Ker Motorbike Tour, Cambodia Jungle Temple Adventure</h3>
+              <ul class="bt-card-list">
+                <li>Motorbike ride through countryside and dense jungle</li>
+                <li>Swimming at Phnom Kulen's sacred waterfalls</li>
+                <li>Reclining Buddha &amp; the River of a Thousand Lingas</li>
+                <li>Prasat Thom pyramid temple at Koh Ker</li>
+                <li>Overnight resort stay with an experienced local guide</li>
+              </ul>
+            </div>
+            <div class="bt-card-price">
+              <div class="bt-price"><span class="bt-currency">$</span>219</div>
+              <div class="bt-price-note">*starting price</div>
+              <div class="bt-price-note">*per rider, group tour</div>
+              <a href="#" class="bt-details" onclick="openTourDetail(this); return false;">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+                <span>Details</span>
+              </a>
+            </div>
+          </article>
+
+          <article class="bt-card"
+            data-full="Leave the familiar streets of Siem Reap behind as red dirt trails and rice fields unfold before your wheels. This full-day motorbike journey carries you through remote villages where daily life moves at its own gentle pace, all the way to Koh Ker — once the thriving 10th-century capital of the Khmer Empire, now reclaimed by jungle.||Arriving at Prasat Thom, its stepped pyramid rises dramatically from the tree line, offering a rare, uncrowded glimpse into Cambodia's ancient past. Explore the surrounding ruins, scattered like puzzle pieces of a forgotten empire, before the ride home — dusty, exhilarated, and full of stories worth telling."
+            data-highlights="Scenic motorbike ride through rural Cambodia|Prasat Thom pyramid temple exploration|Jungle-covered ancient ruins|Rice fields &amp; remote village scenery|Guided by an experienced local rider"
+            data-included="Motorcycle, fuel &amp; experienced guide|Helmet|Lunch|Temple entrance fees"
+            data-excluded="Drinks|Personal travel insurance"
+            data-location="Koh Ker"
+            data-pricenote="The price is per rider, for a small group tour."
+            data-seotitle="Koh Ker Temple Motorbike Day Tour – Ancient Khmer Capital from Siem Reap"
+            data-shortdesc="A full-day motorbike ride to the jungle-hidden Prasat Thom pyramid, once capital of the Khmer Empire.">
+            <div class="bt-card-thumb" data-images="../Image/Tour/Moto%20Tours/Kohker%20Pyramid/Kohker%20Pyramid%20%281%29.webp|../Image/Tour/Moto%20Tours/Kohker%20Pyramid/Kohker%20Pyramid%20%282%29.webp|../Image/Tour/Moto%20Tours/Kohker%20Pyramid/Kohker%20Pyramid%20%283%29.webp|../Image/Tour/Moto%20Tours/Kohker%20Pyramid/Kohker%20Pyramid%20%284%29.webp|../Image/Tour/Moto%20Tours/Kohker%20Pyramid/Kohker%20Pyramid%20%285%29.webp|../Image/Tour/Moto%20Tours/Kohker%20Pyramid/Kohker%20Pyramid%20%286%29.webp|../Image/Tour/Moto%20Tours/Kohker%20Pyramid/Kohker%20Pyramid%20%287%29.webp">
+              <div class="bt-card-thumb-viewport">
+                <img src="../Image/Tour/Moto%20Tours/Kohker%20Pyramid/Kohker%20Pyramid%20%281%29.webp" alt="Koh Ker pyramid temple day tour by motorbike" loading="lazy" decoding="async">
+                <span class="bt-badge-location">📍 <span>Koh Ker</span></span>
+                <span class="bt-card-caption"><span class="bt-cat-icon">🏍️</span> <span>3. Koh Ker Pyramid Temple Day Tour</span></span>
+              </div>
+            </div>
+            <div class="bt-card-body">
+              <h3 onclick="openTourDetail(this); return false;">3. Koh Ker Temple Motorbike Day Tour – Ancient Khmer Capital from Siem Reap</h3>
+              <ul class="bt-card-list">
+                <li>Scenic motorbike ride through rural Cambodia</li>
+                <li>Prasat Thom pyramid temple exploration</li>
+                <li>Jungle-covered ancient ruins</li>
+                <li>Rice fields &amp; remote village scenery</li>
+                <li>Guided by an experienced local rider</li>
+              </ul>
+            </div>
+            <div class="bt-card-price">
+              <div class="bt-price"><span class="bt-currency">$</span>159</div>
+              <div class="bt-price-note">*starting price</div>
+              <div class="bt-price-note">*per rider, group tour</div>
+              <a href="#" class="bt-details" onclick="openTourDetail(this); return false;">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+                <span>Details</span>
+              </a>
+            </div>
+          </article>
+
+          <article class="bt-card"
+            data-full="This afternoon adventure begins with the hum of a Honda Dream motorbike carrying you east out of Siem Reap, into a Cambodia most travelers never see. Pass a bustling local market and school, then ride alongside farmers tending vivid green rice paddies. A stop at a local handicraft workshop reveals the art of weaving traditional Cambodian baskets by hand.||The road continues past the ancient Wat Chedei pagoda and a fascinating lotus farm, where artisans transform lotus fibers into one of the world's rarest fabrics. Lunch is enjoyed lakeside at a peaceful water reservoir before the real magic begins: an hour's ride to Kampong Phluk, a stilt-house village rising from the Tonle Sap Lake. Trade your motorbike for a boat and drift through this floating community as the sun dips low, painting the water gold — a photographer's dream and a fitting finale to a day steeped in rural Cambodian life."
+            data-highlights="Local market &amp; village school visit|Traditional lotus farm &amp; handmade lotus fabric workshop|Ancient Wat Chedei pagoda|Cambodian basket-weaving craft demonstration|Sunset boat cruise over Tonle Sap Lake"
+            data-included="Motorbike &amp; driver-guide|Boat ticket|Bottled water &amp; soft drinks|Snacks &amp; local bites|Hotel pick-up &amp; drop-off"
+            data-excluded="Main restaurant meal (paid individually)"
+            data-location="Kampong Phluk, Tonlé Sap Lake"
+            data-pricenote="The price is per rider, for a small group tour."
+            data-seotitle="Kampong Phluk Floating Village &amp; Tonle Sap Sunset Motorbike Tour, Siem Reap"
+            data-shortdesc="Ride past rice fields and pagodas, then board a boat into Kampong Phluk's floating village for a Tonle Sap sunset.">
+            <div class="bt-card-thumb" data-images="../Image/Tour/Moto%20Tours/Floating%20Village/Floating%20%281%29.webp|../Image/Tour/Moto%20Tours/Floating%20Village/Floating%20%282%29.webp|../Image/Tour/Moto%20Tours/Floating%20Village/Floating%20%283%29.webp|../Image/Tour/Moto%20Tours/Floating%20Village/Floating%20%284%29.webp|../Image/Tour/Moto%20Tours/Floating%20Village/Floating%20%285%29.webp|../Image/Tour/Moto%20Tours/Floating%20Village/Floating%20%286%29.webp|../Image/Tour/Moto%20Tours/Floating%20Village/Floating%20%287%29.webp">
+              <div class="bt-card-thumb-viewport">
+                <img src="../Image/Tour/Moto%20Tours/Floating%20Village/Floating%20%281%29.webp" alt="Kampong Phluk floating village sunset motorbike tour" loading="lazy" decoding="async">
+                <span class="bt-badge-location">📍 <span>Kampong Phluk, Tonlé Sap Lake</span></span>
+                <span class="bt-card-caption"><span class="bt-cat-icon">🏍️</span> <span>4. Floating Village Sunset Motorbike Tour</span></span>
+              </div>
+            </div>
+            <div class="bt-card-body">
+              <h3 onclick="openTourDetail(this); return false;">4. Kampong Phluk Floating Village &amp; Tonle Sap Sunset Motorbike Tour, Siem Reap</h3>
+              <ul class="bt-card-list">
+                <li>Local market &amp; village school visit</li>
+                <li>Traditional lotus farm &amp; handmade lotus fabric workshop</li>
+                <li>Ancient Wat Chedei pagoda</li>
+                <li>Cambodian basket-weaving craft demonstration</li>
+                <li>Sunset boat cruise over Tonle Sap Lake</li>
+              </ul>
+            </div>
+            <div class="bt-card-price">
+              <div class="bt-price"><span class="bt-currency">$</span>99</div>
+              <div class="bt-price-note">*starting price</div>
+              <div class="bt-price-note">*per rider, group tour</div>
+              <a href="#" class="bt-details" onclick="openTourDetail(this); return false;">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+                <span>Details</span>
+              </a>
+            </div>
+          </article>
+
+          <article class="bt-card" id="tour-3day-battambang"
+            data-full="This is a road trip built for those chasing the real Cambodia. Setting out from Siem Reap, your motorbike traces backroads through some of the country's most beautiful countryside, rolling past rice paddies and villages where life unfolds unhurried and unposed.||As the first day fades, witness one of nature's great spectacles: thousands of bats pouring from the Bat Cave into the darkening sky. Day two brings you into Battambang, where you'll ride the legendary Bamboo Train, visit a centuries-old temple, and unwind beside the still waters of Kamping Puoy Lake. With comfortable accommodation each night and every activity included, this three-day escape blends adventure, culture, and countryside serenity into one unforgettable ride."
+            data-highlights="Scenic motorbike ride from Siem Reap to Battambang|Bat Cave sunset spectacle|Ride on the iconic Bamboo Train|Ancient temple visit|Kamping Puoy Lake &amp; rural village landscapes"
+            data-included="Motorcycle, fuel &amp; experienced guide|Meals &amp; helmet|2 nights' accommodation|Entrance fees|All listed activities (Bat Cave, Bamboo Train, Kamping Puoy Lake)"
+            data-excluded="Extra drinks|Personal travel insurance"
+            data-location="Battambang"
+            data-pricenote="The price is per rider, for a small group tour."
+            data-seotitle="3-Day Siem Reap to Battambang Motorbike Tour – Bat Cave, Bamboo Train &amp; Rural Cambodia"
+            data-shortdesc="A three-day motorbike trip to Battambang featuring the Bat Cave sunset and a ride on the Bamboo Train.">
+            <div class="bt-card-thumb" data-images="../Image/Tour/Moto%20Tours/Battambang/Battambang%20%281%29.webp|../Image/Tour/Moto%20Tours/Battambang/Battambang%20%282%29.webp|../Image/Tour/Moto%20Tours/Battambang/Battambang%20%283%29.webp|../Image/Tour/Moto%20Tours/Battambang/Battambang%20%284%29.webp|../Image/Tour/Moto%20Tours/Battambang/Battambang%20%285%29.webp|../Image/Tour/Moto%20Tours/Battambang/Battambang%20%286%29.webp|../Image/Tour/Moto%20Tours/Battambang/Battambang%20%287%29.webp">
+              <div class="bt-card-thumb-viewport">
+                <img src="../Image/Tour/Moto%20Tours/Battambang/Battambang%20%281%29.webp" alt="Battambang motorbike adventure, Bat Cave and Bamboo Train" loading="lazy" decoding="async">
+                <span class="bt-badge-location">📍 <span>Battambang</span></span>
+                <span class="bt-card-caption"><span class="bt-cat-icon">🏍️</span> <span>5. Battambang Motorbike Adventure</span></span>
+              </div>
+            </div>
+            <div class="bt-card-body">
+              <h3 onclick="openTourDetail(this); return false;">5. 3-Day Siem Reap to Battambang Motorbike Tour – Bat Cave, Bamboo Train &amp; Rural Cambodia</h3>
+              <ul class="bt-card-list">
+                <li>Scenic motorbike ride from Siem Reap to Battambang</li>
+                <li>Bat Cave sunset spectacle</li>
+                <li>Ride on the iconic Bamboo Train</li>
+                <li>Ancient temple visit</li>
+                <li>Kamping Puoy Lake &amp; rural village landscapes</li>
+              </ul>
+            </div>
+            <div class="bt-card-price">
+              <div class="bt-price"><span class="bt-currency">$</span>419</div>
+              <div class="bt-price-note">*starting price</div>
+              <div class="bt-price-note">*per rider, group tour</div>
+              <a href="#" class="bt-details" onclick="openTourDetail(this); return false;">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+                <span>Details</span>
+              </a>
+            </div>
+          </article>
+
+          <p class="bt-more-note" data-i18n="tr_more_moto">Want something different? Message us on WhatsApp and we'll build a custom moto route around your dates.</p>
+
+        </div>
+
+        <div class="bt-cta-row">
+          <button type="button" class="btn btn-dark" id="tailorStartBtn">
+            <span data-i18n="tr_book_moto">Book a Moto Tour</span>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<script>
+(function(root){
+function $(id){return root.querySelector("#"+id);}
+(function(){
+  var itin = $('btItinerary');
+  var ctaRow = root.querySelector('.bt-cta-row');
+  if(!itin || !ctaRow) return;
+
+  var homeParent = itin.parentNode;
+  var homeNext = itin.nextSibling; // remembers exact spot inside the sidebar
+
+  function reposition(mq){
+    if(mq.matches){
+      // Small screen: place itinerary+map right above the "Book a Moto Tour" button
+      ctaRow.parentNode.insertBefore(itin, ctaRow);
+    } else {
+      // Wider screen: put it back in the sidebar column
+      homeParent.insertBefore(itin, homeNext);
+    }
+  }
+
+  var mq = window.matchMedia('(max-width:900px)');
+  reposition(mq);
+  if(mq.addEventListener){ mq.addEventListener('change', reposition); }
+  else if(mq.addListener){ mq.addListener(reposition); }
+})();
+
+(function(){
+  var custom = $('tourSelectCustom');
+  var trigger = $('tourSelectTrigger');
+  var triggerTitle = trigger ? trigger.querySelector('.tour-select-current-title') : null;
+  var triggerNum = trigger ? trigger.querySelector('.tour-select-current strong') : null;
+  var list = $('tourSelectList');
+  var subtitle = root.querySelector('#btItinerary .bt-itin-subtitle');
+  var itinList = $('btItinList');
+  var mapFrame = root.querySelector('#btItinMap iframe');
+  var mapLabel = $('btItinMapLabel');
+  var mapLocateBtn = $('btItinMapLocate');
+  if(!trigger || !list || !subtitle || !itinList) return;
+
+  var currentTourId = '1';
+  var userOrigin = null; // "lat,lng" once geolocation succeeds
+
+  // Endpoint / stop dot icons (reused from the existing markup)
+  var endpointDotSvg = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2a10 10 0 00-8.5 15.2L2 22l4.9-1.4A10 10 0 1012 2z"/></svg>';
+  var stopDotSvg = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 21s-7-6.2-7-11a7 7 0 1114 0c0 4.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>';
+
+  var tours = {
+    '1': {
+      num: '1.', title: 'Siem Reap Motorbike Tour to Phnom Kulen Mountain & Waterfall, Local Village Experience',
+      map: 'Phnom Kulen National Park, Cambodia',
+      mapStops: [
+        'Siem Reap, Cambodia',
+        'Wat Run, Cambodia',
+        'Phnom Kulen National Park, Cambodia',
+        'Kulen Waterfall, Cambodia',
+        'Preah Ang Thom Reclining Buddha, Phnom Kulen, Cambodia',
+        'River of a Thousand Lingas, Phnom Kulen, Cambodia',
+        'Siem Reap, Cambodia'
+      ],
+      stops: [
+        ['7:00 AM', 'Hotel lobby pickup and quick route briefing.'],
+        ['7:30 AM', 'Ride through countryside rice paddies.'],
+        ['9:00 AM', 'Stop at Wat Run and Tbaeng village.'],
+        ['10:30 AM', 'Jungle track climbs up Phnom Kulen.'],
+        ['11:15 AM', 'Swim at Kulen Waterfall.'],
+        ['12:30 PM', 'Lunch near the falls.'],
+        ['1:30 PM', 'Visit the Reclining Buddha.'],
+        ['2:15 PM', 'Walk the River of a Thousand Lingas.'],
+        ['3:00 PM', 'Scenic ride back to Siem Reap.'],
+        ['4:00 PM', 'Arrive back at your hotel.']
+      ]
+    },
+    '2': {
+      num: '2.', title: '2-Day Phnom Kulen & Koh Ker Motorbike Tour, Cambodia Jungle Temple Adventure',
+      map: 'Koh Ker, Cambodia',
+      mapStops: [
+        'Siem Reap, Cambodia',
+        'Phnom Kulen National Park, Cambodia',
+        'Koh Ker, Cambodia',
+        'Siem Reap, Cambodia'
+      ],
+      stops: [
+        ['Pickup', 'Your hotel in Siem Reap, Day 1.'],
+        ['Day 1', 'Ride through countryside and jungle trails.'],
+        ['Day 1', "Swim at Phnom Kulen's sacred waterfalls."],
+        ['Day 1', 'Visit the Reclining Buddha & River of a Thousand Lingas.'],
+        ['Overnight', 'Comfortable stay along the way.'],
+        ['Day 2', "Jungle ride to Koh Ker's Prasat Thom pyramid."],
+        ['Arrive back at', 'Your hotel, end of Day 2.']
+      ]
+    },
+    '3': {
+      num: '3.', title: 'Koh Ker Temple Motorbike Day Tour – Ancient Khmer Capital from Siem Reap',
+      map: 'Koh Ker, Cambodia',
+      mapStops: [
+        'Siem Reap, Cambodia',
+        'Koh Ker, Cambodia',
+        'Siem Reap, Cambodia'
+      ],
+      stops: [
+        ['Pickup', 'Your hotel in Siem Reap.'],
+        ['En route', 'Scenic ride through rice fields and villages.'],
+        ['Arrive', 'Koh Ker\u2019s jungle-covered ancient ruins.'],
+        ['Explore', 'The towering Prasat Thom pyramid temple.'],
+        ['Return', 'Ride back to Siem Reap.'],
+        ['Arrive back at', 'Your hotel.']
+      ]
+    },
+    '4': {
+      num: '4.', title: 'Kampong Phluk Floating Village & Tonle Sap Sunset Motorbike Tour, Siem Reap',
+      map: 'Kampong Phluk, Cambodia',
+      mapStops: [
+        'Siem Reap, Cambodia',
+        'Wat Chedei, Cambodia',
+        'Kampong Phluk Floating Village, Cambodia',
+        'Siem Reap, Cambodia'
+      ],
+      stops: [
+        ['Pickup', 'Your hotel in Siem Reap.'],
+        ['Visit', 'A local market and village school.'],
+        ['Stop', 'Wat Chedei pagoda and a lotus farm workshop.'],
+        ['See', 'A traditional basket-weaving demonstration.'],
+        ['Sunset', 'Boat cruise into Kampong Phluk floating village.'],
+        ['Arrive back at', 'Your hotel.']
+      ]
+    },
+    '5': {
+      num: '5.', title: '3-Day Siem Reap to Battambang Motorbike Tour – Bat Cave, Bamboo Train & Rural Cambodia',
+      map: 'Battambang, Cambodia',
+      mapStops: [
+        'Siem Reap, Cambodia',
+        'Battambang, Cambodia',
+        'Phnom Sampov Bat Cave, Battambang, Cambodia',
+        'Bamboo Train, Battambang, Cambodia',
+        'Kamping Puoy Lake, Cambodia',
+        'Siem Reap, Cambodia'
+      ],
+      stops: [
+        ['Pickup', 'Your hotel in Siem Reap, Day 1.'],
+        ['Day 1', 'Scenic ride from Siem Reap to Battambang.'],
+        ['Sunset', 'Bat Cave spectacle.'],
+        ['Day 2', 'Ride the legendary Bamboo Train.'],
+        ['Day 2-3', 'Ancient temple visit & Kamping Puoy Lake.'],
+        ['Arrive back at', 'Your hotel, end of Day 3.']
+      ]
+    }
+  };
+
+  function render(id){
+    var tour = tours[id];
+    if(!tour) return;
+    currentTourId = id;
+
+    subtitle.textContent = '— ' + tour.num + ' ' + tour.title;
+    if(triggerNum) triggerNum.textContent = tour.num;
+    if(triggerTitle) triggerTitle.textContent = tour.title;
+
+    var html = '';
+    tour.stops.forEach(function(stop, i){
+      var isFirst = i === 0;
+      var isLast = i === tour.stops.length - 1;
+      var itemClass = 'bt-itin-item' + (isFirst || isLast ? ' bt-itin-endpoint' : '') + (isLast ? ' bt-itin-last' : '');
+      var dotClass = 'bt-itin-dot' + (isFirst || isLast ? ' bt-itin-dot-endpoint' : '');
+      var dotSvg = (isFirst || isLast) ? (isFirst ? endpointDotSvg : '') : stopDotSvg;
+      html += '<li class="' + itemClass + '">' +
+                '<span class="' + dotClass + '">' + dotSvg + '</span>' +
+                '<div class="bt-itin-content"><strong>' + stop[0] + '</strong><p>' + stop[1] + '</p></div>' +
+              '</li>';
+    });
+    itinList.innerHTML = html;
+
+    if(mapFrame){
+      var waypoints = tour.mapStops && tour.mapStops.length ? tour.mapStops.slice() : [tour.map];
+      var origin = userOrigin || waypoints[0];
+      var stopsAfterOrigin = userOrigin ? waypoints : waypoints.slice(1);
+      if(stopsAfterOrigin.length){
+        var daddr = stopsAfterOrigin.map(function(p){ return encodeURIComponent(p); }).join('+to:');
+        mapFrame.src = 'https://www.google.com/maps?saddr=' + encodeURIComponent(origin) + '&daddr=' + daddr + '&output=embed';
+      } else {
+        mapFrame.src = 'https://www.google.com/maps?q=' + encodeURIComponent(origin) + '&output=embed';
+      }
+    }
+    if(mapLabel){
+      var stopCount = tour.mapStops ? tour.mapStops.length : 1;
+      mapLabel.textContent = (userOrigin ? 'From your location · ' : '') + (stopCount > 1 ? (stopCount + ' route stops') : 'Main stop');
+    }
+    if(mapLocateBtn) mapLocateBtn.classList.toggle('is-active', !!userOrigin);
+
+    // sync the active state in the dropdown list
+    var opts = list.querySelectorAll('.tour-select-option');
+    opts.forEach(function(opt){
+      opt.classList.toggle('active', opt.getAttribute('data-value') === id);
+    });
+  }
+
+  function openList(){ list.hidden = false; trigger.setAttribute('aria-expanded', 'true'); }
+  function closeList(){ list.hidden = true; trigger.setAttribute('aria-expanded', 'false'); }
+
+  trigger.addEventListener('click', function(){
+    if(list.hidden){ openList(); } else { closeList(); }
+  });
+
+  list.querySelectorAll('.tour-select-option').forEach(function(opt){
+    opt.addEventListener('click', function(){
+      render(opt.getAttribute('data-value'));
+      closeList();
+    });
+  });
+
+  document.addEventListener('click', function(e){
+    if(custom && !custom.contains(e.target)) closeList();
+  });
+
+  if(mapLocateBtn){
+    mapLocateBtn.addEventListener('click', function(){
+      if(!navigator.geolocation){
+        if(mapLabel) mapLabel.textContent = 'Location not supported by this browser';
+        return;
+      }
+      mapLocateBtn.disabled = true;
+      var labelSpan = mapLocateBtn.querySelector('span');
+      if(labelSpan) labelSpan.textContent = 'Locating…';
+      navigator.geolocation.getCurrentPosition(function(pos){
+        userOrigin = pos.coords.latitude + ',' + pos.coords.longitude;
+        mapLocateBtn.disabled = false;
+        if(labelSpan) labelSpan.textContent = 'Using your location';
+        render(currentTourId);
+      }, function(){
+        mapLocateBtn.disabled = false;
+        if(labelSpan) labelSpan.textContent = 'Use my location';
+        if(mapLabel) mapLabel.textContent = 'Location permission denied';
+      }, { timeout: 10000 });
+    });
+  }
+
+  render('1');
+})();
+
+(function(){
+  var startBtn = $('tailorStartBtn');
+  if(!startBtn) return;
+  startBtn.addEventListener('click', function(){
+    window.openBookingModal && window.openBookingModal({
+      vehicle:'Motorbike', type:'Guided Tour', package:'Moto Tours'
+    });
+
+  });
+})();
+
+(function(){
+  var toggle = $('btItinToggle');
+  var list = $('btItinList');
+  var map = $('btItinMap');
+  if (!toggle || !list || !map) return;
+  toggle.addEventListener('click', function(e){
+    e.preventDefault();
+    var hidden = list.style.display === 'none';
+    list.style.display = hidden ? '' : 'none';
+    map.style.display = hidden ? '' : 'none';
+    toggle.textContent = hidden ? 'Hide itinerary' : 'Show itinerary';
+  });
+})();
+
+(function(){
+  // Card photo arrows: cycles through photos listed in data-images="a.webp|b.webp|c.webp"
+  // on the .bt-card-thumb. Falls back to the single <img> already in the card, and
+  // auto-hides the arrow strip when there's nothing to cycle through.
+  // Images are preloaded and the fade timing matches the CSS transition (see
+  // .bt-cards-inspiration .bt-card-thumb-viewport img in the <style> above) so
+  // switching photos never shows a blank flash or a hard cut.
+  var FADE_MS = 350; // must match the opacity transition duration in CSS
+
+  root.querySelectorAll('.bt-cards-inspiration .bt-card-thumb').forEach(function(thumb){
+    var img = thumb.querySelector('.bt-card-thumb-viewport img');
+    var nav = thumb.querySelector('.bt-card-thumb-nav');
+    if(!img || !nav) return;
+
+    var raw = thumb.getAttribute('data-images');
+    var images = raw
+      ? raw.split('|').map(function(s){ return s.trim(); }).filter(Boolean)
+      : [img.getAttribute('src')];
+
+    if(images.length < 2){
+      nav.classList.add('bt-thumb-nav-hidden');
+      return;
+    }
+
+    // Preload every photo in this card's set up front so clicking an arrow
+    // never has to wait on a network fetch mid-fade.
+    var preloaded = images.map(function(src){
+      var pre = new Image();
+      pre.src = src;
+      return pre;
+    });
+
+    var idx = 0;
+    var animating = false;
+    var prevBtn = nav.querySelector('.bt-thumb-prev');
+    var nextBtn = nav.querySelector('.bt-thumb-next');
+
+    function setNavDisabled(disabled){
+      prevBtn.disabled = disabled;
+      nextBtn.disabled = disabled;
+    }
+
+    function show(i){
+      if(animating) return; // ignore rapid double-clicks instead of queuing overlapping fades
+      var nextIdx = (i + images.length) % images.length;
+      if(nextIdx === idx) return;
+      animating = true;
+      setNavDisabled(true);
+      img.style.opacity = '0';
+
+      function swap(){
+        idx = nextIdx;
+        img.setAttribute('src', images[idx]);
+        img.style.opacity = '1';
+        animating = false;
+        setNavDisabled(false);
+      }
+
+      // Preloaded image is already decoded/cached, so this only waits for the
+      // fade-out to finish (matches FADE_MS) rather than an arbitrary guess.
+      var pre = preloaded[nextIdx];
+      if(pre.complete){
+        setTimeout(swap, FADE_MS);
+      } else {
+        pre.addEventListener('load', function(){ setTimeout(swap, FADE_MS); }, { once: true });
+      }
+    }
+
+    prevBtn.addEventListener('click', function(e){ e.preventDefault(); e.stopPropagation(); show(idx - 1); });
+    nextBtn.addEventListener('click', function(e){ e.preventDefault(); e.stopPropagation(); show(idx + 1); });
+  });
+})();
+})(document.getElementById("panel-moto"));
+</script>
+</div>
+<div class="tours-panel" id="panel-bike" data-tab="bike" data-vehicle="Bicycle" data-package="Bike Tours" hidden>
+<section class="bt-listing" style="padding-top:32px;">
+  <div class="wrap">
+    <div class="bt-listing-head">
+      <h2 data-i18n="tr_h2_bike">Siem Reap Bicycle Tours</h2>
+    </div>
+
+    <div class="tour-select-wrap">
+      <div class="tour-select-heading" data-i18n="tr_options">Tour Options & Highlights</div>
+      <div class="tour-select-custom" id="tourSelectCustom">
+        <button type="button" class="tour-select-trigger" id="tourSelectTrigger" aria-haspopup="listbox" aria-expanded="false">
+          <span class="tour-select-current"><strong>1.</strong> <span class="tour-select-current-title">Angkor Sunrise Bike Tour with Picnic Breakfast and Lunch</span></span>
+          <svg class="tour-select-chevron" width="14" height="9" viewBox="0 0 14 9" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 1l6 6 6-6"/></svg>
+        </button>
+        <ul class="tour-select-list" id="tourSelectList" role="listbox" hidden>
+          <li role="option" data-value="1" class="tour-select-option active"><strong>1.</strong> Angkor Sunrise Bike Tour with Picnic Breakfast and Lunch</li>
+          <li role="option" data-value="2" class="tour-select-option"><strong>2.</strong> Bike of the Angkor Temple &amp; History Tour with Lunch</li>
+          <li role="option" data-value="3" class="tour-select-option"><strong>3.</strong> Countryside at Twilight Bike Tour with Sunset Drinks</li>
+        </ul>
+      </div>
+    </div>
+
+
+    <div class="bt-layout" style="grid-template-columns:225px 1fr;gap:16px;">
+      <div class="bt-sidebar-col">
+        <div class="bt-itinerary" id="btItinerary">
+          <h4 class="bt-sidebar-title"><span data-i18n="bt_itinerary">Itinerary</span> <span class="bt-itin-subtitle">— 1. Angkor Sunrise Bike Tour with Picnic Breakfast and Lunch</span></h4>
+          <ol class="bt-itin-list" id="btItinList">
+            <li class="bt-itin-item bt-itin-endpoint">
+
+              <span class="bt-itin-dot bt-itin-dot-endpoint">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2a10 10 0 00-8.5 15.2L2 22l4.9-1.4A10 10 0 1012 2z"/></svg>
+              </span>
+              <div class="bt-itin-content">
+                <strong>4:30 AM</strong>
+                <p>Hotel pickup and ride into Angkor Park before dawn.</p>
+              </div>
+            </li>
+            <li class="bt-itin-item">
+              <span class="bt-itin-dot">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 21s-7-6.2-7-11a7 7 0 1114 0c0 4.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>
+              </span>
+              <div class="bt-itin-content">
+                <strong>5:15 AM</strong>
+                <p>Watch the sunrise over Angkor Wat.</p>
+              </div>
+            </li>
+            <li class="bt-itin-item">
+              <span class="bt-itin-dot">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 21s-7-6.2-7-11a7 7 0 1114 0c0 4.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>
+              </span>
+              <div class="bt-itin-content">
+                <strong>6:15 AM</strong>
+                <p>Single-track jungle trails past Angkor Thom's south gate to Bayon.</p>
+              </div>
+            </li>
+            <li class="bt-itin-item">
+              <span class="bt-itin-dot">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 21s-7-6.2-7-11a7 7 0 1114 0c0 4.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>
+              </span>
+              <div class="bt-itin-content">
+                <strong>7:00 AM</strong>
+                <p>Bayon Temple's hundreds of carved stone faces.</p>
+              </div>
+            </li>
+            <li class="bt-itin-item">
+              <span class="bt-itin-dot">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 21s-7-6.2-7-11a7 7 0 1114 0c0 4.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>
+              </span>
+              <div class="bt-itin-content">
+                <strong>7:45 AM</strong>
+                <p>Private picnic breakfast at a villager's home.</p>
+              </div>
+            </li>
+            <li class="bt-itin-item">
+              <span class="bt-itin-dot">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 21s-7-6.2-7-11a7 7 0 1114 0c0 4.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>
+              </span>
+              <div class="bt-itin-content">
+                <strong>9:00 AM</strong>
+                <p>Cycle onward toward Ta Prohm.</p>
+              </div>
+            </li>
+            <li class="bt-itin-item">
+              <span class="bt-itin-dot">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 21s-7-6.2-7-11a7 7 0 1114 0c0 4.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>
+              </span>
+              <div class="bt-itin-content">
+                <strong>9:45 AM</strong>
+                <p>Explore the tree-engulfed ruins of Ta Prohm.</p>
+              </div>
+            </li>
+            <li class="bt-itin-item">
+              <span class="bt-itin-dot">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 21s-7-6.2-7-11a7 7 0 1114 0c0 4.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>
+              </span>
+              <div class="bt-itin-content">
+                <strong>11:00 AM</strong>
+                <p>Authentic Khmer lunch at a local restaurant.</p>
+              </div>
+            </li>
+            <li class="bt-itin-item bt-itin-endpoint bt-itin-last">
+              <span class="bt-itin-dot bt-itin-dot-endpoint"></span>
+              <div class="bt-itin-content">
+                <strong>12:30 PM</strong>
+                <p>Arrive back at your hotel.</p>
+              </div>
+            </li>
+          </ol>
+
+          <a href="#" class="bt-itin-toggle" id="btItinToggle">Hide itinerary</a>
+
+          <div class="bt-itin-map" id="btItinMap">
+            <iframe
+              src="https://www.google.com/maps?saddr=Siem+Reap,+Cambodia&daddr=Angkor+Wat,+Cambodia+to:Bayon+Temple,+Angkor+Thom,+Cambodia+to:Ta+Prohm,+Cambodia+to:Siem+Reap,+Cambodia&output=embed"
+              width="100%" height="260" style="border:0;"
+              loading="lazy" allowfullscreen
+              referrerpolicy="no-referrer-when-downgrade"
+              title="Tour route map"></iframe>
+            <button type="button" class="bt-itin-map-locate" id="btItinMapLocate" title="Use my current location as the start point">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/></svg>
+              <span>Use my location</span>
+            </button>
+            <span class="bt-itin-map-label">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 21s-7-6.2-7-11a7 7 0 1114 0c0 4.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>
+              <span id="btItinMapLabel">5 route stops</span>
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <div class="bt-main-col">
+        <div class="bt-cards bt-cards-inspiration" id="btCards">
+         
+          <article class="bt-card"
+            data-full="There's a particular kind of magic that only exists in the hour before sunrise, and it settles over Angkor Wat like nowhere else on earth. Setting off from your hotel while the sky is still dark, you'll pedal into the ancient park just in time to watch the world's largest religious monument emerge in silhouette, then bloom into gold as the sun climbs behind its towers.||From there, the ride continues along quiet single-track trails through the forest, past the south gate of Angkor Thom and into Bayon, where hundreds of serene stone faces smile down from every tower. A private picnic breakfast, prepared by a local chef at a villager's home, refuels you for the ride ahead. Your guide brings each temple's history to life as you pedal onward to Ta Prohm, where centuries-old trees grip the ruins in a slow, silent embrace — nature and stone locked together in one of Cambodia's most photographed scenes. An authentic Khmer lunch at a local restaurant caps off a morning that blends adventure, culture, and unforgettable scenery."
+            data-highlights="Sunrise over Angkor Wat from a mountain bike saddle|Single-track jungle trails through Angkor Archaeological Park|Bayon Temple's iconic stone faces|Tree-engulfed ruins of Ta Prohm|Private picnic breakfast &amp; authentic Khmer lunch"
+            data-included="Mountain bike &amp; helmet|English-speaking cycling guide|Support vehicle with driver|Picnic breakfast|Lunch|Water, snacks &amp; fruit|Hotel pick-up &amp; drop-off"
+            data-excluded="Angkor Archaeological Park entrance ticket ($37/person)|Travel insurance|Personal expenses"
+            data-location="Angkor Archaeological Park"
+            data-duration="8 hours (approx)"
+            data-tourstart="4:30 AM"
+            data-distance="20-25km (approx)"
+            data-pricenote="The price is per rider, for a small group tour."
+            data-seotitle="Angkor Wat Sunrise Bike Tour, Siem Reap – Temple Cycling with Picnic Breakfast &amp; Khmer Lunch"
+            data-shortdesc="Cycle through the jungle trails of Angkor Park at dawn, watching the sun rise over Angkor Wat before pedaling on to Bayon and Ta Prohm, with a picnic breakfast and authentic Khmer lunch along the way."
+            data-notice="Wear comfortable athletic clothing and closed shoes for off-road trails. Pickup is very early — bring a light jacket for the pre-dawn ride. The Angkor Archaeological Park entrance ticket is not included and must be purchased separately."
+            data-itinerary="4:30 AM::Pickup from your hotel and a quiet ride into Angkor Archaeological Park before dawn.||5:15 AM::Watch the sun rise in silhouette then gold behind the towers of Angkor Wat.||6:15 AM::Continue on quiet single-track trails past the south gate of Angkor Thom toward Bayon.||7:00 AM::Explore Bayon Temple, where hundreds of serene stone faces look out from every tower.||7:45 AM::Private picnic breakfast prepared by a local chef at a villager's home.||9:00 AM::Cycle onward through the forest toward Ta Prohm.||9:45 AM::Wander the tree-engulfed ruins of Ta Prohm, where jungle roots grip the ancient stone.||11:00 AM::Authentic Khmer lunch at a local restaurant.||12:00 PM::Scenic ride back through the park to Siem Reap.||12:30 PM::Arrive back at your hotel.">
+            <div class="bt-card-thumb" data-images="../Image/Tour/Bike%20tours/Angkor%20Sunrise/Angkor%20Sunrise%20%281%29.webp|../Image/Tour/Bike%20tours/Angkor%20Sunrise/Angkor%20Sunrise%20%282%29.webp|../Image/Tour/Bike%20tours/Angkor%20Sunrise/Angkor%20Sunrise%20%283%29.webp|../Image/Tour/Bike%20tours/Angkor%20Sunrise/Angkor%20Sunrise%20%284%29.webp|../Image/Tour/Bike%20tours/Angkor%20Sunrise/Angkor%20Sunrise%20%285%29.webp|../Image/Tour/Bike%20tours/Angkor%20Sunrise/Angkor%20Sunrise%20%286%29.webp|../Image/Tour/Bike%20tours/Angkor%20Sunrise/Angkor%20Sunrise%20%287%29.webp">
+              <div class="bt-card-thumb-viewport">
+                <img src="../Image/Tour/Bike%20tours/Angkor%20Sunrise/Angkor%20Sunrise%20%281%29.webp" alt="Angkor Wat sunrise bike tour with picnic breakfast and Khmer lunch" loading="lazy" decoding="async">
+                <span class="bt-badge-location">📍 <span>Angkor Archaeological Park</span></span>
+                <span class="bt-card-caption"><span class="bt-cat-icon">🚲</span> <span>
+                  1. Angkor Sunrise Bike Tour</span></span>
+              </div>
+            </div>
+            <div class="bt-card-body">
+              <h3 onclick="openTourDetail(this); return false;">1. Angkor Sunrise Bike Tour with Picnic Breakfast and Lunch</h3>
+              <ul class="bt-card-list">
+                <li>Watch sunrise over Angkor Wat, then cycle jungle trails to Bayon and Ta Prohm</li>
+                <li>Private picnic breakfast &amp; authentic Khmer lunch along the way</li>
+                <li>Mountain bike, helmet, guide, support vehicle, and hotel pick-up/drop-off included</li>
+              </ul>
+            </div>
+            <div class="bt-card-price">
+              <div class="bt-price"><span class="bt-currency">$</span>119</div>
+              <div class="bt-price-note">*starting price</div>
+              <div class="bt-price-note">*per rider, group tour</div>
+              <a href="#" class="bt-details" onclick="openTourDetail(this); return false;">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+                <span>Details</span>
+              </a>
+            </div>
+          </article>
+
+          <article class="bt-card"
+            data-full="Some places are better understood at the pace of a bicycle, and Angkor is one of them. This tour rolls out from the shop and into the park's back roads, where the towering silhouette of Angkor Wat first comes into view — the world's largest religious monument and a fitting place to begin. Wander its grounds and let your guide unravel centuries of history hidden in every carving.||Back on the bike, single-track trails carry you toward Bayon, where dozens of enormous stone faces gaze out in every direction, each one carved with an expression that feels both ancient and alive. A stop for a delicious Khmer lunch breaks up the ride before you continue pedaling through the park's shaded trails, finishing at Ta Prohm — the temple made famous by the giant trees that have grown into and around its crumbling walls. It's a journey that turns sightseeing into an adventure, and history into something you can feel in your legs by the end of the day."
+            data-highlights="Mountain bike ride through Angkor's back roads and jungle trails|Angkor Wat exploration with an expert guide|Bayon Temple's carved stone faces|Authentic Khmer lunch at a local restaurant|Tree-covered ruins of Ta Prohm"
+            data-included="Mountain bike &amp; helmet|English-speaking cycling guide|Pick-up from your lodge|Khmer lunch|Water, snacks &amp; seasonal fruit"
+            data-excluded="Angkor Archaeological Park entrance ticket ($37/person)|Travel insurance|Personal expenses"
+            data-location="Angkor Archaeological Park"
+            data-duration="7 hours (approx)"
+            data-tourstart="8:00 AM"
+            data-distance="20-25km (approx)"
+            data-pricenote="The price is per rider, for a small group tour."
+            data-seotitle="Angkor Temple Mountain Bike Tour, Siem Reap – Cycle to Angkor Wat, Bayon &amp; Ta Prohm with Lunch"
+            data-shortdesc="Pedal the back roads and jungle trails of Angkor Archaeological Park, uncovering the history behind Angkor Wat, Bayon, and Ta Prohm with an expert local guide and a Khmer lunch along the way."
+            data-notice="Wear comfortable athletic clothing and closed shoes. The Angkor Archaeological Park entrance ticket is not included and must be purchased separately."
+            data-itinerary="8:00 AM::Pickup from your lodge and a ride into the park's back roads.||8:30 AM::Angkor Wat exploration with your guide, uncovering centuries of history.||10:00 AM::Single-track trails carry you toward Bayon Temple.||10:45 AM::Bayon's dozens of enormous carved stone faces.||11:30 AM::Delicious Khmer lunch at a local restaurant.||1:00 PM::Pedal through the park's shaded trails toward Ta Prohm.||2:00 PM::Explore Ta Prohm, famous for the giant trees grown into its walls.||3:00 PM::Ride back to the shop or your lodge.">
+            <div class="bt-card-thumb" data-images="../Image/Tour/Bike%20tours/Bike%20of%20the%20Angkor/Bike%20of%20the%20Angkor%20%281%29.webp|../Image/Tour/Bike%20tours/Bike%20of%20the%20Angkor/Bike%20of%20the%20Angkor%20%282%29.webp|../Image/Tour/Bike%20tours/Bike%20of%20the%20Angkor/Bike%20of%20the%20Angkor%20%283%29.webp|../Image/Tour/Bike%20tours/Bike%20of%20the%20Angkor/Bike%20of%20the%20Angkor%20%284%29.webp|../Image/Tour/Bike%20tours/Bike%20of%20the%20Angkor/Bike%20of%20the%20Angkor%20%285%29.webp|../Image/Tour/Bike%20tours/Bike%20of%20the%20Angkor/Bike%20of%20the%20Angkor%20%286%29.webp|../Image/Tour/Bike%20tours/Bike%20of%20the%20Angkor/Bike%20of%20the%20Angkor%20%287%29.webp">
+              <div class="bt-card-thumb-viewport">
+                <img src="../Image/Tour/Bike%20tours/Bike%20of%20the%20Angkor/Bike%20of%20the%20Angkor%20%281%29.webp" alt="Angkor temple mountain bike tour to Angkor Wat, Bayon and Ta Prohm with lunch" loading="lazy" decoding="async">
+                <span class="bt-badge-location">📍 <span>Angkor Archaeological Park</span></span>
+                <span class="bt-card-caption"><span class="bt-cat-icon">🚲</span> <span>2. Bike of the Angkor Temple &amp; History Tour</span></span>
+              </div>
+            </div>
+            <div class="bt-card-body">
+              <h3 onclick="openTourDetail(this); return false;">2. Bike of the Angkor Temple &amp; History Tour with Lunch</h3>
+              <ul class="bt-card-list">
+                <li>Cycle Angkor's back roads and jungle trails with an expert local guide</li>
+                <li>Angkor Wat, Bayon's stone faces, and the tree-covered ruins of Ta Prohm</li>
+                <li>Khmer lunch, water, snacks, and lodge pick-up included</li>
+              </ul>
+            </div>
+            <div class="bt-card-price">
+              <div class="bt-price"><span class="bt-currency">$</span>79</div>
+              <div class="bt-price-note">*starting price</div>
+              <div class="bt-price-note">*per rider, group tour</div>
+              <a href="#" class="bt-details" onclick="openTourDetail(this); return false;">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+                <span>Details</span>
+              </a>
+            </div>
+          </article>
+
+          <article class="bt-card"
+            data-full="As the heat of the day softens into evening, this countryside ride reveals a side of Siem Reap most visitors never see. Pedaling out from the shop toward the southern edge of the city, you'll pass duck farms, vegetable plots, and rice paddies, greeted along the way by curious kids waving hello from their front porches and villagers going about their daily routines.||A stop at a bustling local market offers a glimpse into where Cambodian families shop for the fresh ingredients behind their beloved home cooking. Every turn of the pedals brings you closer to rural life — modest farms, unhurried roads, and warm smiles from people happy to see visitors exploring their home. As the sun begins its slow descent, the ride concludes at a rice or lotus farm, where a cold drink in hand and a sky painted orange and pink make for the perfect ending to a day spent pedaling through the Cambodian countryside."
+            data-highlights="Scenic countryside cycling south of Siem Reap|Local markets, duck farms &amp; rice paddies|Genuine interactions with village life|Rural Cambodian food culture and fresh ingredients|Sunset drinks at a rice or lotus farm"
+            data-included="Mountain bike &amp; helmet|English-speaking cycling guide|Pick-up from your lodge|Sunset drinks|Water &amp; snacks|Community donation"
+            data-excluded="Personal expenses|Travel insurance|Other items not listed above"
+            data-location="Siem Reap Countryside"
+            data-duration="3.5 hours (approx)"
+            data-tourstart="3:30 PM"
+            data-distance="15-20km (approx)"
+            data-pricenote="The price is per rider, for a small group tour."
+            data-seotitle="Siem Reap Countryside Sunset Bike Tour – Rural Cambodia Cycling with Sunset Drinks"
+            data-shortdesc="Cycle through rice fields, local markets, and quiet villages south of Siem Reap as the sky turns gold, ending with sunset drinks at a rice or lotus farm."
+            data-notice="Wear comfortable athletic clothing and closed shoes. This ride ends after sunset — a light layer is recommended for the ride back."
+            data-itinerary="3:30 PM::Pickup from your lodge and ride south of Siem Reap.||4:00 PM::Pass duck farms, vegetable plots, and rice paddies as village life unfolds around you.||4:45 PM::Stop at a bustling local market where Cambodian families shop for fresh ingredients.||5:15 PM::Continue past modest farms and unhurried village roads.||5:45 PM::Arrive at a rice or lotus farm as the sky turns gold.||6:30 PM::Sunset drinks in hand, then a relaxed ride back to Siem Reap.">
+            <div class="bt-card-thumb" data-images="../Image/Tour/Bike%20tours/Countryside/Countryside%20%281%29.webp|../Image/Tour/Bike%20tours/Countryside/Countryside%20%282%29.webp|../Image/Tour/Bike%20tours/Countryside/Countryside%20%283%29.webp|../Image/Tour/Bike%20tours/Countryside/Countryside%20%284%29.webp|../Image/Tour/Bike%20tours/Countryside/Countryside%20%285%29.webp|../Image/Tour/Bike%20tours/Countryside/Countryside%20%286%29.webp|../Image/Tour/Bike%20tours/Countryside/Countryside%20%287%29.webp">
+              <div class="bt-card-thumb-viewport">
+                <img src="../Image/Tour/Bike%20tours/Countryside/Countryside%20%281%29.webp" alt="Siem Reap countryside sunset bike tour with sunset drinks" loading="lazy" decoding="async">
+                <span class="bt-badge-location">📍 <span>Siem Reap Countryside</span></span>
+                <span class="bt-card-caption"><span class="bt-cat-icon">🚲</span> <span>3. Countryside at Twilight Bike Tour</span></span>
+              </div>
+            </div>
+            <div class="bt-card-body">
+              <h3 onclick="openTourDetail(this); return false;">3. Countryside at Twilight Bike Tour with Sunset Drinks</h3>
+              <ul class="bt-card-list">
+                <li>Cycle past rice fields, duck farms, and a bustling local market</li>
+                <li>Genuine village life south of Siem Reap, away from the crowds</li>
+                <li>Sunset drinks at a rice or lotus farm to end the ride</li>
+              </ul>
+            </div>
+            <div class="bt-card-price">
+              <div class="bt-price"><span class="bt-currency">$</span>39</div>
+              <div class="bt-price-note">*starting price</div>
+              <div class="bt-price-note">*per rider, group tour</div>
+              <a href="#" class="bt-details" onclick="openTourDetail(this); return false;">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+                <span>Details</span>
+              </a>
+            </div>
+          </article>
+
+          <p class="bt-more-note" data-i18n="tr_more_bike">Want something different? Message us on WhatsApp and we'll build a custom bike route around your dates.</p>
+
+        </div>
+
+        <div class="bt-cta-row">
+          <button type="button" class="btn btn-dark" id="tailorStartBtn">
+            <span data-i18n="tr_book_bike">Book a Bike Tour</span>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<script>
+(function(root){
+function $(id){return root.querySelector("#"+id);}
+(function(){
+  var itin = $('btItinerary');
+  var ctaRow = root.querySelector('.bt-cta-row');
+  if(!itin || !ctaRow) return;
+
+  var homeParent = itin.parentNode;
+  var homeNext = itin.nextSibling; // remembers exact spot inside the sidebar
+
+  function reposition(mq){
+    if(mq.matches){
+      // Small screen: place itinerary+map right above the "Book a Moto Tour" button
+      ctaRow.parentNode.insertBefore(itin, ctaRow);
+    } else {
+      // Wider screen: put it back in the sidebar column
+      homeParent.insertBefore(itin, homeNext);
+    }
+  }
+
+  var mq = window.matchMedia('(max-width:900px)');
+  reposition(mq);
+  if(mq.addEventListener){ mq.addEventListener('change', reposition); }
+  else if(mq.addListener){ mq.addListener(reposition); }
+})();
+
+(function(){
+  var custom = $('tourSelectCustom');
+  var trigger = $('tourSelectTrigger');
+  var triggerTitle = trigger ? trigger.querySelector('.tour-select-current-title') : null;
+  var triggerNum = trigger ? trigger.querySelector('.tour-select-current strong') : null;
+  var list = $('tourSelectList');
+  var subtitle = root.querySelector('#btItinerary .bt-itin-subtitle');
+  var itinList = $('btItinList');
+  var mapFrame = root.querySelector('#btItinMap iframe');
+  var mapLabel = $('btItinMapLabel');
+  var mapLocateBtn = $('btItinMapLocate');
+  if(!trigger || !list || !subtitle || !itinList) return;
+
+  var currentTourId = '1';
+  var userOrigin = null; // "lat,lng" once geolocation succeeds
+
+  // Endpoint / stop dot icons (reused from the existing markup)
+  var endpointDotSvg = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2a10 10 0 00-8.5 15.2L2 22l4.9-1.4A10 10 0 1012 2z"/></svg>';
+  var stopDotSvg = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 21s-7-6.2-7-11a7 7 0 1114 0c0 4.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>';
+
+  var tours = {
+    '1': {
+      num: '1.', title: 'Angkor Sunrise Bike Tour with Picnic Breakfast and Lunch',
+      map: 'Angkor Wat, Cambodia',
+      mapStops: [
+        'Siem Reap, Cambodia',
+        'Angkor Wat, Cambodia',
+        'Bayon Temple, Angkor Thom, Cambodia',
+        'Ta Prohm, Cambodia',
+        'Siem Reap, Cambodia'
+      ],
+      stops: [
+        ['4:30 AM', 'Hotel pickup, ride into Angkor Park before dawn.'],
+        ['5:15 AM', 'Watch the sunrise over Angkor Wat.'],
+        ['6:15 AM', "Single-track trails past Angkor Thom's south gate to Bayon."],
+        ['7:00 AM', "Bayon Temple's hundreds of carved stone faces."],
+        ['7:45 AM', "Private picnic breakfast at a villager's home."],
+        ['9:00 AM', 'Cycle onward toward Ta Prohm.'],
+        ['9:45 AM', 'Explore the tree-engulfed ruins of Ta Prohm.'],
+        ['11:00 AM', 'Authentic Khmer lunch at a local restaurant.'],
+        ['12:30 PM', 'Arrive back at your hotel.']
+      ]
+    },
+    '2': {
+      num: '2.', title: 'Bike of the Angkor Temple & History Tour with Lunch',
+      map: 'Angkor Wat, Cambodia',
+      mapStops: [
+        'Siem Reap, Cambodia',
+        'Angkor Wat, Cambodia',
+        'Bayon Temple, Angkor Thom, Cambodia',
+        'Ta Prohm, Cambodia',
+        'Siem Reap, Cambodia'
+      ],
+      stops: [
+        ['8:00 AM', "Pickup from your lodge, ride into the park's back roads."],
+        ['8:30 AM', 'Angkor Wat exploration with your guide.'],
+        ['10:00 AM', 'Single-track trails toward Bayon Temple.'],
+        ['10:45 AM', "Bayon's dozens of carved stone faces."],
+        ['11:30 AM', 'Delicious Khmer lunch at a local restaurant.'],
+        ['1:00 PM', "Pedal the park's shaded trails toward Ta Prohm."],
+        ['2:00 PM', 'Explore Ta Prohm and its tree-covered ruins.'],
+        ['3:00 PM', 'Ride back to the shop or your lodge.']
+      ]
+    },
+    '3': {
+      num: '3.', title: 'Countryside at Twilight Bike Tour with Sunset Drinks',
+      map: 'Siem Reap, Cambodia',
+      mapStops: [
+        'Siem Reap, Cambodia',
+        'Local Market, Siem Reap, Cambodia',
+        'Lotus Farm, Siem Reap, Cambodia',
+        'Siem Reap, Cambodia'
+      ],
+      stops: [
+        ['3:30 PM', 'Pickup from your lodge, ride south of Siem Reap.'],
+        ['4:00 PM', 'Pass duck farms, vegetable plots, and rice paddies.'],
+        ['4:45 PM', 'Stop at a bustling local market.'],
+        ['5:15 PM', 'Continue past modest farms and quiet village roads.'],
+        ['5:45 PM', 'Arrive at a rice or lotus farm as the sky turns gold.'],
+        ['6:30 PM', 'Sunset drinks, then a relaxed ride back to Siem Reap.']
+      ]
+    }
+  };
+
+  function render(id){
+    var tour = tours[id];
+    if(!tour) return;
+    currentTourId = id;
+
+    subtitle.textContent = '— ' + tour.num + ' ' + tour.title;
+    if(triggerNum) triggerNum.textContent = tour.num;
+    if(triggerTitle) triggerTitle.textContent = tour.title;
+
+    var html = '';
+    tour.stops.forEach(function(stop, i){
+      var isFirst = i === 0;
+      var isLast = i === tour.stops.length - 1;
+      var itemClass = 'bt-itin-item' + (isFirst || isLast ? ' bt-itin-endpoint' : '') + (isLast ? ' bt-itin-last' : '');
+      var dotClass = 'bt-itin-dot' + (isFirst || isLast ? ' bt-itin-dot-endpoint' : '');
+      var dotSvg = (isFirst || isLast) ? (isFirst ? endpointDotSvg : '') : stopDotSvg;
+      html += '<li class="' + itemClass + '">' +
+                '<span class="' + dotClass + '">' + dotSvg + '</span>' +
+                '<div class="bt-itin-content"><strong>' + stop[0] + '</strong><p>' + stop[1] + '</p></div>' +
+              '</li>';
+    });
+    itinList.innerHTML = html;
+
+    if(mapFrame){
+      var waypoints = tour.mapStops && tour.mapStops.length ? tour.mapStops.slice() : [tour.map];
+      var origin = userOrigin || waypoints[0];
+      var stopsAfterOrigin = userOrigin ? waypoints : waypoints.slice(1);
+      if(stopsAfterOrigin.length){
+        var daddr = stopsAfterOrigin.map(function(p){ return encodeURIComponent(p); }).join('+to:');
+        mapFrame.src = 'https://www.google.com/maps?saddr=' + encodeURIComponent(origin) + '&daddr=' + daddr + '&output=embed';
+      } else {
+        mapFrame.src = 'https://www.google.com/maps?q=' + encodeURIComponent(origin) + '&output=embed';
+      }
+    }
+    if(mapLabel){
+      var stopCount = tour.mapStops ? tour.mapStops.length : 1;
+      mapLabel.textContent = (userOrigin ? 'From your location · ' : '') + (stopCount > 1 ? (stopCount + ' route stops') : 'Main stop');
+    }
+    if(mapLocateBtn) mapLocateBtn.classList.toggle('is-active', !!userOrigin);
+
+    // sync the active state in the dropdown list
+    var opts = list.querySelectorAll('.tour-select-option');
+    opts.forEach(function(opt){
+      opt.classList.toggle('active', opt.getAttribute('data-value') === id);
+    });
+  }
+
+  function openList(){ list.hidden = false; trigger.setAttribute('aria-expanded', 'true'); }
+  function closeList(){ list.hidden = true; trigger.setAttribute('aria-expanded', 'false'); }
+
+  trigger.addEventListener('click', function(){
+    if(list.hidden){ openList(); } else { closeList(); }
+  });
+
+  list.querySelectorAll('.tour-select-option').forEach(function(opt){
+    opt.addEventListener('click', function(){
+      render(opt.getAttribute('data-value'));
+      closeList();
+    });
+  });
+
+  document.addEventListener('click', function(e){
+    if(custom && !custom.contains(e.target)) closeList();
+  });
+
+  if(mapLocateBtn){
+    mapLocateBtn.addEventListener('click', function(){
+      if(!navigator.geolocation){
+        if(mapLabel) mapLabel.textContent = 'Location not supported by this browser';
+        return;
+      }
+      mapLocateBtn.disabled = true;
+      var labelSpan = mapLocateBtn.querySelector('span');
+      if(labelSpan) labelSpan.textContent = 'Locating…';
+      navigator.geolocation.getCurrentPosition(function(pos){
+        userOrigin = pos.coords.latitude + ',' + pos.coords.longitude;
+        mapLocateBtn.disabled = false;
+        if(labelSpan) labelSpan.textContent = 'Using your location';
+        render(currentTourId);
+      }, function(){
+        mapLocateBtn.disabled = false;
+        if(labelSpan) labelSpan.textContent = 'Use my location';
+        if(mapLabel) mapLabel.textContent = 'Location permission denied';
+      }, { timeout: 10000 });
+    });
+  }
+
+  render('1');
+})();
+
+(function(){
+  var startBtn = $('tailorStartBtn');
+  if(!startBtn) return;
+  startBtn.addEventListener('click', function(){
+    window.openBookingModal && window.openBookingModal({
+      vehicle:'Bicycle', type:'Guided Tour', package:'Bike Tours'
+    });
+
+  });
+})();
+
+(function(){
+  var toggle = $('btItinToggle');
+  var list = $('btItinList');
+  var map = $('btItinMap');
+  if (!toggle || !list || !map) return;
+  toggle.addEventListener('click', function(e){
+    e.preventDefault();
+    var hidden = list.style.display === 'none';
+    list.style.display = hidden ? '' : 'none';
+    map.style.display = hidden ? '' : 'none';
+    toggle.textContent = hidden ? 'Hide itinerary' : 'Show itinerary';
+  });
+})();
+
+(function(){
+  // Card photo arrows: cycles through photos listed in data-images="a.webp|b.webp|c.webp"
+  // on the .bt-card-thumb. Falls back to the single <img> already in the card, and
+  // auto-hides the arrow strip when there's nothing to cycle through.
+  // Images are preloaded and the fade timing matches the CSS transition (see
+  // .bt-cards-inspiration .bt-card-thumb-viewport img in the <style> above) so
+  // switching photos never shows a blank flash or a hard cut.
+  var FADE_MS = 350; // must match the opacity transition duration in CSS
+
+  root.querySelectorAll('.bt-cards-inspiration .bt-card-thumb').forEach(function(thumb){
+    var img = thumb.querySelector('.bt-card-thumb-viewport img');
+    var nav = thumb.querySelector('.bt-card-thumb-nav');
+    if(!img || !nav) return;
+
+    var raw = thumb.getAttribute('data-images');
+    var images = raw
+      ? raw.split('|').map(function(s){ return s.trim(); }).filter(Boolean)
+      : [img.getAttribute('src')];
+
+    if(images.length < 2){
+      nav.classList.add('bt-thumb-nav-hidden');
+      return;
+    }
+
+    // Preload every photo in this card's set up front so clicking an arrow
+    // never has to wait on a network fetch mid-fade.
+    var preloaded = images.map(function(src){
+      var pre = new Image();
+      pre.src = src;
+      return pre;
+    });
+
+    var idx = 0;
+    var animating = false;
+    var prevBtn = nav.querySelector('.bt-thumb-prev');
+    var nextBtn = nav.querySelector('.bt-thumb-next');
+
+    function setNavDisabled(disabled){
+      prevBtn.disabled = disabled;
+      nextBtn.disabled = disabled;
+    }
+
+    function show(i){
+      if(animating) return; // ignore rapid double-clicks instead of queuing overlapping fades
+      var nextIdx = (i + images.length) % images.length;
+      if(nextIdx === idx) return;
+      animating = true;
+      setNavDisabled(true);
+      img.style.opacity = '0';
+
+      function swap(){
+        idx = nextIdx;
+        img.setAttribute('src', images[idx]);
+        img.style.opacity = '1';
+        animating = false;
+        setNavDisabled(false);
+      }
+
+      // Preloaded image is already decoded/cached, so this only waits for the
+      // fade-out to finish (matches FADE_MS) rather than an arbitrary guess.
+      var pre = preloaded[nextIdx];
+      if(pre.complete){
+        setTimeout(swap, FADE_MS);
+      } else {
+        pre.addEventListener('load', function(){ setTimeout(swap, FADE_MS); }, { once: true });
+      }
+    }
+
+    prevBtn.addEventListener('click', function(e){ e.preventDefault(); e.stopPropagation(); show(idx - 1); });
+    nextBtn.addEventListener('click', function(e){ e.preventDefault(); e.stopPropagation(); show(idx + 1); });
+  });
+})();
+})(document.getElementById("panel-bike"));
+</script>
+</div>
+<div class="tours-panel" id="panel-ebike" data-tab="ebike" data-vehicle="E-Bike" data-package="E-Bike Tours" hidden>
+<section class="bt-listing" style="padding-top:32px;">
+  <div class="wrap">
+    <div class="bt-listing-head">
+      <h2 data-i18n="tr_h2_ebike">Siem Reap E-Bike Tours</h2>
+    </div>
+
+    <div class="tour-select-wrap">
+      <div class="tour-select-heading" data-i18n="tr_options">Tour Options & Highlights</div>
+      <div class="tour-select-custom" id="tourSelectCustom">
+        <button type="button" class="tour-select-trigger" id="tourSelectTrigger" aria-haspopup="listbox" aria-expanded="false">
+          <span class="tour-select-current"><strong>1.</strong> <span class="tour-select-current-title">Angkor Sunrise Bike Tour with Picnic Breakfast and Lunch</span></span>
+          <svg class="tour-select-chevron" width="14" height="9" viewBox="0 0 14 9" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 1l6 6 6-6"/></svg>
+        </button>
+        <ul class="tour-select-list" id="tourSelectList" role="listbox" hidden>
+          <li role="option" data-value="1" class="tour-select-option active"><strong>1.</strong> Angkor Sunrise Bike Tour with Picnic Breakfast and Lunch</li>
+          <li role="option" data-value="2" class="tour-select-option"><strong>2.</strong> Bike of the Angkor Temple &amp; History Tour with Lunch</li>
+          <li role="option" data-value="3" class="tour-select-option"><strong>3.</strong> Countryside at Twilight Bike Tour with Sunset Drinks</li>
+        </ul>
+      </div>
+    </div>
+
+
+    <div class="bt-layout" style="grid-template-columns:225px 1fr;gap:16px;">
+      <div class="bt-sidebar-col">
+        <div class="bt-itinerary" id="btItinerary">
+          <h4 class="bt-sidebar-title"><span data-i18n="bt_itinerary">Itinerary</span> <span class="bt-itin-subtitle">— 1. Angkor Sunrise Bike Tour with Picnic Breakfast and Lunch</span></h4>
+          <ol class="bt-itin-list" id="btItinList">
+            <li class="bt-itin-item bt-itin-endpoint">
+
+              <span class="bt-itin-dot bt-itin-dot-endpoint">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2a10 10 0 00-8.5 15.2L2 22l4.9-1.4A10 10 0 1012 2z"/></svg>
+              </span>
+              <div class="bt-itin-content">
+                <strong>4:30 AM</strong>
+                <p>Hotel pickup and ride into Angkor Park before dawn.</p>
+              </div>
+            </li>
+            <li class="bt-itin-item">
+              <span class="bt-itin-dot">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 21s-7-6.2-7-11a7 7 0 1114 0c0 4.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>
+              </span>
+              <div class="bt-itin-content">
+                <strong>5:15 AM</strong>
+                <p>Watch the sunrise over Angkor Wat.</p>
+              </div>
+            </li>
+            <li class="bt-itin-item">
+              <span class="bt-itin-dot">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 21s-7-6.2-7-11a7 7 0 1114 0c0 4.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>
+              </span>
+              <div class="bt-itin-content">
+                <strong>6:15 AM</strong>
+                <p>Single-track jungle trails past Angkor Thom's south gate to Bayon.</p>
+              </div>
+            </li>
+            <li class="bt-itin-item">
+              <span class="bt-itin-dot">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 21s-7-6.2-7-11a7 7 0 1114 0c0 4.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>
+              </span>
+              <div class="bt-itin-content">
+                <strong>7:00 AM</strong>
+                <p>Bayon Temple's hundreds of carved stone faces.</p>
+              </div>
+            </li>
+            <li class="bt-itin-item">
+              <span class="bt-itin-dot">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 21s-7-6.2-7-11a7 7 0 1114 0c0 4.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>
+              </span>
+              <div class="bt-itin-content">
+                <strong>7:45 AM</strong>
+                <p>Private picnic breakfast at a villager's home.</p>
+              </div>
+            </li>
+            <li class="bt-itin-item">
+              <span class="bt-itin-dot">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 21s-7-6.2-7-11a7 7 0 1114 0c0 4.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>
+              </span>
+              <div class="bt-itin-content">
+                <strong>9:00 AM</strong>
+                <p>Cycle onward toward Ta Prohm.</p>
+              </div>
+            </li>
+            <li class="bt-itin-item">
+              <span class="bt-itin-dot">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 21s-7-6.2-7-11a7 7 0 1114 0c0 4.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>
+              </span>
+              <div class="bt-itin-content">
+                <strong>9:45 AM</strong>
+                <p>Explore the tree-engulfed ruins of Ta Prohm.</p>
+              </div>
+            </li>
+            <li class="bt-itin-item">
+              <span class="bt-itin-dot">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 21s-7-6.2-7-11a7 7 0 1114 0c0 4.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>
+              </span>
+              <div class="bt-itin-content">
+                <strong>11:00 AM</strong>
+                <p>Authentic Khmer lunch at a local restaurant.</p>
+              </div>
+            </li>
+            <li class="bt-itin-item bt-itin-endpoint bt-itin-last">
+              <span class="bt-itin-dot bt-itin-dot-endpoint"></span>
+              <div class="bt-itin-content">
+                <strong>12:30 PM</strong>
+                <p>Arrive back at your hotel.</p>
+              </div>
+            </li>
+          </ol>
+
+          <a href="#" class="bt-itin-toggle" id="btItinToggle">Hide itinerary</a>
+
+          <div class="bt-itin-map" id="btItinMap">
+            <iframe
+              src="https://www.google.com/maps?saddr=Siem+Reap,+Cambodia&daddr=Angkor+Wat,+Cambodia+to:Bayon+Temple,+Angkor+Thom,+Cambodia+to:Ta+Prohm,+Cambodia+to:Siem+Reap,+Cambodia&output=embed"
+              width="100%" height="260" style="border:0;"
+              loading="lazy" allowfullscreen
+              referrerpolicy="no-referrer-when-downgrade"
+              title="Tour route map"></iframe>
+            <button type="button" class="bt-itin-map-locate" id="btItinMapLocate" title="Use my current location as the start point">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/></svg>
+              <span>Use my location</span>
+            </button>
+            <span class="bt-itin-map-label">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 21s-7-6.2-7-11a7 7 0 1114 0c0 4.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>
+              <span id="btItinMapLabel">5 route stops</span>
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <div class="bt-main-col">
+        <div class="bt-cards bt-cards-inspiration" id="btCards">
+         
+          <article class="bt-card"
+            data-full="There's a particular kind of magic that only exists in the hour before sunrise, and it settles over Angkor Wat like nowhere else on earth. Setting off from your hotel while the sky is still dark, you'll pedal into the ancient park just in time to watch the world's largest religious monument emerge in silhouette, then bloom into gold as the sun climbs behind its towers.||From there, the ride continues along quiet single-track trails through the forest, past the south gate of Angkor Thom and into Bayon, where hundreds of serene stone faces smile down from every tower. A private picnic breakfast, prepared by a local chef at a villager's home, refuels you for the ride ahead. Your guide brings each temple's history to life as you pedal onward to Ta Prohm, where centuries-old trees grip the ruins in a slow, silent embrace — nature and stone locked together in one of Cambodia's most photographed scenes. An authentic Khmer lunch at a local restaurant caps off a morning that blends adventure, culture, and unforgettable scenery."
+            data-highlights="Sunrise over Angkor Wat from an e-bike saddle|Single-track jungle trails through Angkor Archaeological Park|Bayon Temple's iconic stone faces|Tree-engulfed ruins of Ta Prohm|Private picnic breakfast &amp; authentic Khmer lunch"
+            data-included="Electric-assist bike &amp; helmet|English-speaking cycling guide|Support vehicle with driver|Picnic breakfast|Lunch|Water, snacks &amp; fruit|Hotel pick-up &amp; drop-off"
+            data-excluded="Angkor Archaeological Park entrance ticket ($37/person)|Travel insurance|Personal expenses"
+            data-location="Angkor Archaeological Park"
+            data-duration="8 hours (approx)"
+            data-tourstart="4:30 AM"
+            data-distance="20-25km (approx)"
+            data-pricenote="The price is per rider, for a small group tour."
+            data-seotitle="Angkor Wat Sunrise E-Bike Tour, Siem Reap – Temple Cycling with Picnic Breakfast &amp; Khmer Lunch"
+            data-shortdesc="Ride electric-assist through the jungle trails of Angkor Park at dawn, watching the sun rise over Angkor Wat before continuing on to Bayon and Ta Prohm, with a picnic breakfast and authentic Khmer lunch along the way."
+            data-notice="Wear comfortable athletic clothing and closed shoes for off-road trails. Pickup is very early — bring a light jacket for the pre-dawn ride. The Angkor Archaeological Park entrance ticket is not included and must be purchased separately."
+            data-itinerary="4:30 AM::Pickup from your hotel and a quiet ride into Angkor Archaeological Park before dawn.||5:15 AM::Watch the sun rise in silhouette then gold behind the towers of Angkor Wat.||6:15 AM::Continue on quiet single-track trails past the south gate of Angkor Thom toward Bayon.||7:00 AM::Explore Bayon Temple, where hundreds of serene stone faces look out from every tower.||7:45 AM::Private picnic breakfast prepared by a local chef at a villager's home.||9:00 AM::Ride onward through the forest toward Ta Prohm.||9:45 AM::Wander the tree-engulfed ruins of Ta Prohm, where jungle roots grip the ancient stone.||11:00 AM::Authentic Khmer lunch at a local restaurant.||12:00 PM::Scenic ride back through the park to Siem Reap.||12:30 PM::Arrive back at your hotel.">
+            <div class="bt-card-thumb" data-images="../Image/Tour/EBike%20Tours/Angkor%20Sunrise/E-Bike%20Tour%20%281%29.webp|../Image/Tour/EBike%20Tours/Angkor%20Sunrise/E-Bike%20Tour%20%282%29.webp|../Image/Tour/EBike%20Tours/Angkor%20Sunrise/E-Bike%20Tour%20%283%29.webp|../Image/Tour/EBike%20Tours/Angkor%20Sunrise/E-Bike%20Tour%20%284%29.webp">
+              <div class="bt-card-thumb-viewport">
+                <img src="../Image/Tour/EBike%20Tours/Angkor%20Sunrise/E-Bike%20Tour%20%281%29.webp" alt="Angkor Wat sunrise e-bike tour with picnic breakfast and Khmer lunch" loading="lazy" decoding="async">
+                <span class="bt-badge-location">📍 <span>Angkor Archaeological Park</span></span>
+                <span class="bt-card-caption"><span class="bt-cat-icon">⚡</span> <span>
+                  1. Angkor Sunrise E-Bike Tour</span></span>
+              </div>
+            </div>
+            <div class="bt-card-body">
+              <h3 onclick="openTourDetail(this); return false;">1. Angkor Sunrise E-Bike Tour with Picnic Breakfast and Lunch</h3>
+              <ul class="bt-card-list">
+                <li>Watch sunrise over Angkor Wat, then ride jungle trails to Bayon and Ta Prohm</li>
+                <li>Private picnic breakfast &amp; authentic Khmer lunch along the way</li>
+                <li>Electric-assist bike, helmet, guide, support vehicle, and hotel pick-up/drop-off included</li>
+              </ul>
+            </div>
+            <div class="bt-card-price">
+              <div class="bt-price"><span class="bt-currency">$</span>119</div>
+              <div class="bt-price-note">*starting price</div>
+              <div class="bt-price-note">*per rider, group tour</div>
+              <a href="#" class="bt-details" onclick="openTourDetail(this); return false;">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+                <span>Details</span>
+              </a>
+            </div>
+          </article>
+
+          <article class="bt-card"
+            data-full="Some places are better understood at the pace of an e-bike, and Angkor is one of them. This tour rolls out from the shop and into the park's back roads, where the towering silhouette of Angkor Wat first comes into view — the world's largest religious monument and a fitting place to begin. Wander its grounds and let your guide unravel centuries of history hidden in every carving.||Back on the bike, single-track trails carry you toward Bayon, where dozens of enormous stone faces gaze out in every direction, each one carved with an expression that feels both ancient and alive. A stop for a delicious Khmer lunch breaks up the ride before you continue pedaling through the park's shaded trails, finishing at Ta Prohm — the temple made famous by the giant trees that have grown into and around its crumbling walls. It's a journey that turns sightseeing into an adventure, and history into something you can feel in your legs by the end of the day."
+            data-highlights="Electric-assist ride through Angkor's back roads and jungle trails|Angkor Wat exploration with an expert guide|Bayon Temple's carved stone faces|Authentic Khmer lunch at a local restaurant|Tree-covered ruins of Ta Prohm"
+            data-included="Electric-assist bike &amp; helmet|English-speaking cycling guide|Pick-up from your lodge|Khmer lunch|Water, snacks &amp; seasonal fruit"
+            data-excluded="Angkor Archaeological Park entrance ticket ($37/person)|Travel insurance|Personal expenses"
+            data-location="Angkor Archaeological Park"
+            data-duration="7 hours (approx)"
+            data-tourstart="8:00 AM"
+            data-distance="20-25km (approx)"
+            data-pricenote="The price is per rider, for a small group tour."
+            data-seotitle="Angkor Temple E-Bike Tour, Siem Reap – Ride to Angkor Wat, Bayon &amp; Ta Prohm with Lunch"
+            data-shortdesc="Ride electric-assist along the back roads and jungle trails of Angkor Archaeological Park, uncovering the history behind Angkor Wat, Bayon, and Ta Prohm with an expert local guide and a Khmer lunch along the way."
+            data-notice="Wear comfortable athletic clothing and closed shoes. The Angkor Archaeological Park entrance ticket is not included and must be purchased separately."
+            data-itinerary="8:00 AM::Pickup from your lodge and a ride into the park's back roads.||8:30 AM::Angkor Wat exploration with your guide, uncovering centuries of history.||10:00 AM::Single-track trails carry you toward Bayon Temple.||10:45 AM::Bayon's dozens of enormous carved stone faces.||11:30 AM::Delicious Khmer lunch at a local restaurant.||1:00 PM::Ride through the park's shaded trails toward Ta Prohm.||2:00 PM::Explore Ta Prohm, famous for the giant trees grown into its walls.||3:00 PM::Ride back to the shop or your lodge.">
+            <div class="bt-card-thumb" data-images="../Image/Tour/EBike%20Tours/Bike%20of%20the%20Angkor/E-Bike%20Tour%20%285%29.webp|../Image/Tour/EBike%20Tours/Bike%20of%20the%20Angkor/E-Bike%20Tour%20%286%29.webp|../Image/Tour/EBike%20Tours/Bike%20of%20the%20Angkor/E-Bike%20Tour%20%287%29.webp|../Image/Tour/EBike%20Tours/Bike%20of%20the%20Angkor/E-Bike%20Tour%20%288%29.webp">
+              <div class="bt-card-thumb-viewport">
+                <img src="../Image/Tour/EBike%20Tours/Bike%20of%20the%20Angkor/E-Bike%20Tour%20%285%29.webp" alt="Angkor temple e-bike tour to Angkor Wat, Bayon and Ta Prohm with lunch" loading="lazy" decoding="async">
+                <span class="bt-badge-location">📍 <span>Angkor Archaeological Park</span></span>
+                <span class="bt-card-caption"><span class="bt-cat-icon">⚡</span> <span>2. E-Bike of the Angkor Temple &amp; History Tour</span></span>
+              </div>
+            </div>
+            <div class="bt-card-body">
+              <h3 onclick="openTourDetail(this); return false;">2. E-Bike of the Angkor Temple &amp; History Tour with Lunch</h3>
+              <ul class="bt-card-list">
+                <li>Ride Angkor's back roads and jungle trails with an expert local guide</li>
+                <li>Angkor Wat, Bayon's stone faces, and the tree-covered ruins of Ta Prohm</li>
+                <li>Khmer lunch, water, snacks, and lodge pick-up included</li>
+              </ul>
+            </div>
+            <div class="bt-card-price">
+              <div class="bt-price"><span class="bt-currency">$</span>79</div>
+              <div class="bt-price-note">*starting price</div>
+              <div class="bt-price-note">*per rider, group tour</div>
+              <a href="#" class="bt-details" onclick="openTourDetail(this); return false;">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+                <span>Details</span>
+              </a>
+            </div>
+          </article>
+
+          <article class="bt-card"
+            data-full="As the heat of the day softens into evening, this countryside ride reveals a side of Siem Reap most visitors never see. Pedaling out from the shop toward the southern edge of the city, you'll pass duck farms, vegetable plots, and rice paddies, greeted along the way by curious kids waving hello from their front porches and villagers going about their daily routines.||A stop at a bustling local market offers a glimpse into where Cambodian families shop for the fresh ingredients behind their beloved home cooking. Every turn of the pedals brings you closer to rural life — modest farms, unhurried roads, and warm smiles from people happy to see visitors exploring their home. As the sun begins its slow descent, the ride concludes at a rice or lotus farm, where a cold drink in hand and a sky painted orange and pink make for the perfect ending to a day spent pedaling through the Cambodian countryside."
+            data-highlights="Scenic countryside cycling south of Siem Reap|Local markets, duck farms &amp; rice paddies|Genuine interactions with village life|Rural Cambodian food culture and fresh ingredients|Sunset drinks at a rice or lotus farm"
+            data-included="Electric-assist bike &amp; helmet|English-speaking cycling guide|Pick-up from your lodge|Sunset drinks|Water &amp; snacks|Community donation"
+            data-excluded="Personal expenses|Travel insurance|Other items not listed above"
+            data-location="Siem Reap Countryside"
+            data-duration="3.5 hours (approx)"
+            data-tourstart="3:30 PM"
+            data-distance="15-20km (approx)"
+            data-pricenote="The price is per rider, for a small group tour."
+            data-seotitle="Siem Reap Countryside Sunset E-Bike Tour – Rural Cambodia Riding with Sunset Drinks"
+            data-shortdesc="Ride electric-assist through rice fields, local markets, and quiet villages south of Siem Reap as the sky turns gold, ending with sunset drinks at a rice or lotus farm."
+            data-notice="Wear comfortable athletic clothing and closed shoes. This ride ends after sunset — a light layer is recommended for the ride back."
+            data-itinerary="3:30 PM::Pickup from your lodge and ride south of Siem Reap.||4:00 PM::Pass duck farms, vegetable plots, and rice paddies as village life unfolds around you.||4:45 PM::Stop at a bustling local market where Cambodian families shop for fresh ingredients.||5:15 PM::Continue past modest farms and unhurried village roads.||5:45 PM::Arrive at a rice or lotus farm as the sky turns gold.||6:30 PM::Sunset drinks in hand, then a relaxed ride back to Siem Reap.">
+            <div class="bt-card-thumb" data-images="../Image/Tour/EBike%20Tours/Countryside/E-Bike%20Tour%20%281%29.png|../Image/Tour/EBike%20Tours/Countryside/E-Bike%20Tour%20%283%29.png|../Image/Tour/EBike%20Tours/Countryside/E-Bike%20Tour%20%289%29.webp|../Image/Tour/EBike%20Tours/Countryside/E-Bike%20Tour%20%2810%29.webp">
+              <div class="bt-card-thumb-viewport">
+                <img src="../Image/Tour/EBike%20Tours/Countryside/E-Bike%20Tour%20%281%29.png" alt="Siem Reap countryside sunset e-bike tour with sunset drinks" loading="lazy" decoding="async">
+                <span class="bt-badge-location">📍 <span>Siem Reap Countryside</span></span>
+                <span class="bt-card-caption"><span class="bt-cat-icon">⚡</span> <span>3. Countryside at Twilight E-Bike Tour</span></span>
+              </div>
+            </div>
+            <div class="bt-card-body">
+              <h3 onclick="openTourDetail(this); return false;">3. Countryside at Twilight E-Bike Tour with Sunset Drinks</h3>
+              <ul class="bt-card-list">
+                <li>Ride past rice fields, duck farms, and a bustling local market</li>
+                <li>Genuine village life south of Siem Reap, away from the crowds</li>
+                <li>Sunset drinks at a rice or lotus farm to end the ride</li>
+              </ul>
+            </div>
+            <div class="bt-card-price">
+              <div class="bt-price"><span class="bt-currency">$</span>39</div>
+              <div class="bt-price-note">*starting price</div>
+              <div class="bt-price-note">*per rider, group tour</div>
+              <a href="#" class="bt-details" onclick="openTourDetail(this); return false;">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+                <span>Details</span>
+              </a>
+            </div>
+          </article>
+
+          <p class="bt-more-note" data-i18n="tr_more_ebike">Want something different? Message us on WhatsApp and we'll build a custom e-bike route around your dates.</p>
+
+        </div>
+
+        <div class="bt-cta-row">
+          <button type="button" class="btn btn-dark" id="tailorStartBtn">
+            <span data-i18n="tr_book_ebike">Book an E-Bike Tour</span>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<script>
+(function(root){
+function $(id){return root.querySelector("#"+id);}
+(function(){
+  var itin = $('btItinerary');
+  var ctaRow = root.querySelector('.bt-cta-row');
+  if(!itin || !ctaRow) return;
+
+  var homeParent = itin.parentNode;
+  var homeNext = itin.nextSibling; // remembers exact spot inside the sidebar
+
+  function reposition(mq){
+    if(mq.matches){
+      // Small screen: place itinerary+map right above the "Book a Moto Tour" button
+      ctaRow.parentNode.insertBefore(itin, ctaRow);
+    } else {
+      // Wider screen: put it back in the sidebar column
+      homeParent.insertBefore(itin, homeNext);
+    }
+  }
+
+  var mq = window.matchMedia('(max-width:900px)');
+  reposition(mq);
+  if(mq.addEventListener){ mq.addEventListener('change', reposition); }
+  else if(mq.addListener){ mq.addListener(reposition); }
+})();
+
+(function(){
+  var custom = $('tourSelectCustom');
+  var trigger = $('tourSelectTrigger');
+  var triggerTitle = trigger ? trigger.querySelector('.tour-select-current-title') : null;
+  var triggerNum = trigger ? trigger.querySelector('.tour-select-current strong') : null;
+  var list = $('tourSelectList');
+  var subtitle = root.querySelector('#btItinerary .bt-itin-subtitle');
+  var itinList = $('btItinList');
+  var mapFrame = root.querySelector('#btItinMap iframe');
+  var mapLabel = $('btItinMapLabel');
+  var mapLocateBtn = $('btItinMapLocate');
+  if(!trigger || !list || !subtitle || !itinList) return;
+
+  var currentTourId = '1';
+  var userOrigin = null; // "lat,lng" once geolocation succeeds
+
+  // Endpoint / stop dot icons (reused from the existing markup)
+  var endpointDotSvg = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2a10 10 0 00-8.5 15.2L2 22l4.9-1.4A10 10 0 1012 2z"/></svg>';
+  var stopDotSvg = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 21s-7-6.2-7-11a7 7 0 1114 0c0 4.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>';
+
+  var tours = {
+    '1': {
+      num: '1.', title: 'Angkor Sunrise Bike Tour with Picnic Breakfast and Lunch',
+      map: 'Angkor Wat, Cambodia',
+      mapStops: [
+        'Siem Reap, Cambodia',
+        'Angkor Wat, Cambodia',
+        'Bayon Temple, Angkor Thom, Cambodia',
+        'Ta Prohm, Cambodia',
+        'Siem Reap, Cambodia'
+      ],
+      stops: [
+        ['4:30 AM', 'Hotel pickup, ride into Angkor Park before dawn.'],
+        ['5:15 AM', 'Watch the sunrise over Angkor Wat.'],
+        ['6:15 AM', "Single-track trails past Angkor Thom's south gate to Bayon."],
+        ['7:00 AM', "Bayon Temple's hundreds of carved stone faces."],
+        ['7:45 AM', "Private picnic breakfast at a villager's home."],
+        ['9:00 AM', 'Cycle onward toward Ta Prohm.'],
+        ['9:45 AM', 'Explore the tree-engulfed ruins of Ta Prohm.'],
+        ['11:00 AM', 'Authentic Khmer lunch at a local restaurant.'],
+        ['12:30 PM', 'Arrive back at your hotel.']
+      ]
+    },
+    '2': {
+      num: '2.', title: 'Bike of the Angkor Temple & History Tour with Lunch',
+      map: 'Angkor Wat, Cambodia',
+      mapStops: [
+        'Siem Reap, Cambodia',
+        'Angkor Wat, Cambodia',
+        'Bayon Temple, Angkor Thom, Cambodia',
+        'Ta Prohm, Cambodia',
+        'Siem Reap, Cambodia'
+      ],
+      stops: [
+        ['8:00 AM', "Pickup from your lodge, ride into the park's back roads."],
+        ['8:30 AM', 'Angkor Wat exploration with your guide.'],
+        ['10:00 AM', 'Single-track trails toward Bayon Temple.'],
+        ['10:45 AM', "Bayon's dozens of carved stone faces."],
+        ['11:30 AM', 'Delicious Khmer lunch at a local restaurant.'],
+        ['1:00 PM', "Pedal the park's shaded trails toward Ta Prohm."],
+        ['2:00 PM', 'Explore Ta Prohm and its tree-covered ruins.'],
+        ['3:00 PM', 'Ride back to the shop or your lodge.']
+      ]
+    },
+    '3': {
+      num: '3.', title: 'Countryside at Twilight Bike Tour with Sunset Drinks',
+      map: 'Siem Reap, Cambodia',
+      mapStops: [
+        'Siem Reap, Cambodia',
+        'Local Market, Siem Reap, Cambodia',
+        'Lotus Farm, Siem Reap, Cambodia',
+        'Siem Reap, Cambodia'
+      ],
+      stops: [
+        ['3:30 PM', 'Pickup from your lodge, ride south of Siem Reap.'],
+        ['4:00 PM', 'Pass duck farms, vegetable plots, and rice paddies.'],
+        ['4:45 PM', 'Stop at a bustling local market.'],
+        ['5:15 PM', 'Continue past modest farms and quiet village roads.'],
+        ['5:45 PM', 'Arrive at a rice or lotus farm as the sky turns gold.'],
+        ['6:30 PM', 'Sunset drinks, then a relaxed ride back to Siem Reap.']
+      ]
+    }
+  };
+
+  function render(id){
+    var tour = tours[id];
+    if(!tour) return;
+    currentTourId = id;
+
+    subtitle.textContent = '— ' + tour.num + ' ' + tour.title;
+    if(triggerNum) triggerNum.textContent = tour.num;
+    if(triggerTitle) triggerTitle.textContent = tour.title;
+
+    var html = '';
+    tour.stops.forEach(function(stop, i){
+      var isFirst = i === 0;
+      var isLast = i === tour.stops.length - 1;
+      var itemClass = 'bt-itin-item' + (isFirst || isLast ? ' bt-itin-endpoint' : '') + (isLast ? ' bt-itin-last' : '');
+      var dotClass = 'bt-itin-dot' + (isFirst || isLast ? ' bt-itin-dot-endpoint' : '');
+      var dotSvg = (isFirst || isLast) ? (isFirst ? endpointDotSvg : '') : stopDotSvg;
+      html += '<li class="' + itemClass + '">' +
+                '<span class="' + dotClass + '">' + dotSvg + '</span>' +
+                '<div class="bt-itin-content"><strong>' + stop[0] + '</strong><p>' + stop[1] + '</p></div>' +
+              '</li>';
+    });
+    itinList.innerHTML = html;
+
+    if(mapFrame){
+      var waypoints = tour.mapStops && tour.mapStops.length ? tour.mapStops.slice() : [tour.map];
+      var origin = userOrigin || waypoints[0];
+      var stopsAfterOrigin = userOrigin ? waypoints : waypoints.slice(1);
+      if(stopsAfterOrigin.length){
+        var daddr = stopsAfterOrigin.map(function(p){ return encodeURIComponent(p); }).join('+to:');
+        mapFrame.src = 'https://www.google.com/maps?saddr=' + encodeURIComponent(origin) + '&daddr=' + daddr + '&output=embed';
+      } else {
+        mapFrame.src = 'https://www.google.com/maps?q=' + encodeURIComponent(origin) + '&output=embed';
+      }
+    }
+    if(mapLabel){
+      var stopCount = tour.mapStops ? tour.mapStops.length : 1;
+      mapLabel.textContent = (userOrigin ? 'From your location · ' : '') + (stopCount > 1 ? (stopCount + ' route stops') : 'Main stop');
+    }
+    if(mapLocateBtn) mapLocateBtn.classList.toggle('is-active', !!userOrigin);
+
+    // sync the active state in the dropdown list
+    var opts = list.querySelectorAll('.tour-select-option');
+    opts.forEach(function(opt){
+      opt.classList.toggle('active', opt.getAttribute('data-value') === id);
+    });
+  }
+
+  function openList(){ list.hidden = false; trigger.setAttribute('aria-expanded', 'true'); }
+  function closeList(){ list.hidden = true; trigger.setAttribute('aria-expanded', 'false'); }
+
+  trigger.addEventListener('click', function(){
+    if(list.hidden){ openList(); } else { closeList(); }
+  });
+
+  list.querySelectorAll('.tour-select-option').forEach(function(opt){
+    opt.addEventListener('click', function(){
+      render(opt.getAttribute('data-value'));
+      closeList();
+    });
+  });
+
+  document.addEventListener('click', function(e){
+    if(custom && !custom.contains(e.target)) closeList();
+  });
+
+  if(mapLocateBtn){
+    mapLocateBtn.addEventListener('click', function(){
+      if(!navigator.geolocation){
+        if(mapLabel) mapLabel.textContent = 'Location not supported by this browser';
+        return;
+      }
+      mapLocateBtn.disabled = true;
+      var labelSpan = mapLocateBtn.querySelector('span');
+      if(labelSpan) labelSpan.textContent = 'Locating…';
+      navigator.geolocation.getCurrentPosition(function(pos){
+        userOrigin = pos.coords.latitude + ',' + pos.coords.longitude;
+        mapLocateBtn.disabled = false;
+        if(labelSpan) labelSpan.textContent = 'Using your location';
+        render(currentTourId);
+      }, function(){
+        mapLocateBtn.disabled = false;
+        if(labelSpan) labelSpan.textContent = 'Use my location';
+        if(mapLabel) mapLabel.textContent = 'Location permission denied';
+      }, { timeout: 10000 });
+    });
+  }
+
+  render('1');
+})();
+
+(function(){
+  var startBtn = $('tailorStartBtn');
+  if(!startBtn) return;
+  startBtn.addEventListener('click', function(){
+    window.openBookingModal && window.openBookingModal({
+      vehicle:'E-Bike', type:'Guided Tour', package:'E-Bike Tours'
+    });
+
+  });
+})();
+
+(function(){
+  var toggle = $('btItinToggle');
+  var list = $('btItinList');
+  var map = $('btItinMap');
+  if (!toggle || !list || !map) return;
+  toggle.addEventListener('click', function(e){
+    e.preventDefault();
+    var hidden = list.style.display === 'none';
+    list.style.display = hidden ? '' : 'none';
+    map.style.display = hidden ? '' : 'none';
+    toggle.textContent = hidden ? 'Hide itinerary' : 'Show itinerary';
+  });
+})();
+
+(function(){
+  // Card photo arrows: cycles through photos listed in data-images="a.webp|b.webp|c.webp"
+  // on the .bt-card-thumb. Falls back to the single <img> already in the card, and
+  // auto-hides the arrow strip when there's nothing to cycle through.
+  // Images are preloaded and the fade timing matches the CSS transition (see
+  // .bt-cards-inspiration .bt-card-thumb-viewport img in the <style> above) so
+  // switching photos never shows a blank flash or a hard cut.
+  var FADE_MS = 350; // must match the opacity transition duration in CSS
+
+  root.querySelectorAll('.bt-cards-inspiration .bt-card-thumb').forEach(function(thumb){
+    var img = thumb.querySelector('.bt-card-thumb-viewport img');
+    var nav = thumb.querySelector('.bt-card-thumb-nav');
+    if(!img || !nav) return;
+
+    var raw = thumb.getAttribute('data-images');
+    var images = raw
+      ? raw.split('|').map(function(s){ return s.trim(); }).filter(Boolean)
+      : [img.getAttribute('src')];
+
+    if(images.length < 2){
+      nav.classList.add('bt-thumb-nav-hidden');
+      return;
+    }
+
+    // Preload every photo in this card's set up front so clicking an arrow
+    // never has to wait on a network fetch mid-fade.
+    var preloaded = images.map(function(src){
+      var pre = new Image();
+      pre.src = src;
+      return pre;
+    });
+
+    var idx = 0;
+    var animating = false;
+    var prevBtn = nav.querySelector('.bt-thumb-prev');
+    var nextBtn = nav.querySelector('.bt-thumb-next');
+
+    function setNavDisabled(disabled){
+      prevBtn.disabled = disabled;
+      nextBtn.disabled = disabled;
+    }
+
+    function show(i){
+      if(animating) return; // ignore rapid double-clicks instead of queuing overlapping fades
+      var nextIdx = (i + images.length) % images.length;
+      if(nextIdx === idx) return;
+      animating = true;
+      setNavDisabled(true);
+      img.style.opacity = '0';
+
+      function swap(){
+        idx = nextIdx;
+        img.setAttribute('src', images[idx]);
+        img.style.opacity = '1';
+        animating = false;
+        setNavDisabled(false);
+      }
+
+      // Preloaded image is already decoded/cached, so this only waits for the
+      // fade-out to finish (matches FADE_MS) rather than an arbitrary guess.
+      var pre = preloaded[nextIdx];
+      if(pre.complete){
+        setTimeout(swap, FADE_MS);
+      } else {
+        pre.addEventListener('load', function(){ setTimeout(swap, FADE_MS); }, { once: true });
+      }
+    }
+
+    prevBtn.addEventListener('click', function(e){ e.preventDefault(); e.stopPropagation(); show(idx - 1); });
+    nextBtn.addEventListener('click', function(e){ e.preventDefault(); e.stopPropagation(); show(idx + 1); });
+  });
+})();
+})(document.getElementById("panel-ebike"));
+</script>
+</div>
+
+
+<section class="cr-reviews">
+  <div class="wrap">
+    <div class="cr-reviews-grid">
+      <div class="cr-rating-col">
+        <h3 data-i18n="bt_cr_customerReviews">Customer reviews
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" title="Ratings from verified riders"><circle cx="12" cy="12" r="9.5"/><path d="M12 11v6M12 7.5v.5"/></svg>
+        </h3>
+        <p class="cr-rating-label" data-i18n="bt_cr_overallRating">Overall rating</p>
+        <div class="cr-rating-score">4.9<span>/5</span></div>
+        <div class="cr-stars" aria-label="4.9 out of 5 stars">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.5l2.9 6.4 6.9.7-5.2 4.8 1.5 6.9L12 17.9l-6.1 3.4 1.5-6.9L2.2 9.6l6.9-.7z"/></svg>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.5l2.9 6.4 6.9.7-5.2 4.8 1.5 6.9L12 17.9l-6.1 3.4 1.5-6.9L2.2 9.6l6.9-.7z"/></svg>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.5l2.9 6.4 6.9.7-5.2 4.8 1.5 6.9L12 17.9l-6.1 3.4 1.5-6.9L2.2 9.6l6.9-.7z"/></svg>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.5l2.9 6.4 6.9.7-5.2 4.8 1.5 6.9L12 17.9l-6.1 3.4 1.5-6.9L2.2 9.6l6.9-.7z"/></svg>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.5l2.9 6.4 6.9.7-5.2 4.8 1.5 6.9L12 17.9l-6.1 3.4 1.5-6.9L2.2 9.6l6.9-.7z"/></svg>
+        </div>
+        <p class="cr-rating-count" data-i18n="bt_cr_basedOnReviews">Based on 428 reviews</p>
+      </div>
+
+      <div class="cr-team-card">
+        <div class="cr-team-info">
+          <span class="cr-team-flag">🚩</span>
+          <div>
+            <h4 data-i18n="bt_cr_aboutTeam">About the team
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M4 12l5 5L20 6"/></svg>
+            </h4>
+            <p data-i18n="bt_cr_teamSnapshot">A snapshot of who will guide your experience</p>
+          </div>
+        </div>
+
+        <div class="cr-divider"></div>
+
+        <div class="cr-stats">
+          <div class="cr-stat">
+            <div class="cr-stat-top">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M4 12l5 5L20 6"/></svg>
+              700+
+            </div>
+            <span data-i18n="bt_cr_completedActivities">Completed activities</span>
+          </div>
+          <div class="cr-stat">
+            <div class="cr-stat-top">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 3h12M6 21h12M8 3c0 5 8 5 8 8s-8 3-8 8M16 3c0 5-8 5-8 8s8 3 8 8"/></svg>
+              5+
+            </div>
+            <span data-i18n="bt_cr_yearsOnGYG">Years on GetYourGuide</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="tour-lightbox-overlay" id="tourLightboxOverlay"></div>
+<div class="tour-lightbox" id="tourLightbox" role="dialog" aria-modal="true" aria-labelledby="tourLightboxTitle">
+  <button type="button" class="tour-lightbox-close" id="tourLightboxClose" aria-label="Close">&times;</button>
+  <div class="tl-scroll">
+    <div class="tl-brand-header">
+      <h2 class="tl-brand-title">SiemRide</h2>
+      <p class="tl-brand-tagline">Ride Different. Explore Deeper. Give Back.</p>
+      <div class="tl-brand-back-row">
+        <button type="button" class="tl-brand-back-link" id="tlBrandBackBtn">← Back to Home</button>
+      </div>
+    </div>
+    <div class="tl-card">
+      <div class="tl-top">
+        <div class="tl-gallery">
+          <div class="tl-gallery-main">
+            <img id="tourLightboxImg" src="" alt="" tabindex="0" role="button" aria-label="View photo fullscreen">
+            <span class="bt-badge-location" id="tourLightboxLocation"></span>
+            <div class="tl-gallery-nav tl-gallery-nav-onimage" id="tourLightboxNav">
+              <button type="button" class="tl-onimage-arrow" id="tlGalleryPrev" aria-label="Previous photo">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg>
+              </button>
+              <button type="button" class="tl-onimage-arrow" id="tlGalleryNext" aria-label="Next photo">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>
+              </button>
+            </div>
+          </div>
+
+          <div class="tl-body">
+            <section class="tl-section" id="tlHighlightsSection">
+              <h4>Highlights</h4>
+              <ul class="tl-bullets" id="tourLightboxHighlights"></ul>
+            </section>
+
+            <section class="tl-section" id="tlItinerarySection">
+              <h4>Details</h4>
+              <p class="tl-desc" id="tourLightboxDesc"></p>
+              <ul class="tl-itinerary" id="tourLightboxItinerary"></ul>
+            </section>
+
+            <section class="tl-section" id="tlIncludedSection">
+              <h4>Included</h4>
+              <ul class="tl-check-list" id="tourLightboxIncludedList"></ul>
+            </section>
+
+            <section class="tl-section" id="tlExcludedSection">
+              <h4>Excluded</h4>
+              <ul class="tl-x-list" id="tourLightboxExcludedList"></ul>
+            </section>
+
+            <p class="tl-notice" id="tourLightboxNotice"></p>
+          </div>
+        </div>
+
+        <div class="tl-sidebar-col">
+          <div class="tl-sidebar">
+            <h3 id="tourLightboxTitle"></h3>
+            <div class="tl-price" id="tourLightboxPrice"></div>
+
+            <div class="tl-field" id="tlSeoField">
+              <p class="tl-field-label">SEO Title</p>
+              <p class="tl-field-value" id="tourLightboxSeoTitle"></p>
+            </div>
+
+            <div class="tl-field" id="tlShortDescField">
+              <p class="tl-field-label">Short Description</p>
+              <p class="tl-field-value" id="tourLightboxShortDesc"></p>
+            </div>
+
+            <section class="tl-section tl-about-inline" id="tlAboutSection">
+              <h4>About this tour</h4>
+              <dl class="tl-meta" id="tourLightboxMeta"></dl>
+            </section>
+
+            <div class="tl-gallery-strip" id="tlGalleryStrip">
+              <div class="tl-gallery-thumbs" id="tourLightboxThumbs"></div>
+            </div>
+          </div>
+
+          <div class="tl-cta-row">
+            <div class="tl-cta-block">
+              <button type="button" class="tour-lightbox-cta" id="tourLightboxBookBtn">
+                <span data-i18n="bt_lightbox_bookThisTour">Book this tour</span>
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+              </button>
+              <p class="tl-pricenote" id="tourLightboxPriceNote"><strong>Please note:</strong> <span id="tourLightboxPriceNoteText"></span></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Sticky "Book Now" bar: appears once the user scrolls past the main
+     Book this tour button inside the tour detail panel. -->
+<div class="tl-sticky-bar" id="tlStickyBar">
+  <div class="tl-sticky-bar-inner">
+    <button type="button" class="tour-lightbox-cta tl-sticky-book-btn" id="tlStickyBookBtn">
+      <span>Book Now</span>
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+    </button>
+    <p class="tl-sticky-paylater">Pay later 😊</p>
+  </div>
+</div>
+
+<div class="tl-fullscreen-overlay" id="tlFullscreenOverlay" role="dialog" aria-modal="true" aria-label="Photo viewer">
+  <button type="button" class="tl-fullscreen-close" id="tlFullscreenClose" aria-label="Close photo viewer">&times;</button>
+  <button type="button" class="tl-fullscreen-arrow tl-fullscreen-prev" id="tlFullscreenPrev" aria-label="Previous photo">
+    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg>
+  </button>
+  <img id="tlFullscreenImg" src="" alt="">
+  <button type="button" class="tl-fullscreen-arrow tl-fullscreen-next" id="tlFullscreenNext" aria-label="Next photo">
+    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>
+  </button>
+  <span class="tl-fullscreen-counter" id="tlFullscreenCounter"></span>
+</div>
+
+<script>
+(function(){
+  var overlay = document.getElementById('tourLightboxOverlay');
+  var box = document.getElementById('tourLightbox');
+  var closeBtn = document.getElementById('tourLightboxClose');
+  var bookBtn = document.getElementById('tourLightboxBookBtn');
+  var stickyBar = document.getElementById('tlStickyBar');
+  var stickyBookBtn = document.getElementById('tlStickyBookBtn');
+  var prevBtn = document.getElementById('tlGalleryPrev');
+  var nextBtn = document.getElementById('tlGalleryNext');
+  var pendingBooking = null;
+  var galleryImgs = [];
+  var galleryIdx = 0;
+
+  // Cache every element the lightbox writes to once, up front, instead of
+  // re-running document.getElementById for each of them on every single open.
+  var el = {
+    img: document.getElementById('tourLightboxImg'),
+    location: document.getElementById('tourLightboxLocation'),
+    title: document.getElementById('tourLightboxTitle'),
+    price: document.getElementById('tourLightboxPrice'),
+    priceNoteText: document.getElementById('tourLightboxPriceNoteText'),
+    seoTitle: document.getElementById('tourLightboxSeoTitle'),
+    seoField: document.getElementById('tlSeoField'),
+    shortDesc: document.getElementById('tourLightboxShortDesc'),
+    shortDescField: document.getElementById('tlShortDescField'),
+    meta: document.getElementById('tourLightboxMeta'),
+    aboutSection: document.getElementById('tlAboutSection'),
+    highlights: document.getElementById('tourLightboxHighlights'),
+    highlightsSection: document.getElementById('tlHighlightsSection'),
+    desc: document.getElementById('tourLightboxDesc'),
+    itinerary: document.getElementById('tourLightboxItinerary'),
+    itinerarySection: document.getElementById('tlItinerarySection'),
+    included: document.getElementById('tourLightboxIncludedList'),
+    includedSection: document.getElementById('tlIncludedSection'),
+    excluded: document.getElementById('tourLightboxExcludedList'),
+    excludedSection: document.getElementById('tlExcludedSection'),
+    notice: document.getElementById('tourLightboxNotice'),
+    thumbsWrap: document.getElementById('tourLightboxThumbs'),
+    galleryNav: document.getElementById('tourLightboxNav'),
+    scrollWrap: box.querySelector('.tl-scroll')
+  };
+
+  function renderGalleryImg(){
+    if(!galleryImgs.length) return;
+    el.img.src = galleryImgs[galleryIdx];
+    if(el.galleryNav) el.galleryNav.style.display = galleryImgs.length > 1 ? '' : 'none';
+    var thumbs = el.thumbsWrap.querySelectorAll('.tl-thumb');
+    thumbs.forEach(function(t,i){ t.classList.toggle('active', i===galleryIdx); });
+    // Keep the fullscreen viewer in sync if it happens to be open already.
+    if(fs.overlay.classList.contains('open')) renderFullscreenImg();
+  }
+
+  /* ---- Fullscreen photo viewer: opened by clicking the main image, shares
+     the same galleryImgs/galleryIdx state as the embedded gallery above so
+     the two always stay in sync with each other. ---- */
+  var fs = {
+    overlay: document.getElementById('tlFullscreenOverlay'),
+    img: document.getElementById('tlFullscreenImg'),
+    close: document.getElementById('tlFullscreenClose'),
+    prev: document.getElementById('tlFullscreenPrev'),
+    next: document.getElementById('tlFullscreenNext'),
+    counter: document.getElementById('tlFullscreenCounter')
+  };
+
+  function renderFullscreenImg(){
+    if(!galleryImgs.length) return;
+    fs.img.src = galleryImgs[galleryIdx];
+    fs.img.alt = el.img.alt;
+    var multi = galleryImgs.length > 1;
+    fs.prev.style.display = multi ? '' : 'none';
+    fs.next.style.display = multi ? '' : 'none';
+    fs.counter.style.display = multi ? '' : 'none';
+    fs.counter.textContent = (galleryIdx + 1) + ' / ' + galleryImgs.length;
+  }
+
+  function openFullscreen(){
+    if(!galleryImgs.length) return;
+    renderFullscreenImg();
+    fs.overlay.classList.add('open');
+    if (stickyBar) stickyBar.classList.remove('show');
+  }
+  function closeFullscreen(){
+    fs.overlay.classList.remove('open');
+    if (stickyBar && bookBtn && box.classList.contains('open')) {
+      var r = bookBtn.getBoundingClientRect();
+      var inView = r.top < window.innerHeight && r.bottom > 0;
+      stickyBar.classList.toggle('show', !inView);
+    }
+  }
+
+  el.img.addEventListener('click', openFullscreen);
+  el.img.addEventListener('keydown', function(e){
+    if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); openFullscreen(); }
+  });
+  fs.close.addEventListener('click', closeFullscreen);
+  fs.prev.addEventListener('click', function(){
+    galleryIdx = (galleryIdx - 1 + galleryImgs.length) % galleryImgs.length;
+    renderFullscreenImg();
+    var thumbs = el.thumbsWrap.querySelectorAll('.tl-thumb');
+    thumbs.forEach(function(t,i){ t.classList.toggle('active', i===galleryIdx); });
+    el.img.src = galleryImgs[galleryIdx];
+  });
+  fs.next.addEventListener('click', function(){
+    galleryIdx = (galleryIdx + 1) % galleryImgs.length;
+    renderFullscreenImg();
+    var thumbs = el.thumbsWrap.querySelectorAll('.tl-thumb');
+    thumbs.forEach(function(t,i){ t.classList.toggle('active', i===galleryIdx); });
+    el.img.src = galleryImgs[galleryIdx];
+  });
+  // Click the dark backdrop (not the photo or the buttons) to close.
+  fs.overlay.addEventListener('click', function(e){
+    if(e.target === fs.overlay) closeFullscreen();
+  });
+  document.addEventListener('keydown', function(e){
+    if(!fs.overlay.classList.contains('open')) return;
+    if(e.key === 'Escape'){ e.stopImmediatePropagation(); closeFullscreen(); }
+    else if(e.key === 'ArrowLeft') fs.prev.click();
+    else if(e.key === 'ArrowRight') fs.next.click();
+  });
+
+  if(prevBtn) prevBtn.addEventListener('click', function(){
+    galleryIdx = (galleryIdx - 1 + galleryImgs.length) % galleryImgs.length;
+    renderGalleryImg();
+  });
+  if(nextBtn) nextBtn.addEventListener('click', function(){
+    galleryIdx = (galleryIdx + 1) % galleryImgs.length;
+    renderGalleryImg();
+  });
+
+  // helper: build a bullet <ul> from a pipe-separated string
+  function fillList(ul, text, iconClass){
+    ul.innerHTML = '';
+    var parts = text ? text.split('|').map(function(s){return s.trim();}).filter(Boolean) : [];
+    var frag = document.createDocumentFragment();
+    parts.forEach(function(t){
+      var li = document.createElement('li');
+      if(iconClass) li.className = iconClass;
+      li.textContent = t;
+      frag.appendChild(li);
+    });
+    ul.appendChild(frag);
+    return parts.length;
+  }
+
+  window.openTourDetail = function(triggerEl){
+    var card = triggerEl.closest('.bt-card');
+    if(!card) return;
+
+    // Open immediately: adding the class here (before any content work below)
+    // lets the browser start painting the fade/scale-in transition right away
+    // instead of freezing on a blank click while the content is assembled.
+    overlay.classList.add('open');
+    box.classList.add('open');
+    document.body.style.overflow = 'hidden';
+
+    // The rest — reading the card's data attributes and rebuilding the
+    // lightbox's content — runs on the next frame so it never blocks that
+    // opening paint. It's a few ms of work; deferring it is what removes the
+    // "stuck, then it loads" feeling.
+    requestAnimationFrame(function(){
+      var titleFull = card.querySelector('h3').textContent.trim();
+      var img = card.querySelector('.bt-card-thumb img');
+      var locationBadge = card.querySelector('.bt-badge-location');
+      var priceEl = card.querySelector('.bt-price');
+      var priceHTML = priceEl ? priceEl.innerHTML : '';
+      var priceNum = priceEl ? parseFloat(priceEl.textContent.replace(/[^0-9.]/g,'')) : 0;
+      var items = Array.prototype.map.call(card.querySelectorAll('.bt-card-list li'), function(li){ return li.textContent.trim(); });
+      var tourName = titleFull.replace(/^Option\s*\d+:\s*/i, '');
+
+      // Rich detail content, read from data attributes on the card
+      var thumbEl = card.querySelector('.bt-card-thumb');
+      var galleryAttr = card.getAttribute('data-gallery') || (thumbEl ? thumbEl.getAttribute('data-images') : '') || '';
+      var fullDesc = card.getAttribute('data-full') || '';
+      var highlightsAttr = card.getAttribute('data-highlights') || '';
+      var includedAttr = card.getAttribute('data-included') || '';
+      var excludedAttr = card.getAttribute('data-excluded') || '';
+      var itineraryAttr = card.getAttribute('data-itinerary') || '';
+      var noticeAttr = card.getAttribute('data-notice') || '';
+      var location = card.getAttribute('data-location') || (locationBadge ? locationBadge.textContent.replace('📍','').trim() : '');
+      var duration = card.getAttribute('data-duration') || '';
+      var tourStart = card.getAttribute('data-tourstart') || '';
+      var distance = card.getAttribute('data-distance') || '';
+      var priceNoteText = card.getAttribute('data-pricenote') || 'The price is per person. Our group\'s size is nice and small.';
+      var seoTitle = card.getAttribute('data-seotitle') || '';
+      var shortDesc = card.getAttribute('data-shortdesc') || (items.length ? items[0] : '');
+
+      // Gallery — build every thumbnail in a DocumentFragment so it's a single
+      // insertion into the live DOM (one reflow) instead of one reflow per photo.
+      galleryImgs = galleryAttr ? galleryAttr.split('|').map(function(s){return s.trim();}) : (img ? [img.src] : []);
+      galleryIdx = 0;
+      el.img.alt = img ? img.alt : '';
+      el.thumbsWrap.innerHTML = '';
+      if (galleryImgs.length > 1){
+        var frag = document.createDocumentFragment();
+        galleryImgs.forEach(function(src, i){
+          var t = document.createElement('img');
+          t.src = src; t.className = 'tl-thumb';
+          t.loading = 'lazy';
+          t.decoding = 'async';
+          t.addEventListener('click', function(){ galleryIdx = i; renderGalleryImg(); });
+          frag.appendChild(t);
+        });
+        el.thumbsWrap.appendChild(frag);
+        el.thumbsWrap.style.display = '';
+      } else {
+        el.thumbsWrap.style.display = 'none';
+      }
+      renderGalleryImg();
+
+      el.location.textContent = locationBadge ? locationBadge.textContent : '';
+      el.location.style.display = locationBadge ? '' : 'none';
+      el.title.textContent = titleFull;
+      el.price.innerHTML = priceHTML;
+      el.priceNoteText.textContent = priceNoteText;
+
+      el.seoTitle.textContent = seoTitle;
+      el.seoField.style.display = seoTitle ? '' : 'none';
+      el.shortDesc.textContent = shortDesc;
+      el.shortDescField.style.display = shortDesc ? '' : 'none';
+
+      // About this tour meta list
+      el.meta.innerHTML = '';
+      var metaFrag = document.createDocumentFragment();
+      [['Location', location], ['Total distance', distance], ['Duration', duration], ['Tour start', tourStart]].forEach(function(pair){
+        if(!pair[1]) return;
+        var row = document.createElement('div'); row.className = 'tl-meta-row';
+        var dt = document.createElement('dt'); dt.textContent = pair[0];
+        var dd = document.createElement('dd');
+        var m = pair[1].match(/^(.*?)\s*(\([^)]*\))\s*$/);
+        var main = m ? m[1] : pair[1];
+        var paren = m ? m[2] : '';
+        dd.innerHTML = ': <strong></strong>' + (paren ? ' <em></em>' : '');
+        dd.querySelector('strong').textContent = main;
+        if(paren) dd.querySelector('em').textContent = paren;
+        row.appendChild(dt); row.appendChild(dd);
+        metaFrag.appendChild(row);
+      });
+      el.meta.appendChild(metaFrag);
+      el.aboutSection.style.display = (location||distance||duration||tourStart) ? '' : 'none';
+
+      // Highlights
+      var highlightItems = highlightsAttr ? highlightsAttr.split('|') : items;
+      var hCount = fillList(el.highlights, highlightItems.join('|'), null);
+      el.highlightsSection.style.display = hCount ? '' : 'none';
+
+      // Details / itinerary
+      el.desc.innerHTML = '';
+      el.itinerary.innerHTML = '';
+      var itinItems = itineraryAttr ? itineraryAttr.split('||').map(function(s){return s.trim();}).filter(Boolean) : [];
+      if (itinItems.length){
+        var itinFrag = document.createDocumentFragment();
+        itinItems.forEach(function(entry){
+          var sep = entry.indexOf('::');
+          var time = sep > -1 ? entry.slice(0, sep).trim() : '';
+          var text = sep > -1 ? entry.slice(sep+2).trim() : entry;
+          var li = document.createElement('li');
+          if (time){
+            var strong = document.createElement('strong');
+            strong.textContent = time;
+            li.appendChild(strong);
+          }
+          var span = document.createElement('span');
+          span.textContent = text;
+          li.appendChild(span);
+          itinFrag.appendChild(li);
+        });
+        el.itinerary.appendChild(itinFrag);
+        el.desc.style.display = 'none';
+        el.itinerary.style.display = '';
+      } else if (fullDesc) {
+        var descFrag = document.createDocumentFragment();
+        fullDesc.split('||').forEach(function(para){
+          var p = document.createElement('p');
+          p.textContent = para.trim();
+          descFrag.appendChild(p);
+        });
+        el.desc.appendChild(descFrag);
+        el.desc.style.display = '';
+        el.itinerary.style.display = 'none';
+      } else {
+        el.desc.style.display = 'none';
+        el.itinerary.style.display = 'none';
+      }
+      el.itinerarySection.style.display = (itinItems.length || fullDesc) ? '' : 'none';
+
+      // Included / Excluded
+      var incCount = fillList(el.included, includedAttr, 'tl-check');
+      el.includedSection.style.display = incCount ? '' : 'none';
+      var excCount = fillList(el.excluded, excludedAttr, 'tl-x');
+      el.excludedSection.style.display = excCount ? '' : 'none';
+
+      // Final notice
+      el.notice.textContent = noticeAttr;
+      el.notice.style.display = noticeAttr ? '' : 'none';
+
+      pendingBooking = {
+        vehicle:((card.closest('.tours-panel')||{}).dataset||{}).vehicle||'Motorbike', type:'Guided Tour', package:((card.closest('.tours-panel')||{}).dataset||{}).package||'Moto Tours',
+        interests:[tourName],
+        pricing:[{label:tourName, price:priceNum}]
+      };
+
+      // Reset scroll position last, once the (possibly taller/shorter) new
+      // content is actually in place.
+      box.scrollTop = 0;
+      if (el.scrollWrap) el.scrollWrap.scrollTop = 0;
+    });
+  };
+
+  function closeTourDetail(){
+    overlay.classList.remove('open');
+    box.classList.remove('open');
+    document.body.style.overflow = '';
+    if (stickyBar) stickyBar.classList.remove('show');
+  }
+
+  closeBtn.addEventListener('click', closeTourDetail);
+  var brandBackBtn = document.getElementById('tlBrandBackBtn');
+  if(brandBackBtn) brandBackBtn.addEventListener('click', closeTourDetail);
+  overlay.addEventListener('click', closeTourDetail);
+  document.addEventListener('keydown', function(e){
+    if(e.key === 'Escape') closeTourDetail();
+  });
+
+  bookBtn.addEventListener('click', function(){
+    closeTourDetail();
+    if(pendingBooking){
+      window.openBookingModal && window.openBookingModal(pendingBooking);
+    }
+  });
+
+  if (stickyBookBtn) {
+    stickyBookBtn.addEventListener('click', function(){
+      bookBtn.click();
+    });
+  }
+
+  // Show the sticky "Book Now" bar once the main Book this tour button has
+  // scrolled out of view, and hide it again once it's back on screen (or the
+  // panel/photo viewer isn't open).
+  if (stickyBar && bookBtn && 'IntersectionObserver' in window) {
+    var ctaObserver = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        var panelOpen = box.classList.contains('open');
+        var fsOpen = fs.overlay.classList.contains('open');
+        stickyBar.classList.toggle('show', panelOpen && !fsOpen && !entry.isIntersecting);
+      });
+    }, { threshold: 0 });
+    ctaObserver.observe(bookBtn);
+  }
+})();
+</script>
+
+<div class="booking-overlay" id="bookingOverlay"></div>
+<div class="booking-modal" id="bookingModal" role="dialog" aria-modal="true" aria-labelledby="bookingTitle">
+  <button type="button" class="booking-close" id="bookingClose" aria-label="Close form">&times;</button>
+
+  <div class="booking-modal-inner">
+
+    <!-- Step content -->
+    <div class="booking-head">
+      <p class="eyebrow" data-i18n="booking_eyebrow">Let's plan it</p>
+      <h3 id="bookingTitle" data-i18n="booking_h3">Tell us what you want to see</h3>
+      <p class="booking-sub" data-i18n="booking_sub">Fill this in and send it straight to us on WhatsApp — we'll come back with a custom route and price within the hour.</p>
+    </div>
+
+    <form id="bookingForm" class="booking-form" novalidate>
+
+      <div class="booking-grid">
+        <div class="booking-field">
+          <label for="bkName" data-i18n="booking_name">Full name</label>
+          <input type="text" id="bkName" name="name" placeholder="Jane Smith" required>
+        </div>
+
+        <div class="booking-field">
+          <label for="bkContact" data-i18n="booking_contact">WhatsApp / phone number</label>
+          <input type="tel" id="bkContact" name="contact" placeholder="+855 ..." required>
+        </div>
+
+        <div class="booking-field">
+          <label for="bkEmail"><span data-i18n="booking_email">Email</span> <span class="optional" data-i18n="booking_optional">(optional)</span></label>
+          <input type="email" id="bkEmail" name="email" placeholder="jane@email.com">
+        </div>
+
+        <div class="booking-field">
+          <label data-i18n="booking_riders">Number of riders</label>
+          <div class="bk-select" id="bkRiders" data-name="riders" data-value="2">
+            <button type="button" class="bk-select-btn">
+              <span class="bk-select-value">2</span>
+              <svg class="bk-select-caret" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M6 9l6 6 6-6"/></svg>
+            </button>
+            <div class="bk-select-panel">
+              <a href="#" data-value="1">1</a>
+              <a href="#" data-value="2" class="active">2</a>
+              <a href="#" data-value="3">3</a>
+              <a href="#" data-value="4">4</a>
+              <a href="#" data-value="5+">5+</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="booking-field">
+          <label data-i18n="booking_destination">Destination</label>
+          <div class="bk-select" id="bkDestination" data-name="destination" data-value="Angkor Temples">
+            <button type="button" class="bk-select-btn">
+              <span class="bk-select-value" data-i18n="filter_opt_angkor">Angkor Temples</span>
+              <svg class="bk-select-caret" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M6 9l6 6 6-6"/></svg>
+            </button>
+            <div class="bk-select-panel">
+              <a href="#" data-value="Angkor Temples" class="active" data-i18n="filter_opt_angkor">Angkor Temples</a>
+              <a href="#" data-value="Countryside" data-i18n="filter_opt_countryside">Countryside</a>
+              <a href="#" data-value="Tonlé Sap" data-i18n="filter_opt_tonlesap">Tonlé Sap</a>
+              <a href="#" data-value="Not sure yet" data-i18n="booking_notSure">Not sure yet</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="booking-field">
+          <label data-i18n="booking_vehicle">Vehicle</label>
+          <div class="bk-select" id="bkVehicle" data-name="vehicle" data-value="Bicycle">
+            <button type="button" class="bk-select-btn">
+              <span class="bk-select-value" data-i18n="dd_bicycle">Bicycle</span>
+              <svg class="bk-select-caret" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M6 9l6 6 6-6"/></svg>
+            </button>
+            <div class="bk-select-panel">
+              <a href="#" data-value="Bicycle" class="active" data-i18n="dd_bicycle">Bicycle</a>
+              <a href="#" data-value="Motorbike" data-i18n="filter_opt_moto">Motorbike</a>
+              <a href="#" data-value="E-Bike" data-i18n="filter_opt_ebike">E-Bike</a>
+              <a href="#" data-value="Scooter" data-i18n="filter_opt_scooter">Scooter</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="booking-field">
+          <label data-i18n="booking_type">Guided or rental?</label>
+          <div class="bk-select" id="bkType" data-name="type" data-value="Guided Tour">
+            <button type="button" class="bk-select-btn">
+              <span class="bk-select-value" data-i18n="dd_guidedTour">Guided Tour</span>
+              <svg class="bk-select-caret" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M6 9l6 6 6-6"/></svg>
+            </button>
+            <div class="bk-select-panel">
+              <a href="#" data-value="Guided Tour" class="active" data-i18n="dd_guidedTour">Guided Tour</a>
+              <a href="#" data-value="Self-Drive Rental" data-i18n="dd_selfDriveRental">Self-Drive Rental</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="booking-field">
+          <label data-i18n="booking_duration">Duration</label>
+          <div class="bk-select" id="bkDuration" data-name="duration" data-value="1 Day">
+            <button type="button" class="bk-select-btn">
+              <span class="bk-select-value">1 Day</span>
+              <svg class="bk-select-caret" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M6 9l6 6 6-6"/></svg>
+            </button>
+            <div class="bk-select-panel">
+              <a href="#" data-value="1 Day" class="active">1 Day</a>
+              <a href="#" data-value="2 Days">2 Days</a>
+              <a href="#" data-value="3 Days">3 Days</a>
+              <a href="#" data-value="4 Days">4 Days</a>
+              <a href="#" data-value="5+ Days">5+ Days</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="booking-field">
+          <label data-i18n="booking_date">Travel date(s)</label>
+          <div class="bk-select bk-date" id="bkDate" data-start="" data-end="">
+            <button type="button" class="bk-select-btn">
+              <span class="bk-select-value" data-i18n="booking_selectDate">Select date(s)</span>
+              <svg class="bk-select-caret" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M8 3v4M16 3v4M3 10h18"/></svg>
+            </button>
+            <div class="bk-select-panel bk-date-panel">
+              <div class="bk-date-header">
+                <button type="button" class="bk-date-nav" data-dir="-1" aria-label="Previous month">&lsaquo;</button>
+                <span class="bk-date-month-label"></span>
+                <button type="button" class="bk-date-nav" data-dir="1" aria-label="Next month">&rsaquo;</button>
+              </div>
+              <p class="bk-date-hint">Tap a start day, then an end day for a multi-day trip.</p>
+              <div class="bk-date-weekdays">
+                <span>Su</span><span>Mo</span><span>Tu</span><span>We</span><span>Th</span><span>Fr</span><span>Sa</span>
+              </div>
+              <div class="bk-date-grid"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="booking-field">
+          <label><span data-i18n="booking_time">Preferred time</span> <span class="optional" data-i18n="booking_optional">(optional)</span></label>
+          <div class="bk-select" id="bkTime" data-name="time" data-value="9:00 AM">
+            <button type="button" class="bk-select-btn">
+              <span class="bk-select-value">9:00 AM</span>
+              <svg class="bk-select-caret" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M6 9l6 6 6-6"/></svg>
+            </button>
+            <div class="bk-select-panel">
+              <a href="#" data-value="6:00 AM">6:00 AM</a>
+              <a href="#" data-value="6:30 AM">6:30 AM</a>
+              <a href="#" data-value="7:00 AM">7:00 AM</a>
+              <a href="#" data-value="7:30 AM">7:30 AM</a>
+              <a href="#" data-value="8:00 AM">8:00 AM</a>
+              <a href="#" data-value="8:30 AM">8:30 AM</a>
+              <a href="#" data-value="9:00 AM" class="active">9:00 AM</a>
+              <a href="#" data-value="9:30 AM">9:30 AM</a>
+              <a href="#" data-value="10:00 AM">10:00 AM</a>
+              <a href="#" data-value="10:30 AM">10:30 AM</a>
+              <a href="#" data-value="11:00 AM">11:00 AM</a>
+              <a href="#" data-value="11:30 AM">11:30 AM</a>
+              <a href="#" data-value="12:00 PM">12:00 PM</a>
+              <a href="#" data-value="12:30 PM">12:30 PM</a>
+              <a href="#" data-value="1:00 PM">1:00 PM</a>
+              <a href="#" data-value="1:30 PM">1:30 PM</a>
+              <a href="#" data-value="2:00 PM">2:00 PM</a>
+              <a href="#" data-value="2:30 PM">2:30 PM</a>
+              <a href="#" data-value="3:00 PM">3:00 PM</a>
+              <a href="#" data-value="3:30 PM">3:30 PM</a>
+              <a href="#" data-value="4:00 PM">4:00 PM</a>
+              <a href="#" data-value="4:30 PM">4:30 PM</a>
+              <a href="#" data-value="5:00 PM">5:00 PM</a>
+              <a href="#" data-value="5:30 PM">5:30 PM</a>
+              <a href="#" data-value="6:00 PM">6:00 PM</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="booking-field booking-field-full">
+        <label for="bkMessage"><span data-i18n="booking_message">Anything else we should know?</span> <span class="optional" data-i18n="booking_optional">(optional)</span></label>
+        <textarea id="bkMessage" name="message" rows="3" placeholder="Riding experience, timing, special requests..." data-i18n-placeholder="booking_message_ph"></textarea>
+      </div>
+
+      <p class="booking-error" id="bookingError" data-i18n="booking_error">Please add your name and a WhatsApp/phone number so we can reach you.</p>
+
+      <div class="booking-actions">
+        <button type="button" class="btn btn-dark booking-submit" id="bkViewStatementBtn">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16v16H4z"/><path d="M8 9h8M8 13h5"/></svg>
+          <span>View statement</span>
+        </button>
+        <a href="mailto:ride@siemride.com" class="booking-alt-link" data-i18n="booking_emailInstead">or email us instead</a>
+        <button type="button" class="booking-clear-btn" id="bkClearFormBtn">Clear form</button>
+      </div>
+    </form>
+
+    <!-- Review / statement state -->
+    <div class="booking-summary" id="bookingSummary">
+      <h4>Review your request</h4>
+      <p class="booking-sub">Double-check the details below, then send it straight to us on WhatsApp.</p>
+      <dl class="summary-list" id="summaryList"></dl>
+      <div class="booking-actions">
+        <button type="button" class="btn btn-dark booking-submit" id="bkConfirmSendBtn">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 00-8.5 15.2L2 22l4.9-1.4A10 10 0 1012 2zm0 18.2c-1.6 0-3.1-.4-4.4-1.2l-.3-.2-3.3 1 1-3.2-.2-.3A8.2 8.2 0 1112 20.2z"/></svg>
+          <span data-i18n="booking_submit">Send via WhatsApp</span>
+        </button>
+        <div class="booking-edit-options">
+          <button type="button" class="booking-alt-link booking-edit-btn" id="bkEditDetailsBtn">Edit details</button>
+          <span class="booking-edit-sep">·</span>
+          <button type="button" class="booking-alt-link booking-edit-btn" id="bkBackToPackageBtn">Change package</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Success state -->
+    <div class="booking-success" id="bookingSuccess">
+      <svg width="46" height="46" viewBox="0 0 24 24" fill="none" stroke="var(--moss-dark)" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M8 12.5l2.5 2.5L16 9"/></svg>
+      <h4 data-i18n="booking_success_h4">Opening WhatsApp…</h4>
+      <p data-i18n="booking_success_p">If it didn't open automatically, message us directly at +855 12 610 269.</p>
+    </div>
+
+  </div>
+</div>
+
+
+<footer>
+  <div class="wrap">
+    <div class="footer-grid">
+      <div class="col">
+        <div class="footer-logo"><img src="../Image/logo2.png" alt="Siem Ride logo" class="footer-logo-img" loading="lazy" decoding="async"></div>
+        <p class="footer-desc" data-i18n="footer_desc">Motorbike and e-bike tours &amp; rentals, based in Siem Reap, Cambodia.</p>
+        <div class="social-row">
+          <a href="#" aria-label="Facebook"><svg width="16" height="16" viewBox="0 0 24 24" fill="#F3ECDD"><path d="M14 9h3V5h-3c-2.2 0-4 1.8-4 4v2H8v4h2v6h4v-6h3l1-4h-4V9c0-.6.4-1 1-1z"/></svg></a>
+          <a href="#" aria-label="Instagram"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#F3ECDD" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1"/></svg></a>
+          <a href="#" aria-label="TripAdvisor"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#F3ECDD" stroke-width="1.8"><circle cx="8" cy="14" r="4"/><circle cx="16" cy="14" r="4"/><path d="M12 10c0-2 1-4 4-4M12 10c0-2-1-4-4-4"/></svg></a>
+        </div>
+      </div>
+      <div class="col">
+        <h5 data-i18n="footer_col_rides">Rides</h5>
+        <ul>
+          <li><a href="Tours.html#moto" data-i18n="dd_groupTours">Moto Tours</a></li>
+          <li><a href="Tours.html#bike" data-i18n="dd_privateTours">Bike Tours</a></li>
+          <li><a href="Tours.html#ebike" data-i18n="dd_tailorMade">E-Bike Tours</a></li>
+          <li><a href="../Rentals/Rental.html" data-i18n="nav_rental">Rental</a></li>
+        </ul>
+      </div>
+      <div class="col">
+        <h5 data-i18n="footer_col_company">Company</h5>
+        <ul>
+          <li><a href="../About%20Us/About%20Us.html" data-i18n="nav_about">About Us</a></li>
+          <li><a href="../Blog/Blog.html" data-i18n="nav_blog">Blog</a></li>
+          <li><a href="../index.html#routes" data-i18n="btn_viewRoute_plural">Popular Routes</a></li>
+        </ul>
+      </div>
+      <div class="col">
+        <h5 data-i18n="footer_col_contact">Contact</h5>
+        <ul class="footer-contact">
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-6.2-7-11a7 7 0 1114 0c0 4.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg> Siem Reap, Cambodia &middot; សីយមរាប</li>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.9v3a2 2 0 01-2.2 2 19.8 19.8 0 01-8.6-3 19.5 19.5 0 01-6-6A19.8 19.8 0 012.1 4.2 2 2 0 014.1 2h3a2 2 0 012 1.7c.1.9.3 1.8.6 2.7a2 2 0 01-.4 2.1L8 9.9a16 16 0 006 6l1.4-1.4a2 2 0 012.1-.4c.9.3 1.8.5 2.7.6a2 2 0 011.8 2.2z"/></svg> +855 12 610 269 (WhatsApp)</li>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16v16H4z"/><path d="M4 6l8 7 8-7"/></svg> ride@siemride.com</li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Siem Ride. <span data-i18n="footer_rights">All rights reserved.</span></span>
+      <span><a href="#">www.siemride.com</a></span>
+    </div>
+  </div>
+</footer>
+
+<a class="wa-float" href="https://wa.me/85512610269" target="_blank" rel="noopener" aria-label="Chat with us">
+  <svg width="52" height="52" viewBox="0 0 64 64" aria-hidden="true"><defs><linearGradient id="waFloatGrad" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#3DDC63"/><stop offset="100%" stop-color="#159040"/></linearGradient></defs><circle cx="32" cy="32" r="30" fill="url(#waFloatGrad)"/><g transform="translate(13 13) scale(1.5833)"><path fill="#fff" d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></g></svg>
+  <span class="wa-float-badge">?</span>
+</a>
+
+
+<script>
+  // Accordion toggles inside the mobile side panel (Tour / Rental)
+  document.querySelectorAll('.panel-accordion-toggle').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var acc = btn.closest('.panel-accordion');
+      var wasOpen = acc.classList.contains('open');
+      document.querySelectorAll('.panel-accordion.open').forEach(function (other) {
+        if (other !== acc) other.classList.remove('open');
+      });
+      acc.classList.toggle('open', !wasOpen);
+    });
+  });
+</script>
+<script src="../JavaScript/script.js?v=20261110-1"></script>
+<script>
+(function(){
+  var TABS={
+    moto:{title:'dd_groupTours',lede:'tr_lede_moto',img:"../Image/Tour/Moto%20Tours/Moto%20Tours.webp",en:'Moto Tours'},
+    bike:{title:'dd_privateTours',lede:'tr_lede_bike',img:"../Image/Tour/Bike%20tours/Bike%20Tours.webp",en:'Bike Tours'},
+    ebike:{title:'dd_tailorMade',lede:'tr_lede_ebike',img:"../Image/Tour/EBike%20Tours/EBike%20Tours.webp",en:'E-Bike Tours'}
+  };
+  var hero=document.getElementById('top');
+  var h1=document.getElementById('toursHeroTitle'), lede=document.getElementById('toursHeroLede');
+  var tabs=document.querySelectorAll('.tours-tab'), panels=document.querySelectorAll('.tours-panel');
+  var current='moto';
+  function tt(k,fb){return (window.SR&&SR.t)?SR.t(k):fb;}
+  function paintTitle(){document.title=tt(TABS[current].title,TABS[current].en)+' | SIEMRIDE';}
+  function bg(img){
+    hero.style.background="linear-gradient(100deg, rgba(29,33,40,0.72) 0%, rgba(29,33,40,0.42) 45%, rgba(29,33,40,0.08) 75%),linear-gradient(0deg, rgba(29,33,40,0.55), transparent 45%),url('"+img+"') center 38% / cover no-repeat,linear-gradient(160deg, var(--sand) 0%, var(--teal-deep) 60%)";
+  }
+  function show(key,updateHash){
+    if(!TABS[key])key='moto';
+    current=key;
+    tabs.forEach(function(t){var on=t.getAttribute('data-tab')===key;t.classList.toggle('is-active',on);t.setAttribute('aria-selected',on?'true':'false');});
+    panels.forEach(function(p){p.hidden=p.getAttribute('data-tab')!==key;});
+    bg(TABS[key].img);
+    h1.setAttribute('data-i18n',TABS[key].title);lede.setAttribute('data-i18n',TABS[key].lede);
+    if(window.SR)SR.refresh(hero);
+    paintTitle();
+    if(updateHash){try{history.replaceState(null,'','#'+key);}catch(e){location.hash=key;}}
+  }
+  tabs.forEach(function(t){t.addEventListener('click',function(){show(t.getAttribute('data-tab'),true);});});
+  window.addEventListener('hashchange',function(){show((location.hash||'').replace('#',''),false);});
+  document.addEventListener('langchange',paintTitle);
+  show((location.hash||'').replace('#','')||'moto',false);
+})();
+</script>
+
+</body>
+</html>

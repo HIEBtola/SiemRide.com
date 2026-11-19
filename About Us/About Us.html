@@ -1,0 +1,873 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About Us | SIEMRIDE</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Playfair+Display:ital,wght@0,600;0,700;1,600;1,700&family=JetBrains+Mono:wght@400;500&family=Work+Sans:wght@400;500;600;700&family=Noto+Sans+Khmer:wght@400;500;700&family=Pinyon+Script&display=swap" rel="stylesheet">
+<link rel="icon" type="image/png" href="../Image/logo2.png">
+<script>try{var l=localStorage.getItem("siemride_lang");if(l&&l!=="en"){document.documentElement.className+=" i18n-wait";setTimeout(function(){document.documentElement.classList.remove("i18n-wait")},1500)}}catch(e){}</script>
+<link rel="stylesheet" href="../CssStyle/style.css?v=20261110-1">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+  :root{
+    --teal-deep:#2C5E1A;
+    --teal-mid:#1B4038;
+    --rust:#3E72B8;
+    --rust-dark:#2E5590;
+    --sand:#F3ECDD;
+    --sand-deep:#E7DCC3;
+    --gold:#D9A441;
+    --moss:#7A9B76;
+    --moss-dark:#3F5C3B;
+    --ink:#221F1A;
+    --ink-soft:#4A463E;
+    --white:#FFFDF8;
+    --radius:6px;
+    --maxw:1180px;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    font-family:'Work Sans',sans-serif;
+    color:var(--ink);
+    background:var(--white);
+    line-height:1.65;
+  }
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 28px;}
+  a{color:inherit;}
+  h1,h2,h3{
+    font-family:'Anton',sans-serif;font-weight:400;text-transform:uppercase;
+    letter-spacing:0.01em;line-height:1.02;color:var(--teal-deep);margin:0 0 16px;
+  }
+  .eyebrow{
+    font-family:'JetBrains Mono','Noto Sans Khmer',monospace;
+    font-size:0.75rem;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;
+    color:var(--gold);margin:0 0 12px;
+  }
+
+  /* Main nav labels in caps; dropdown/sub-nav items keep normal case */
+  .main-nav > ul > li > a,
+  .panel-nav-list > a {
+    text-transform: uppercase;
+  }
+
+  /* Fixed header stays still while scrolling */
+  html{scroll-padding-top:72px;}
+  @media (max-width:640px){html{scroll-padding-top:66px;}}
+  header{position:fixed;top:0;left:0;right:0;z-index:200;background:rgb(18,49,43);transition:box-shadow .25s ease;}
+  header.scrolled{box-shadow:0 4px 18px rgba(0,0,0,.28);}
+  body{padding-top:72px;padding-top:var(--hdr-h,72px);}
+  @media (max-width:640px){body{padding-top:60px;padding-top:var(--hdr-h,60px);}}
+
+  /* ---- Top back link ---- */
+  .back-row,.wrap.back-row{padding:0 28px;margin-top:16px;position:relative;z-index:2;}
+  .back-link{
+    display:inline-flex;align-items:center;gap:6px;
+    font-family:'JetBrains Mono',monospace;
+    font-size:0.8rem;font-weight:700;color:var(--rust-dark);text-decoration:none;
+    letter-spacing:0.03em;text-transform:uppercase;
+    background:transparent;padding:0;
+  }
+  .back-link:hover{color:var(--teal-deep);}
+
+  .pill-badge{
+    display:inline-block;font-family:'JetBrains Mono',monospace;font-size:0.72rem;font-weight:600;
+    letter-spacing:0.12em;text-transform:uppercase;color:var(--ink-soft);
+    border:1px solid var(--ink-soft);border-radius:30px;padding:6px 16px;margin-bottom:18px;
+  }
+
+  /* ---- Hero ---- */
+  .hero{
+    position:relative;
+    margin-top:18px;
+    border-radius:var(--radius);
+    overflow:hidden;
+    min-height:520px;
+    background:linear-gradient(180deg, rgba(34,31,26,0.15), rgba(20,25,15,0.82)), url('../Image/About/Team.webp') center/cover no-repeat;
+  }
+
+  /* ---- Hero / Intro text (matching Blog style) ---- */
+  .intro-text{padding:44px 0 30px;max-width:760px;}
+  .intro-text h1{
+    font-size:3.1rem;margin:0 0 16px;line-height:1.05;
+  }
+  .intro-text p.lede{color:var(--ink-soft);font-size:1.02rem;max-width:620px;margin:0;}
+
+  /* ---- Sections ---- */
+  .section{padding:64px 0;}
+  .section.tight{padding-top:0;}
+  .section.tight-bottom{padding-bottom:0;}
+  .lede-grid{display:grid;grid-template-columns:1.1fr 0.9fr;gap:48px;align-items:start;}
+  .lede-grid p{color:var(--ink-soft);font-size:1.02rem;}
+  .pull-quote{
+    font-family:'Pinyon Script',cursive;
+    font-size:2.1rem;
+    color:var(--teal-deep);
+    line-height:1.25;
+    border-left:3px solid var(--gold);
+    padding:8px 0 8px 24px;
+    margin:0;
+  }
+  .pull-quote span{
+    display:block;font-family:'JetBrains Mono',monospace;font-weight:500;font-size:0.72rem;
+    color:var(--ink-soft);letter-spacing:0.08em;text-transform:uppercase;margin-top:12px;
+  }
+
+  /* ---- Mission / Vision ---- */
+  .mv-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;}
+  .mv-card{
+    background:var(--sand);border-radius:var(--radius);padding:32px;
+    border-top:4px solid var(--gold);
+  }
+  .mv-card:nth-child(2){border-top-color:var(--moss);}
+  .mv-card h3{font-size:1.3rem;margin-bottom:10px;}
+  .mv-card p{color:var(--ink-soft);margin:0;}
+
+  /* ---- Giving back ---- */
+  .impact{
+    border-radius:var(--radius);
+    padding:48px 0;
+  }
+  .impact .eyebrow{color:var(--rust);}
+  .impact-stat{
+    display:flex;align-items:baseline;gap:14px;margin:6px 0 26px;
+  }
+  .impact-stat strong{font-family:'Anton',sans-serif;font-weight:400;font-size:3.2rem;color:var(--gold);line-height:1;}
+  .impact-stat span{font-size:1rem;color:var(--ink-soft);max-width:360px;}
+  .impact p.lead{max-width:600px;color:var(--ink-soft);}
+  .impact-gallery{
+    display:grid;
+    grid-template-columns:1.3fr 1fr;
+    grid-template-rows:repeat(2,190px);
+    gap:14px;margin-top:32px;
+  }
+  .impact-gallery figure:first-child{grid-row:1 / span 2;}
+  .impact-gallery figure{margin:0;height:100%;position:relative;overflow:hidden;border-radius:8px;border:1px solid rgba(34,31,26,0.12);}
+  .impact-gallery img{
+    position:absolute;top:-12%;left:0;width:100%;height:124%;object-fit:cover;
+    will-change:transform;
+  }
+  .img-pan{
+    position:absolute;top:-12%;left:0;width:100%;height:124%;object-fit:cover;
+    opacity:0;animation:bigFade 54s infinite;
+  }
+  .img-pan:nth-of-type(1){animation-delay:0s;}
+  .img-pan:nth-of-type(2){animation-delay:18s;}
+  .img-pan:nth-of-type(3){animation-delay:36s;}
+  .roll-main .img-pan:nth-of-type(1){animation-delay:9s;}
+  .roll-main .img-pan:nth-of-type(2){animation-delay:27s;}
+  .roll-main .img-pan:nth-of-type(3){animation-delay:45s;}
+  .impact-gallery figure:nth-child(2) .img-pan:nth-of-type(1){animation-delay:6s;}
+  .impact-gallery figure:nth-child(2) .img-pan:nth-of-type(2){animation-delay:24s;}
+  .impact-gallery figure:nth-child(2) .img-pan:nth-of-type(3){animation-delay:42s;}
+  .impact-gallery figure:nth-child(3) .img-pan:nth-of-type(1){animation-delay:12s;}
+  .impact-gallery figure:nth-child(3) .img-pan:nth-of-type(2){animation-delay:30s;}
+  .impact-gallery figure:nth-child(3) .img-pan:nth-of-type(3){animation-delay:48s;}
+  .roll-banner > div:nth-child(2) .img-pan:nth-of-type(1){animation-delay:3s;}
+  .roll-banner > div:nth-child(2) .img-pan:nth-of-type(2){animation-delay:21s;}
+  .roll-banner > div:nth-child(2) .img-pan:nth-of-type(3){animation-delay:39s;}
+  .roll-banner > div:nth-child(3) .img-pan:nth-of-type(1){animation-delay:15s;}
+  .roll-banner > div:nth-child(3) .img-pan:nth-of-type(2){animation-delay:33s;}
+  .roll-banner > div:nth-child(3) .img-pan:nth-of-type(3){animation-delay:51s;}
+  @keyframes bigFade{
+    0%{opacity:0;}
+    4%{opacity:1;}
+    30%{opacity:1;}
+    40%{opacity:0;}
+    100%{opacity:0;}
+  }
+  @media (prefers-reduced-motion: reduce){
+    .img-pan{animation:none;opacity:0;}
+    .img-pan:first-child{opacity:1;}
+  }
+
+  /* ---- Community collage ---- */
+  .roll-banner{
+    position:relative;
+    display:grid;
+    grid-template-columns:1.6fr 1fr;
+    grid-template-rows:repeat(2,1fr);
+    gap:14px;
+    height:420px;margin:-24px 0 0;
+  }
+  .roll-main{
+    grid-row:1 / span 2;border-radius:var(--radius);overflow:hidden;position:relative;
+  }
+  .roll-main img{position:absolute;top:-12%;left:0;width:100%;height:124%;object-fit:cover;display:block;will-change:transform;}
+  .roll-main::after{
+    content:"";position:absolute;inset:0;
+    background:linear-gradient(0deg, rgba(34,31,26,0.6) 0%, rgba(34,31,26,0) 45%);
+    z-index:1;
+  }
+  .roll-side{border-radius:var(--radius);overflow:hidden;position:relative;}
+  .roll-side img{position:absolute;top:-12%;left:0;width:100%;height:124%;object-fit:cover;display:block;will-change:transform;}
+  @media (max-width:760px){
+    .roll-banner{
+      display:grid;grid-template-columns:1fr 1fr;grid-template-rows:220px 130px;height:auto;
+    }
+    .roll-main{grid-column:1 / span 2;grid-row:1;}
+    .roll-side{grid-row:2;}
+  }
+
+  /* ---- CTA band ---- */
+  .cta-band{
+    text-align:center;padding:56px 0 20px;
+  }
+  .cta-band h2{margin-bottom:10px;}
+  .cta-band p{color:var(--ink-soft);margin:0 0 24px;}
+  .btn{
+    display:inline-flex;align-items:center;gap:9px;
+    padding:14px 26px;border-radius:30px;
+    font-family:'Work Sans',sans-serif;font-weight:700;font-size:0.95rem;
+    text-decoration:none;transition:transform .2s,background .2s,box-shadow .2s;
+  }
+  .btn-primary{background:var(--rust);color:var(--white);}
+  .btn-primary:hover{background:var(--rust-dark);transform:translateY(-2px);box-shadow:0 10px 22px rgba(62,114,184,0.35);}
+
+  html{scroll-behavior:smooth;}
+  footer{background:#172242;color:#C7D6CF;padding:40px 0 0;margin-top:20px;}
+  .footer-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1.2fr;gap:40px;padding-bottom:44px;border-bottom:1px solid rgba(255,255,255,0.1);}
+  .footer-logo{display:flex;align-items:center;gap:10px;font-family:'Anton',sans-serif;color:var(--white);font-size:1.35rem;margin-bottom:14px;}
+  .footer-logo-img{width:56px;height:56px;object-fit:contain;flex-shrink:0;}
+  .footer-logo span{color:var(--gold);}
+  .footer-desc{font-size:0.88rem;max-width:260px;}
+  footer .col h5{font-family:'JetBrains Mono',monospace;font-size:0.76rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--gold);margin-bottom:16px;}
+  footer .col ul{list-style:none;margin:0;padding:0;}
+  footer .col ul li{margin-bottom:10px;font-size:0.9rem;}
+  footer .col ul li a{text-decoration:none;}
+  footer .col ul li a:hover{color:var(--white);}
+  .footer-contact li{display:flex;gap:10px;align-items:flex-start;font-size:0.9rem;margin-bottom:14px;}
+  .footer-contact svg{flex-shrink:0;margin-top:2px;color:var(--gold);}
+  .social-row{display:flex;gap:10px;margin-top:18px;}
+  .social-row a{
+    width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,0.08);
+    display:flex;align-items:center;justify-content:center;
+    transition:background .2s;
+  }
+  .social-row a:hover{background:var(--rust);}
+  .footer-bottom{
+    display:flex;justify-content:space-between;align-items:center;
+    padding:22px 0;font-size:0.82rem;color:#7E9089;flex-wrap:wrap;gap:10px;
+  }
+  .footer-bottom a{color:#A9BDB4;}
+  .back-to-top{
+    display:flex;align-items:center;gap:8px;
+    color:#A9BDB4;background:none;border:none;cursor:pointer;
+    font-family:'Work Sans',sans-serif;font-size:0.82rem;
+    transition:color .2s;
+  }
+  .back-to-top:hover{color:var(--gold);}
+  .back-to-top svg{flex-shrink:0;transition:transform .2s;}
+  .back-to-top:hover svg{transform:translateY(-2px);}
+  @media (max-width:980px){
+    .footer-grid{grid-template-columns:repeat(2,1fr);}
+  }
+  @media (max-width:760px){
+    .footer-grid{grid-template-columns:1fr;}
+  }
+
+  @media (max-width:760px){
+    .lede-grid,.mv-grid{grid-template-columns:1fr;}
+    .impact-gallery{grid-template-columns:1fr;grid-template-rows:220px 160px 160px;}
+    .impact-gallery figure:first-child{grid-row:1;}
+    .intro-text{padding:36px 0 26px;}
+    .intro-text h1{font-size:2.2rem;}
+  }
+</style>
+<style id="bold-photos">
+/* bold photo mosaic */
+.impact-gallery{grid-template-columns:1.5fr 1fr;grid-template-rows:repeat(2,250px);gap:18px;margin-top:40px}
+.impact-gallery figure{border:0;border-radius:6px;box-shadow:0 22px 44px rgba(34,31,26,.28);isolation:isolate}
+.impact-gallery figure:first-child{box-shadow:10px 10px 0 var(--gold,#d9a441),0 26px 50px rgba(34,31,26,.3)}
+.roll-banner{height:520px;gap:18px;margin:8px 0 0}
+.roll-main{border-radius:6px;box-shadow:12px 12px 0 var(--gold,#d9a441),0 28px 56px rgba(34,31,26,.3)}
+.roll-side{border-radius:6px;box-shadow:0 22px 44px rgba(34,31,26,.28)}
+.impact-gallery img,.roll-main img,.roll-side img{filter:saturate(1.18) contrast(1.08);transition:transform .8s cubic-bezier(.2,.8,.2,1)}
+.impact-gallery figure:hover img,.roll-main:hover img,.roll-side:hover img{transform:scale(1.07)}
+.impact-gallery figure::after,.roll-side::after{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;background:linear-gradient(0deg,rgba(34,31,26,.45),rgba(34,31,26,0) 45%)}
+@media (max-width:760px){
+  .impact-gallery{grid-template-columns:1fr 1fr;grid-template-rows:260px 170px;gap:12px}
+  .impact-gallery figure:first-child{grid-column:1 / span 2;grid-row:1;box-shadow:7px 7px 0 var(--gold,#d9a441),0 18px 36px rgba(34,31,26,.3)}
+  .roll-banner{height:auto;grid-template-columns:1fr 1fr;grid-template-rows:280px 180px;gap:12px}
+  .roll-main{grid-column:1 / span 2;grid-row:1;box-shadow:7px 7px 0 var(--gold,#d9a441),0 18px 36px rgba(34,31,26,.3)}
+  .roll-side{grid-row:2}
+}
+</style>
+<style id="stat-balance">
+/* 5% and its text balanced: big number fills the height of the text beside it */
+.impact-stat{align-items:center;gap:18px;margin:10px 0 28px}
+.impact-stat strong{font-size:5.6rem;line-height:.9;flex:0 0 auto}
+.impact-stat span{font-size:1.05rem;line-height:1.5;max-width:420px}
+@media (max-width:420px){.impact-stat{gap:14px}.impact-stat strong{font-size:5.4rem}.impact-stat span{font-size:1rem}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="nav-inner">
+    <a href="../index.html#home" class="logo">
+      <img src="../Image/logo2.png" alt="Siem Ride logo" class="header-logo-img">
+    </a>
+
+    <nav class="main-nav" id="mainNav">
+      <!-- Bottom Flat Amber Line -->
+      <div id="bottomAmberLine" class="bottom-amber-line"></div>
+      <ul>
+        <li><a href="../index.html#home" data-i18n="nav_home">Home</a></li>
+        <li><a href="../Tours/Tours.html" data-i18n="nav_tours">Tour</a></li>
+        <li><a href="../Rentals/Rental.html" data-i18n="nav_rental">Rental</a></li>
+        <li><a href="../Blog/Blog.html" data-i18n="nav_blog">Blog</a></li>
+        <li><a href="About%20Us.html" class="active" data-i18n="nav_about">About Us</a></li>
+      </ul>
+    </nav>
+
+    <div class="nav-right-group">
+      <div class="nav-mid-spacer">
+        <div class="dd-wrap" id="langWrap">
+          <button class="lang-btn" id="langBtn" aria-label="Change language">
+            <img id="langFlagSlot" class="lang-flag-img" src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f1ec-1f1e7.svg" alt="EN">
+            <svg class="mini-caret" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+          <div class="dd-panel lang-panel" id="langPanel">
+            <a href="#" data-lang="en"><img class="lang-flag-img" src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f1ec-1f1e7.svg" alt="English" loading="lazy" decoding="async"> English</a>
+            <a href="#" data-lang="km"><img class="lang-flag-img" src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f1f0-1f1ed.svg" alt="Khmer" loading="lazy" decoding="async"> ខ្មែរ (Khmer)</a>
+            <a href="#" data-lang="vi"><img class="lang-flag-img" src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f1fb-1f1f3.svg" alt="Vietnamese" loading="lazy" decoding="async"> Tiếng Việt (Vietnamese)</a>
+            <a href="#" data-lang="th"><img class="lang-flag-img" src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f1f9-1f1ed.svg" alt="Thai" loading="lazy" decoding="async"> ภาษาไทย (Thai)</a>
+            <a href="#" data-lang="zh"><img class="lang-flag-img" src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f1e8-1f1f3.svg" alt="Chinese" loading="lazy" decoding="async"> 中文 (Chinese)</a>
+            <a href="#" data-lang="ja"><img class="lang-flag-img" src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f1ef-1f1f5.svg" alt="Japanese" loading="lazy" decoding="async"> 日本語 (Japanese)</a>
+            <a href="#" data-lang="ko"><img class="lang-flag-img" src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f1f0-1f1f7.svg" alt="Korean" loading="lazy" decoding="async"> 한국어 (Korean)</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="nav-actions">
+
+      <a class="call-btn" href="tel:+85512610269" aria-label="Call us +855 12 610 269"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4h3.5l1.8 4.6-2.2 1.4a11 11 0 0 0 5.9 5.9l1.4-2.2L20 15.5V19a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg>
+        <span class="call-copy">
+          <span class="call-label" data-i18n="call_label">Call Us</span>
+          <span class="call-text">+855 12 610 269</span>
+        </span>
+      </a>
+
+      <span class="nav-divider"></span>
+
+      <!-- Burger Menu Drawer -->
+      <div class="dd-wrap" id="burgerWrap">
+        <button class="burger" id="burgerBtn" aria-label="Menu">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+        </button>
+        <div class="side-panel-overlay" id="panelOverlay"></div>
+        <div class="dd-panel burger-panel side-panel" id="burgerPanel">
+          <button class="side-panel-close" id="panelClose" aria-label="Close menu">&times;</button>
+          <div class="panel-body">
+
+            <div class="panel-brand">
+              <img src="../Image/logo2.png" alt="Siem Ride logo" class="panel-logo" loading="lazy" decoding="async">
+              <span class="panel-brand-text">SIEM<span>RIDE</span></span>
+            </div>
+            <div class="panel-divider"></div>
+
+            <!-- GROUP 1: Nav Menu -->
+            <div class="panel-group panel-group-nav">
+              <nav class="panel-nav-list">
+                <a href="../index.html#home" data-i18n="nav_home">Home</a>
+                <a href="../Tours/Tours.html" data-i18n="nav_tours">Tour</a>
+                <a href="../Rentals/Rental.html" data-i18n="nav_rental">Rental</a>
+                <a href="../Blog/Blog.html" data-i18n="nav_blog">Blog</a>
+                <a href="About%20Us.html" class="active" data-i18n="nav_about">About Us</a>
+              </nav>
+            </div>
+
+            <!-- GROUP 2: Contact Info / Address -->
+            <div class="panel-group panel-group-contact">
+              <div class="panel-contact-item">
+                <div class="panel-contact-text">
+                  <h6 data-i18n="burger_officeAddress">Address:</h6>
+                  <a href="https://www.google.com/search?sca_esv=722160d45c52a345&sxsrf=APpeQnv_ufNh0-DdbDZDmF8cnXNRlVd7KA:1784443743758&q=celliers+d%27asie+siem+reap+branch+krong+siem+reap+address&ludocid=7669055108806559654&sa=X&ved=2ahUKEwi9iN_7kt6VAxVn3jgGHaILJsMQ6BN6BAg1EAI" target="_blank" rel="noopener" class="panel-contact-link panel-address-link">Wat Bo Road, Siem Reap, Cambodia</a>
+                </div>
+              </div>
+
+              <div class="panel-contact-item">
+                <div class="panel-contact-text">
+                  <h6 data-i18n="burger_phoneNumber">Mobile:</h6>
+                  <a href="tel:+85512610269" class="panel-contact-link panel-phone-link">+855 12 610 269</a>
+                </div>
+              </div>
+
+              <div class="panel-contact-item">
+                <div class="panel-contact-text">
+                  <h6 data-i18n="burger_emailAddress">E-Mail:</h6>
+                  <a href="mailto:siemride@gmail.com" class="panel-contact-link">siemride@gmail.com</a>
+                </div>
+              </div>
+            </div>
+
+            <!-- GROUP 3: Social Media -->
+            <div class="panel-group panel-group-social">
+              <div class="panel-social-icons">
+                <a href="https://wa.me/85512610269" target="_blank" rel="noopener" aria-label="WhatsApp"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></a>
+                <a href="https://www.facebook.com/share/1D3mPvHArv/" target="_blank" rel="noopener" aria-label="Facebook"><svg width="16" height="16" viewBox="-1 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h-2.5A4.5 4.5 0 0 0 8 7.5V10H5v4h3v7h4v-7h3l1-4h-4V7.5a.5.5 0 0 1 .5-.5H15z"/></svg></a>
+                <a href="https://t.me/CHENLAheab" target="_blank" rel="noopener" aria-label="Telegram"><svg width="16" height="16" viewBox="-0.5 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 3L2 11l7 2.5L11.5 21l3-4.5L19 20z"/><path d="M9 13.5L22 3"/></svg></a>
+                <a href="https://www.tiktok.com" target="_blank" rel="noopener" aria-label="TikTok"><svg width="16" height="16" viewBox="0 -1.5 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3v11.2a3.7 3.7 0 1 1-3.7-3.7"/><path d="M14 3c.3 2.6 2 4.2 4.8 4.4"/></svg></a>
+                <a href="https://www.youtube.com" target="_blank" rel="noopener" aria-label="YouTube"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.5" y="5.5" width="19" height="13" rx="4"/><path d="M10 9.5l5 2.5-5 2.5z" fill="currentColor"/></svg></a>
+                <a href="https://www.tripadvisor.com" target="_blank" rel="noopener" aria-label="TripAdvisor"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="7" cy="14" r="3.4"/><circle cx="17" cy="14" r="3.4"/><path d="M1.5 10l3 .6M22.5 10l-3 .6M5 8c3.6-2.6 10.4-2.6 14 0"/><circle cx="7" cy="14" r="1" fill="currentColor"/><circle cx="17" cy="14" r="1" fill="currentColor"/></svg></a>
+              </div>
+            </div>
+
+            <!-- Contact Us Button (Outside Group 3, down 3 lines, centered in sidebar) -->
+            <div class="panel-action-wrap">
+              <button type="button" class="sr-contact-btn">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                <span data-i18n="panel_contactUs">Contact us</span>
+              </button>
+            </div>
+
+          </div>
+        </div>
+      </div>
+      <!-- /Burger -->
+
+      </div><!-- /.nav-actions -->
+    </div><!-- /.nav-right-group -->
+
+  </div><!-- /.nav-inner -->
+</header>
+
+<div class="wrap back-row">
+  <a href="../index.html" class="back-link"><span class="bl-arrow">&larr;</span><span data-i18n="about2_back_link">Back to Home</span></a>
+</div>
+
+<div class="wrap">
+  <section class="intro-text">
+    <span class="pill-badge" data-i18n="hero_eyebrow">Siem Reap, Cambodia</span>
+    <h1 data-i18n="about2_hero_h1">The soul of Cambodia is found on two wheels.</h1>
+    <p class="lede" data-i18n="about2_hero_p">SiemRide is a local guide crew running bicycle and motorbike tours off the tour-bus routes, and putting part of every ride back into the community that raised us.</p>
+  </section>
+</div>
+
+<div class="wrap">
+  <section class="hero"></section>
+</div>
+
+<div class="wrap">
+  <section class="section tight-bottom">
+    <div class="impact">
+      <p class="eyebrow" data-i18n="about2_impact_eyebrow">Giving Back</p>
+      <h2 data-i18n="about2_impact_h2">Ride with purpose</h2>
+      <div class="impact-stat">
+        <strong>5%</strong>
+        <span data-i18n="about2_impact_stat">of every profit we earn is donated directly to a local rural English school.</span>
+      </div>
+      <p class="lead" data-i18n="about2_impact_lead">We're more than a tour company, we're part of this community. Every booking helps fund classroom supplies, teacher support, and school activities for kids growing up along the routes we ride.</p>
+
+      <div class="impact-gallery">
+        <figure>
+          <img src="../Image/About/School(1).webp" alt="Students at the partner rural English school" class="img-pan">
+          <img src="../Image/About/School(2).webp" alt="Children learning in a rural Cambodian classroom" class="img-pan">
+          <img src="../Image/About/School(3).webp" alt="Kids at the rural English school supported by SiemRide" class="img-pan">
+        </figure>
+        <figure>
+          <img src="../Image/About/School(4).webp" alt="Children learning in a rural Cambodian classroom" class="img-pan">
+          <img src="../Image/About/School(6).webp" alt="SiemRide community moment" class="img-pan">
+          <img src="../Image/About/School(2).webp" alt="Children learning in a rural Cambodian classroom" class="img-pan">
+        </figure>
+        <figure>
+          <img src="../Image/About/School(5).webp" alt="Kids at the rural English school supported by SiemRide" class="img-pan">
+          <img src="../Image/About/School(1).webp" alt="Students at the partner rural English school" class="img-pan">
+          <img src="../Image/About/School(6).webp" alt="SiemRide community moment" class="img-pan">
+        </figure>
+      </div>
+    </div>
+  </section>
+</div>
+
+<div class="wrap">
+  <div class="roll-banner">
+    <div class="roll-main">
+      <img src="../Image/About/School(1).webp" alt="SiemRide community and school moments" class="img-pan">
+      <img src="../Image/About/School(2).webp" alt="SiemRide community and school moments" class="img-pan">
+      <img src="../Image/About/School(3).webp" alt="SiemRide community and school moments" class="img-pan">
+    </div>
+
+    <div class="roll-side">
+      <img src="../Image/About/School(6).webp" alt="SiemRide community and school moments" class="img-pan">
+      <img src="../Image/About/School(3).webp" alt="SiemRide community and school moments" class="img-pan">
+      <img src="../Image/About/School(5).webp" alt="SiemRide community and school moments" class="img-pan">
+    </div>
+    <div class="roll-side">
+      <img src="../Image/About/School(5).webp" alt="SiemRide community and school moments" class="img-pan">
+      <img src="../Image/About/School(4).webp" alt="SiemRide community and school moments" class="img-pan">
+      <img src="../Image/About/School(2).webp" alt="SiemRide community and school moments" class="img-pan">
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+  <section class="section lede-grid">
+    <div>
+      <p class="eyebrow" data-i18n="nav_about">About Us</p>
+      <h2 data-i18n="about_short_h2">Experience the soul of Cambodia</h2>
+      <p data-i18n="about2_story_p1">At SiemRide, we believe the true essence of Cambodia isn't found from the window of a tour bus, or on the crowded paths of the main temples. It's found in the cool morning breeze as you navigate quiet village backroads, and in the warm smiles of the people you meet along the way.</p>
+      <p data-i18n="about2_story_p2">Founded by locals who are deeply passionate about our home, SiemRide was born from a simple idea: exploration should be intimate, authentic, and impactful. We specialise in curated bicycle and motorbike tours that connect travellers with the hidden wonders of Siem Reap.</p>
+    </div>
+    <blockquote class="pull-quote">
+      &ldquo;<span data-i18n="about2_quote">We don't ride a script, we ride the roads we'd take our own friends down.</span>&rdquo;
+      <span data-i18n="about2_quote_author">The SiemRide guide team</span>
+    </blockquote>
+  </section>
+</div>
+
+<div class="wrap">
+  <section class="section tight mv-grid">
+    <div class="mv-card">
+      <h3 data-i18n="about2_mission_h3">Our Mission</h3>
+      <p data-i18n="about2_mission_p">To transform the way visitors experience Cambodia by providing immersive, eco-conscious, and adventurous journeys, and to foster genuine connections between our guests and the local communities they ride through.</p>
+    </div>
+    <div class="mv-card">
+      <h3 data-i18n="about2_vision_h3">Our Vision</h3>
+      <p data-i18n="about2_vision_p">A future for tourism where adventure and responsibility go hand-in-hand. By choosing to ride different, our guests help us prove that travel can preserve heritage, respect the environment, and empower the next generation.</p>
+    </div>
+  </section>
+</div>
+
+<div class="wrap">
+  <section class="cta-band">
+    <h2 data-i18n="about2_cta_h2">Every Ride Gives Back</h2>
+    <p data-i18n="about2_cta_p">Book a tour with us and you're not just seeing Cambodia, you're funding a classroom for the kids along the way.</p>
+    <a href="#" class="btn btn-primary" data-i18n="about2_cta_btn" id="aboutCtaBookBtn">Book Your Adventure</a>
+  </section>
+</div>
+
+<!-- ===== BOOKING / CONTACT MODAL ===== -->
+<div class="booking-overlay" id="bookingOverlay"></div>
+<div class="booking-modal" id="bookingModal" role="dialog" aria-modal="true" aria-labelledby="bookingTitle">
+  <button type="button" class="booking-close" id="bookingClose" aria-label="Close form">&times;</button>
+
+  <div class="booking-modal-inner">
+
+    <!-- Step content -->
+    <div class="booking-head">
+      <p class="eyebrow" data-i18n="booking_eyebrow">Let's plan it</p>
+      <h3 id="bookingTitle" data-i18n="booking_h3">Tell us about your ride</h3>
+      <p class="booking-sub" data-i18n="booking_sub">Fill this in and send it straight to us on WhatsApp — we'll reply with a route and price within the hour.</p>
+    </div>
+
+    <form id="bookingForm" class="booking-form" novalidate>
+
+      <div class="booking-grid">
+        <div class="booking-field">
+          <label for="bkName" data-i18n="booking_name">Full name</label>
+          <input type="text" id="bkName" name="name" placeholder="Jane Smith" required>
+        </div>
+
+        <div class="booking-field">
+          <label for="bkContact" data-i18n="booking_contact">WhatsApp / phone number</label>
+          <input type="tel" id="bkContact" name="contact" placeholder="+855 ..." required>
+        </div>
+
+        <div class="booking-field">
+          <label for="bkEmail"><span data-i18n="booking_email">Email</span> <span class="optional" data-i18n="booking_optional">(optional)</span></label>
+          <input type="email" id="bkEmail" name="email" placeholder="jane@email.com">
+        </div>
+
+        <div class="booking-field">
+          <label data-i18n="booking_riders">Number of riders</label>
+          <div class="bk-select" id="bkRiders" data-name="riders" data-value="2">
+            <button type="button" class="bk-select-btn">
+              <span class="bk-select-value">2</span>
+              <svg class="bk-select-caret" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M6 9l6 6 6-6"/></svg>
+            </button>
+            <div class="bk-select-panel">
+              <a href="#" data-value="1">1</a>
+              <a href="#" data-value="2" class="active">2</a>
+              <a href="#" data-value="3">3</a>
+              <a href="#" data-value="4">4</a>
+              <a href="#" data-value="5+">5+</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="booking-field">
+          <label data-i18n="booking_destination">Destination</label>
+          <div class="bk-select" id="bkDestination" data-name="destination" data-value="Angkor Temples">
+            <button type="button" class="bk-select-btn">
+              <span class="bk-select-value" data-i18n="filter_opt_angkor">Angkor Temples</span>
+              <svg class="bk-select-caret" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M6 9l6 6 6-6"/></svg>
+            </button>
+            <div class="bk-select-panel">
+              <a href="#" data-value="Angkor Temples" class="active" data-i18n="filter_opt_angkor">Angkor Temples</a>
+              <a href="#" data-value="Countryside" data-i18n="filter_opt_countryside">Countryside</a>
+              <a href="#" data-value="Tonlé Sap" data-i18n="filter_opt_tonlesap">Tonlé Sap</a>
+              <a href="#" data-value="Not sure yet" data-i18n="booking_notSure">Not sure yet</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="booking-field">
+          <label data-i18n="booking_vehicle">Vehicle</label>
+          <div class="bk-select" id="bkVehicle" data-name="vehicle" data-value="Motorbike">
+            <button type="button" class="bk-select-btn">
+              <span class="bk-select-value" data-i18n="filter_opt_moto">Motorbike</span>
+              <svg class="bk-select-caret" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M6 9l6 6 6-6"/></svg>
+            </button>
+            <div class="bk-select-panel">
+              <a href="#" data-value="Motorbike" class="active" data-i18n="filter_opt_moto">Motorbike</a>
+              <a href="#" data-value="E-Bike" data-i18n="filter_opt_ebike">E-Bike</a>
+              <a href="#" data-value="Scooter" data-i18n="filter_opt_scooter">Scooter</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="booking-field">
+          <label data-i18n="booking_type">Guided or rental?</label>
+          <div class="bk-select" id="bkType" data-name="type" data-value="Guided Tour">
+            <button type="button" class="bk-select-btn">
+              <span class="bk-select-value" data-i18n="dd_guidedTour">Guided Tour</span>
+              <svg class="bk-select-caret" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M6 9l6 6 6-6"/></svg>
+            </button>
+            <div class="bk-select-panel">
+              <a href="#" data-value="Guided Tour" class="active" data-i18n="dd_guidedTour">Guided Tour</a>
+              <a href="#" data-value="Self-Drive Rental" data-i18n="dd_selfDriveRental">Self-Drive Rental</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="booking-field">
+          <label data-i18n="booking_duration">Duration</label>
+          <div class="bk-select" id="bkDuration" data-name="duration" data-value="1 Day">
+            <button type="button" class="bk-select-btn">
+              <span class="bk-select-value">1 Day</span>
+              <svg class="bk-select-caret" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M6 9l6 6 6-6"/></svg>
+            </button>
+            <div class="bk-select-panel">
+              <a href="#" data-value="1 Day" class="active">1 Day</a>
+              <a href="#" data-value="2 Days">2 Days</a>
+              <a href="#" data-value="3 Days">3 Days</a>
+              <a href="#" data-value="4 Days">4 Days</a>
+              <a href="#" data-value="5+ Days">5+ Days</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="booking-field">
+          <label data-i18n="booking_date">Travel date(s)</label>
+          <div class="bk-select bk-date" id="bkDate" data-start="" data-end="">
+            <button type="button" class="bk-select-btn">
+              <span class="bk-select-value" data-i18n="booking_selectDate">Select date(s)</span>
+              <svg class="bk-select-caret" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M8 3v4M16 3v4M3 10h18"/></svg>
+            </button>
+            <div class="bk-select-panel bk-date-panel">
+              <div class="bk-date-header">
+                <button type="button" class="bk-date-nav" data-dir="-1" aria-label="Previous month">&lsaquo;</button>
+                <span class="bk-date-month-label"></span>
+                <button type="button" class="bk-date-nav" data-dir="1" aria-label="Next month">&rsaquo;</button>
+              </div>
+              <p class="bk-date-hint">Tap a start day, then an end day for a multi-day trip.</p>
+              <div class="bk-date-weekdays">
+                <span>Su</span><span>Mo</span><span>Tu</span><span>We</span><span>Th</span><span>Fr</span><span>Sa</span>
+              </div>
+              <div class="bk-date-grid"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="booking-field">
+          <label><span data-i18n="booking_time">Preferred time</span> <span class="optional" data-i18n="booking_optional">(optional)</span></label>
+          <div class="bk-select" id="bkTime" data-name="time" data-value="9:00 AM">
+            <button type="button" class="bk-select-btn">
+              <span class="bk-select-value">9:00 AM</span>
+              <svg class="bk-select-caret" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M6 9l6 6 6-6"/></svg>
+            </button>
+            <div class="bk-select-panel">
+              <a href="#" data-value="6:00 AM">6:00 AM</a>
+              <a href="#" data-value="6:30 AM">6:30 AM</a>
+              <a href="#" data-value="7:00 AM">7:00 AM</a>
+              <a href="#" data-value="7:30 AM">7:30 AM</a>
+              <a href="#" data-value="8:00 AM">8:00 AM</a>
+              <a href="#" data-value="8:30 AM">8:30 AM</a>
+              <a href="#" data-value="9:00 AM" class="active">9:00 AM</a>
+              <a href="#" data-value="9:30 AM">9:30 AM</a>
+              <a href="#" data-value="10:00 AM">10:00 AM</a>
+              <a href="#" data-value="10:30 AM">10:30 AM</a>
+              <a href="#" data-value="11:00 AM">11:00 AM</a>
+              <a href="#" data-value="11:30 AM">11:30 AM</a>
+              <a href="#" data-value="12:00 PM">12:00 PM</a>
+              <a href="#" data-value="12:30 PM">12:30 PM</a>
+              <a href="#" data-value="1:00 PM">1:00 PM</a>
+              <a href="#" data-value="1:30 PM">1:30 PM</a>
+              <a href="#" data-value="2:00 PM">2:00 PM</a>
+              <a href="#" data-value="2:30 PM">2:30 PM</a>
+              <a href="#" data-value="3:00 PM">3:00 PM</a>
+              <a href="#" data-value="3:30 PM">3:30 PM</a>
+              <a href="#" data-value="4:00 PM">4:00 PM</a>
+              <a href="#" data-value="4:30 PM">4:30 PM</a>
+              <a href="#" data-value="5:00 PM">5:00 PM</a>
+              <a href="#" data-value="5:30 PM">5:30 PM</a>
+              <a href="#" data-value="6:00 PM">6:00 PM</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="booking-field booking-field-full">
+        <label for="bkMessage"><span data-i18n="booking_message">Anything else we should know?</span> <span class="optional" data-i18n="booking_optional">(optional)</span></label>
+        <textarea id="bkMessage" name="message" rows="3" placeholder="Riding experience, timing, special requests..." data-i18n-placeholder="booking_message_ph"></textarea>
+      </div>
+
+      <p class="booking-error" id="bookingError" data-i18n="booking_error">Please add your name and a WhatsApp/phone number so we can reach you.</p>
+
+      <div class="booking-actions">
+        <button type="button" class="btn btn-dark booking-submit" id="bkViewStatementBtn">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16v16H4z"/><path d="M8 9h8M8 13h5"/></svg>
+          <span>View statement</span>
+        </button>
+        <a href="mailto:ride@siemride.com" class="booking-alt-link" data-i18n="booking_emailInstead">or email us instead</a>
+        <button type="button" class="booking-clear-btn" id="bkClearFormBtn">Clear form</button>
+      </div>
+    </form>
+
+    <!-- Review / statement state -->
+    <div class="booking-summary" id="bookingSummary">
+      <h4>Review your request</h4>
+      <p class="booking-sub">Double-check the details below, then send it straight to us on WhatsApp.</p>
+      <dl class="summary-list" id="summaryList"></dl>
+      <div class="booking-actions">
+        <button type="button" class="btn btn-dark booking-submit" id="bkConfirmSendBtn">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 00-8.5 15.2L2 22l4.9-1.4A10 10 0 1012 2zm0 18.2c-1.6 0-3.1-.4-4.4-1.2l-.3-.2-3.3 1 1-3.2-.2-.3A8.2 8.2 0 1112 20.2z"/></svg>
+          <span data-i18n="booking_submit">Send via WhatsApp</span>
+        </button>
+        <div class="booking-edit-options">
+          <button type="button" class="booking-alt-link booking-edit-btn" id="bkEditDetailsBtn">Edit details</button>
+          <span class="booking-edit-sep">·</span>
+          <button type="button" class="booking-alt-link booking-edit-btn" id="bkBackToPackageBtn">Change package</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Success state -->
+    <div class="booking-success" id="bookingSuccess">
+      <svg width="46" height="46" viewBox="0 0 24 24" fill="none" stroke="var(--moss-dark)" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M8 12.5l2.5 2.5L16 9"/></svg>
+      <h4 data-i18n="booking_success_h4">Opening WhatsApp…</h4>
+      <p data-i18n="booking_success_p">If it didn't open automatically, message us directly at +855 12 610 269.</p>
+    </div>
+
+  </div>
+</div>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-grid">
+      <div class="col">
+        <div class="footer-logo"><img src="../Image/logo2.png" alt="Siem Ride logo" class="footer-logo-img" loading="lazy" decoding="async"></div>
+        <p class="footer-desc" data-i18n="footer_desc">Motorbike and e-bike tours &amp; rentals, based in Siem Reap, Cambodia.</p>
+        <div class="social-row">
+          <a href="https://www.facebook.com/share/1D3mPvHArv/" target="_blank" rel="noopener" aria-label="Facebook"><svg width="16" height="16" viewBox="0 0 24 24" fill="#F3ECDD"><path d="M14 9h3V5h-3c-2.2 0-4 1.8-4 4v2H8v4h2v6h4v-6h3l1-4h-4V9c0-.6.4-1 1-1z"/></svg></a>
+          <a href="https://t.me/CHENLAheab" target="_blank" rel="noopener" aria-label="Telegram"><svg width="16" height="16" viewBox="0 0 24 24" fill="#F3ECDD"><path d="M21.9 4.4L18.6 20c-.2 1.1-.9 1.4-1.9.9l-5.1-3.8-2.5 2.4c-.3.3-.5.5-1 .5l.4-5.2L18 6c.5-.4-.1-.6-.7-.3L6.4 12.5 1.4 11c-1.1-.3-1.1-1.1.2-1.6L20.5 3c.9-.3 1.7.2 1.4 1.4z"/></svg></a>
+          <a href="https://www.instagram.com" target="_blank" rel="noopener" aria-label="Instagram"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#F3ECDD" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1"/></svg></a>
+          <a href="https://www.youtube.com" target="_blank" rel="noopener" aria-label="YouTube"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#F3ECDD" stroke-width="1.8"><path d="M23 12s0-3.5-.4-5.2c-.3-1-1-1.8-2-2C18.9 4.3 12 4.3 12 4.3s-6.9 0-8.6.5c-1 .2-1.8 1-2 2C1 8.5 1 12 1 12s0 3.5.4 5.2c.3 1 1 1.8 2 2 1.7.5 8.6.5 8.6.5s6.9 0 8.6-.5c1-.2 1.8-1 2-2 .4-1.7.4-5.2.4-5.2z"/><path d="M9.8 15.5V8.5l6 3.5-6 3.5z"/></svg></a>
+        </div>
+      </div>
+      <div class="col">
+        <h5 data-i18n="footer_col_rides">Rides</h5>
+        <ul>
+          <li><a href="../Tours/Tours.html#bike" data-i18n="nav_bikeTours">Bike Tours</a></li>
+          <li><a href="../Tours/Tours.html#ebike" data-i18n="nav_ebikeTours">E-Bike Tours</a></li>
+          <li><a href="../Rentals/Rental.html" data-i18n="nav_rental">Rental</a></li>
+        </ul>
+      </div>
+      <div class="col">
+        <h5 data-i18n="footer_col_company">Company</h5>
+        <ul>
+          <li><a href="About%20Us.html" data-i18n="nav_about">About Us</a></li>
+          <li><a href="../Blog/Blog.html" data-i18n="nav_blog">Blog</a></li>
+          <li><a href="../index.html#routes" data-i18n="btn_viewRoute_plural">Popular Routes</a></li>
+        </ul>
+      </div>
+      <div class="col">
+        <h5 data-i18n="footer_col_contact">Contact</h5>
+        <ul class="footer-contact">
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-6.2-7-11a7 7 0 1114 0c0 4.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg> <span class="footer-script">Siem Reap, Cambodia</span></li>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.9v3a2 2 0 01-2.2 2 19.8 19.8 0 01-8.6-3 19.5 19.5 0 01-6-6A19.8 19.8 0 012.1 4.2 2 2 0 014.1 2h3a2 2 0 012 1.7c.1.9.3 1.8.6 2.7a2 2 0 01-.4 2.1L8 9.9a16 16 0 006 6l1.4-1.4a2 2 0 012.1-.4c.9.3 1.8.5 2.7.6a2 2 0 011.8 2.2z"/></svg> +855 12 610 269 (WhatsApp)</li>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16v16H4z"/><path d="M4 6l8 7 8-7"/></svg> ride@siemride.com</li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 SiemRide. <span data-i18n="footer_rights">All rights reserved.</span></span>
+      <button type="button" class="back-to-top" id="backToTop" aria-label="Back to top">
+        <span data-i18n="footer_backToTop">Back to top</span>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+      </button>
+    </div>
+  </div>
+</footer>
+
+<a class="wa-float" href="https://wa.me/85512610269" target="_blank" rel="noopener" aria-label="Chat with us">
+  <svg width="52" height="52" viewBox="0 0 64 64" aria-hidden="true"><defs><linearGradient id="waFloatGrad" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#3DDC63"/><stop offset="100%" stop-color="#159040"/></linearGradient></defs><circle cx="32" cy="32" r="30" fill="url(#waFloatGrad)"/><g transform="translate(13 13) scale(1.5833)"><path fill="#fff" d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></g></svg>
+  <span class="wa-float-badge">?</span>
+</a>
+
+<script>
+  // Accordion toggles inside the mobile side panel (Tour Info / Rental)
+  document.querySelectorAll('.panel-accordion-toggle').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var acc = btn.closest('.panel-accordion');
+      var wasOpen = acc.classList.contains('open');
+      document.querySelectorAll('.panel-accordion.open').forEach(function (other) {
+        if (other !== acc) other.classList.remove('open');
+      });
+      acc.classList.toggle('open', !wasOpen);
+    });
+  });
+</script>
+<script src="../JavaScript/script.js?v=20261110-1"></script>
+<script>
+(function(){
+  var imgs = document.querySelectorAll('.impact-gallery img:not(.img-pan), .roll-side img');
+  var ticking = false;
+  var RANGE = 18; // max px of shift, kept subtle
+
+  function update(){
+    var vh = window.innerHeight;
+    imgs.forEach(function(img){
+      var rect = img.parentElement.getBoundingClientRect();
+      var center = rect.top + rect.height / 2;
+      var offset = ((center - vh / 2) / vh) * RANGE;
+      offset = Math.max(-RANGE, Math.min(RANGE, offset));
+      img.style.transform = 'translateY(' + offset.toFixed(1) + 'px)';
+    });
+    ticking = false;
+  }
+
+  function onScroll(){
+    if(!ticking){
+      window.requestAnimationFrame(update);
+      ticking = true;
+    }
+  }
+
+  window.addEventListener('scroll', onScroll, {passive:true});
+  window.addEventListener('resize', onScroll);
+  update();
+})();
+
+var backToTopBtn = document.getElementById('backToTop');
+if(backToTopBtn){
+  backToTopBtn.addEventListener('click', function(){
+    window.scrollTo({top:0, behavior:'smooth'});
+  });
+}
+
+var aboutCtaBookBtn = document.getElementById('aboutCtaBookBtn');
+if(aboutCtaBookBtn){
+  aboutCtaBookBtn.addEventListener('click', function(e){
+    e.preventDefault();
+    if(window.openBookingModal) window.openBookingModal();
+  });
+}
+</script>
+</body>
+</html>

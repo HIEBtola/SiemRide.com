@@ -1,0 +1,1127 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HOME | SIEMRIDE</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Playfair+Display:ital,wght@0,600;0,700;1,600;1,700&family=JetBrains+Mono:wght@400;500&family=Work+Sans:wght@400;500;600;700&family=Noto+Sans+Khmer:wght@400;500;700&family=Pinyon+Script&display=swap" rel="stylesheet">
+<script>try{var l=localStorage.getItem("siemride_lang");if(l&&l!=="en"){document.documentElement.className+=" i18n-wait";setTimeout(function(){document.documentElement.classList.remove("i18n-wait")},1500)}}catch(e){}</script>
+<link rel="stylesheet" href="CssStyle/style.css?v=20261110-1">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link rel="icon" type="image/png" href="Image/logo2.png">
+<style>
+  /* Main nav labels in caps; dropdown/sub-nav items keep normal case */
+  .main-nav > ul > li > a,
+  .panel-nav-list > a {
+    text-transform: uppercase;
+  }
+
+  /* Hero background slideshow (crossfades through Home1-4.webp) */
+  .hero-bg-slideshow{position:absolute;inset:0;overflow:hidden;z-index:0;}
+  .hero-bg-slide{
+    position:absolute;inset:0;
+    background-size:cover;background-position:center 38%;background-repeat:no-repeat;
+    opacity:0;transition:opacity 1.8s ease;
+  }
+  .hero-bg-slide.active{opacity:1;}
+  .hero-bg-slideshow::after{
+    content:"";position:absolute;inset:0;
+    background:
+      linear-gradient(100deg, rgba(29,33,40,0.72) 0%, rgba(29,33,40,0.42) 45%, rgba(29,33,40,0.08) 75%),
+      linear-gradient(0deg, rgba(29,33,40,0.55), transparent 45%);
+  }
+
+  /* Play button overlay on video route-thumbs */
+  .route-thumb-video {
+    position: relative;
+  }
+  .route-thumb-video video {
+    cursor: pointer;
+  }
+  .video-play-btn {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 58px;
+    height: 58px;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.45);
+    border: 2px solid rgba(255, 255, 255, 0.85);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: transform 0.2s ease, background 0.2s ease;
+    z-index: 2;
+  }
+  .video-play-btn svg {
+    margin-left: 3px; /* optical centering for the triangle */
+  }
+  .route-thumb-video:hover .video-play-btn {
+    background: rgba(0, 0, 0, 0.65);
+    transform: translate(-50%, -50%) scale(1.08);
+  }
+  /* Hide the big center play button once the video is playing inline */
+  .route-thumb-video.playing .video-play-btn {
+    display: none;
+  }
+  /* Fullscreen option, kept as a small separate corner button */
+  .video-expand-btn {
+    z-index: 2;
+  }
+
+  /* Keep the header visible while scrolling */
+  html{scroll-padding-top:72px;}
+  header{
+    position:fixed;
+    top:0;
+    left:0;
+    right:0;
+    z-index:200;
+    transition:background .25s ease, box-shadow .25s ease, backdrop-filter .25s ease;
+  }
+  header.scrolled{
+    background:rgba(18,49,43,0.96);
+    -webkit-backdrop-filter:blur(10px);
+    backdrop-filter:blur(10px);
+    box-shadow:0 2px 18px rgba(0,0,0,0.18);
+  }
+  @media (max-width:640px){
+    html{scroll-padding-top:66px;}
+    .duration-filter .filter-options-panel{
+      top:auto;
+      bottom:calc(100% + 8px);
+      max-height:calc(100vh - 24px);
+      overflow-y:auto;
+    }
+  }
+  body:has(#burgerWrap.open) .wa-float{
+    opacity:0;
+    pointer-events:none;
+  }
+</style>
+</head>
+
+<body>
+<header>
+  <div class="nav-inner">
+    <a href="#home" class="logo">
+      <img src="Image/logo2.png" alt="Siem Ride logo" class="header-logo-img">
+    </a>
+
+    <nav class="main-nav" id="mainNav">
+      <!-- Bottom Flat Amber Line -->
+      <div id="bottomAmberLine" class="bottom-amber-line"></div>
+      <ul>
+        <li><a href="#home" class="active" data-i18n="nav_home">Home</a></li>
+        <li><a href="Tours/Tours.html" data-i18n="nav_tours">Tour</a></li>
+        <li><a href="Rentals/Rental.html" data-i18n="nav_rental">Rental</a></li>
+        <li><a href="Blog/Blog.html" data-i18n="nav_blog">Blog</a></li>
+        <li><a href="About%20Us/About%20Us.html" data-i18n="nav_about">About Us</a></li>
+      </ul>
+    </nav>
+
+    <div class="nav-right-group">
+      <div class="nav-mid-spacer">
+        <div class="dd-wrap" id="langWrap">
+          <button class="lang-btn" id="langBtn" aria-label="Change language">
+            <img id="langFlagSlot" class="lang-flag-img" src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f1ec-1f1e7.svg" alt="EN">
+            <svg class="mini-caret" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+          <div class="dd-panel lang-panel" id="langPanel">
+            <a href="#" data-lang="en"><img class="lang-flag-img" src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f1ec-1f1e7.svg" alt="English" loading="lazy" decoding="async"> English</a>
+            <a href="#" data-lang="km"><img class="lang-flag-img" src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f1f0-1f1ed.svg" alt="Khmer" loading="lazy" decoding="async"> ខ្មែរ (Khmer)</a>
+            <a href="#" data-lang="vi"><img class="lang-flag-img" src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f1fb-1f1f3.svg" alt="Vietnamese" loading="lazy" decoding="async"> Tiếng Việt (Vietnamese)</a>
+            <a href="#" data-lang="th"><img class="lang-flag-img" src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f1f9-1f1ed.svg" alt="Thai" loading="lazy" decoding="async"> ภาษาไทย (Thai)</a>
+            <a href="#" data-lang="zh"><img class="lang-flag-img" src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f1e8-1f1f3.svg" alt="Chinese" loading="lazy" decoding="async"> 中文 (Chinese)</a>
+            <a href="#" data-lang="ja"><img class="lang-flag-img" src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f1ef-1f1f5.svg" alt="Japanese" loading="lazy" decoding="async"> 日本語 (Japanese)</a>
+            <a href="#" data-lang="ko"><img class="lang-flag-img" src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f1f0-1f1f7.svg" alt="Korean" loading="lazy" decoding="async"> 한국어 (Korean)</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="nav-actions">
+
+      <a class="call-btn" href="tel:+85512610269" aria-label="Call us +855 12 610 269"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4h3.5l1.8 4.6-2.2 1.4a11 11 0 0 0 5.9 5.9l1.4-2.2L20 15.5V19a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg>
+        <span class="call-copy">
+          <span class="call-label" data-i18n="call_label">Call Us</span>
+          <span class="call-text">+855 12 610 269</span>
+        </span>
+      </a>
+
+      <span class="nav-divider"></span>
+
+      <div class="dd-wrap" id="burgerWrap">
+        <button class="burger" id="burgerBtn" aria-label="Menu">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+        </button>
+        <div class="side-panel-overlay" id="panelOverlay"></div>
+        <div class="dd-panel burger-panel side-panel" id="burgerPanel">
+          <button class="side-panel-close" id="panelClose" aria-label="Close menu">&times;</button>
+          <div class="panel-body">
+
+            <div class="panel-brand">
+              <img src="Image/logo2.png" alt="Siem Ride logo" class="panel-logo" loading="lazy" decoding="async">
+              <span class="panel-brand-text">SIEM<span>RIDE</span></span>
+            </div>
+            <div class="panel-divider"></div>
+
+            <!-- GROUP 1: Nav Menu -->
+            <div class="panel-group panel-group-nav">
+              <nav class="panel-nav-list">
+                <a href="#home" class="active" data-i18n="nav_home">Home</a>
+                <a href="Tours/Tours.html" data-i18n="nav_tours">Tour</a>
+                <a href="Rentals/Rental.html" data-i18n="nav_rental">Rental</a>
+                <a href="Blog/Blog.html" data-i18n="nav_blog">Blog</a>
+                <a href="About%20Us/About%20Us.html" data-i18n="nav_about">About Us</a>
+              </nav>
+            </div>
+
+            <!-- GROUP 2: Contact Info / Address -->
+            <div class="panel-group panel-group-contact">
+              <div class="panel-contact-item">
+                <div class="panel-contact-text">
+                  <h6 data-i18n="burger_officeAddress">Address:</h6>
+                  <a href="https://www.google.com/search?sca_esv=722160d45c52a345&sxsrf=APpeQnv_ufNh0-DdbDZDmF8cnXNRlVd7KA:1784443743758&q=celliers+d%27asie+siem+reap+branch+krong+siem+reap+address&ludocid=7669055108806559654&sa=X&ved=2ahUKEwi9iN_7kt6VAxVn3jgGHaILJsMQ6BN6BAg1EAI" target="_blank" rel="noopener" class="panel-contact-link panel-address-link">Wat Bo Road, Siem Reap, Cambodia</a>
+                </div>
+              </div>
+
+              <div class="panel-contact-item">
+                <div class="panel-contact-text">
+                  <h6 data-i18n="burger_phoneNumber">Mobile:</h6>
+                  <a href="tel:+85512610269" class="panel-contact-link panel-phone-link">+855 12 610 269</a>
+                </div>
+              </div>
+
+              <div class="panel-contact-item">
+                <div class="panel-contact-text">
+                  <h6 data-i18n="burger_emailAddress">E-Mail:</h6>
+                  <a href="mailto:siemride@gmail.com" class="panel-contact-link">siemride@gmail.com</a>
+                </div>
+              </div>
+            </div>
+
+            <!-- GROUP 3: Social Media -->
+            <div class="panel-group panel-group-social">
+              <div class="panel-social-icons">
+                <a href="https://wa.me/85512610269" target="_blank" rel="noopener" aria-label="WhatsApp"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></a>
+                <a href="https://www.facebook.com/share/1D3mPvHArv/" target="_blank" rel="noopener" aria-label="Facebook"><svg width="16" height="16" viewBox="-1 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h-2.5A4.5 4.5 0 0 0 8 7.5V10H5v4h3v7h4v-7h3l1-4h-4V7.5a.5.5 0 0 1 .5-.5H15z"/></svg></a>
+                <a href="https://t.me/CHENLAheab" target="_blank" rel="noopener" aria-label="Telegram"><svg width="16" height="16" viewBox="-0.5 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 3L2 11l7 2.5L11.5 21l3-4.5L19 20z"/><path d="M9 13.5L22 3"/></svg></a>
+                <a href="https://www.tiktok.com" target="_blank" rel="noopener" aria-label="TikTok"><svg width="16" height="16" viewBox="0 -1.5 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3v11.2a3.7 3.7 0 1 1-3.7-3.7"/><path d="M14 3c.3 2.6 2 4.2 4.8 4.4"/></svg></a>
+                <a href="https://www.youtube.com" target="_blank" rel="noopener" aria-label="YouTube"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.5" y="5.5" width="19" height="13" rx="4"/><path d="M10 9.5l5 2.5-5 2.5z" fill="currentColor"/></svg></a>
+                <a href="https://www.tripadvisor.com" target="_blank" rel="noopener" aria-label="TripAdvisor"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="7" cy="14" r="3.4"/><circle cx="17" cy="14" r="3.4"/><path d="M1.5 10l3 .6M22.5 10l-3 .6M5 8c3.6-2.6 10.4-2.6 14 0"/><circle cx="7" cy="14" r="1" fill="currentColor"/><circle cx="17" cy="14" r="1" fill="currentColor"/></svg></a>
+              </div>
+            </div>
+
+            <!-- Contact Us Button (Outside Group 3, down 3 lines, centered in sidebar) -->
+            <div class="panel-action-wrap">
+              <button type="button" class="sr-contact-btn">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                <span data-i18n="panel_contactUs">Contact us</span>
+              </button>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+      <!-- /Burger -->
+
+      </div><!-- /.nav-actions -->
+    </div><!-- /.nav-right-group -->
+
+  </div><!-- /.nav-inner -->
+</header>
+
+<!-- ===== HERO ===== -->
+<section class="hero" id="home">
+  <div class="hero-bg-slideshow" aria-hidden="true">
+    <div class="hero-bg-slide active" style="background-image:url('Image/Home/Home1.webp')"></div>
+    <div class="hero-bg-slide" style="background-image:url('Image/Home/Home2.webp')"></div>
+    <div class="hero-bg-slide" style="background-image:url('Image/Home/Home3.webp')"></div>
+    <div class="hero-bg-slide" style="background-image:url('Image/Home/Home4.webp')"></div>
+  </div>
+  <!-- Decorative line -->
+  <!-- Source: https://stackoverflow.com/q/61144511, Posted by Aurélien, License CC BY-SA 4.0 -->
+  <svg class="hero-doodle hero-doodle-right" xmlns="http://www.w3.org/2000/svg" viewBox="-30 150 1200 500" aria-hidden="true">
+    <defs>
+      <linearGradient id="doodle-right" x1="0%" y1="30%" x2="100%" y2="70%">
+        <stop offset="0%" stop-color="#4B2E83"/>
+        <stop offset="14%" stop-color="#2E6DB4"/>
+        <stop offset="28%" stop-color="#2E9E8F"/>
+        <stop offset="42%" stop-color="#4FAE4A"/>
+        <stop offset="56%" stop-color="#D9C21A"/>
+        <stop offset="66%" stop-color="#E8A23A"/>
+        <stop offset="78%" stop-color="#D9432E"/>
+        <stop offset="90%" stop-color="#C23A6B"/>
+        <stop offset="100%" stop-color="#5B2E7A"/>
+      </linearGradient>
+      <filter id="doodle-glow-right" x="-60%" y="-60%" width="220%" height="220%">
+        <feGaussianBlur stdDeviation="7" result="blur"/>
+      </filter>
+    </defs>
+    <path class="hero-doodle-path hero-doodle-glow" filter="url(#doodle-glow-right)" stroke-width="14" opacity="0.7" stroke="url(#doodle-right)" d="
+      M -30,400
+      C 60,460 160,470 230,430
+      C 270,405 300,450 350,450
+      C 252,436 252,324 315,324
+      C 343,324 350,345 350,359
+      C 350,345 357,324 385,324
+      C 448,324 448,436 350,450
+      C 395,443 440,436 480,430
+      C 326,408 326,232 425,232
+      C 469,232 480,265 480,287
+      C 480,265 491,232 535,232
+      C 634,232 634,408 480,430
+      C 545,438 630,415 720,350
+      C 820,265 950,190 1170,175"/>
+    <path class="hero-doodle-path" stroke="url(#doodle-right)" d="
+      M -30,400
+      C 60,460 160,470 230,430
+      C 270,405 300,450 350,450
+      C 252,436 252,324 315,324
+      C 343,324 350,345 350,359
+      C 350,345 357,324 385,324
+      C 448,324 448,436 350,450
+      C 395,443 440,436 480,430
+      C 326,408 326,232 425,232
+      C 469,232 480,265 480,287
+      C 480,265 491,232 535,232
+      C 634,232 634,408 480,430
+      C 545,438 630,415 720,350
+      C 820,265 950,190 1170,175"/>
+  </svg>
+  <div class="hero-inner">
+    <div>
+      <p class="eyebrow"><span class="eyebrow-latin" data-i18n="hero_eyebrow">SIEM REAP | CAMBODIA</span> | <span class="eyebrow-khmer" lang="km">សៀមរាប ផ្ទះខ្ញុំ</span></p>
+      <h1><span data-i18n="hero_titleMain">Ride Cambodia's</span> <em data-i18n="hero_titleEm">Backroads</em> <span data-i18n="hero_titleEnd">past the temples.</span></h1>
+      <p data-i18n="ix_guided_motorbike_and_e_bike" class="lede">Guided motorbike and e-bike tours, led by locals.</p>
+      <div class="hero-ctas"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== PLAN MY RIDE (floating filter card) ===== -->
+<div class="wrap hero-block-shift">
+  <div class="hero-filter-card">
+    <div class="filter-item has-filter-dropdown">
+      <svg class="filter-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-6.2-7-11a7 7 0 1114 0c0 4.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>
+      <div class="filter-text-wrap">
+        <label data-i18n="filter_destination">Destination</label>
+        <button type="button" class="filter-value-btn">
+          <span class="filter-value-text" data-i18n="filter_opt_temple">Temple</span>
+          <svg class="filter-caret" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8.5l8 7.5 8-7.5"/></svg>
+        </button>
+      </div>
+      <div class="dropdown filter-options-panel">
+        <a href="#dest-angkor" data-i18n="filter_opt_temple">Temple</a>
+        <a href="#dest-countryside" data-i18n="filter_opt_countryside">Countryside</a>
+        <a href="#dest-angkor" data-i18n="filter_opt_cityTour">City Tour</a>
+      </div>
+    </div>
+
+    <div class="filter-item has-filter-dropdown duration-filter">
+      <svg class="filter-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8"/></svg>
+      <div class="filter-text-wrap">
+        <label data-i18n="filter_longTour">Long Tour</label>
+        <button type="button" class="filter-value-btn">
+          <span class="filter-value-text" data-i18n="dd_3days">3+ Days</span>
+          <svg class="filter-caret" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8.5l8 7.5 8-7.5"/></svg>
+        </button>
+      </div>
+      <div class="dropdown filter-options-panel">
+        <a data-i18n="ix_1_day" href="Tours/Tours.html#moto">1 Day</a>
+        <a data-i18n="ix_2_days" href="Tours/Tours.html#moto">2 Days</a>
+        <a href="Tours/Tours.html#moto" data-i18n="dd_3days">3+ Days</a>
+        <a href="Tours/Tours.html#moto" data-i18n="dd_5days">5+ Days</a>
+        <a href="Tours/Tours.html#moto" data-i18n="dd_7days">7+ Days</a>
+        <a href="Tours/Tours.html#moto" data-i18n="dd_10plusDays">10+ Days</a>
+      </div>
+    </div>
+
+    <div class="filter-item has-filter-dropdown">
+      <svg class="filter-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="5" cy="17" r="3"/><circle cx="19" cy="17" r="3"/><path d="M5 17l4-8h5l3 5M9 9h4l4 8M9 9l-1-3"/></svg>
+      <div class="filter-text-wrap">
+        <label data-i18n="filter_rental">Rental</label>
+        <button type="button" class="filter-value-btn">
+          <span class="filter-value-text" data-i18n="filter_opt_moto">Motorbike</span>
+          <svg class="filter-caret" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8.5l8 7.5 8-7.5"/></svg>
+        </button>
+      </div>
+      <div class="dropdown filter-options-panel">
+        <a href="Rentals/Rental.html#moto" data-i18n="filter_opt_moto">Motorbike</a>
+        <a href="Rentals/Rental.html#bike" data-i18n="dd_bicycle">Bicycle</a>
+        <a href="Rentals/Rental.html#ebike" data-i18n="filter_opt_ebike">E-Bike</a>
+        <a href="Rentals/Rental.html#tuktuk" data-i18n="dd_tukTuk">Tuk Tuk</a>
+        <a href="Rentals/Rental.html#carvan" data-i18n="dd_carVan">Car / Van</a>
+      </div>
+    </div>
+
+    <button type="button" class="hero-filter-btn" id="planMyRideBtn" data-i18n="filter_planMyRide">Plan My Ride →</button>
+  </div>
+</div>
+
+<!-- ===== BOOKING / CONTACT MODAL ===== -->
+<div class="booking-overlay" id="bookingOverlay"></div>
+<div class="booking-modal" id="bookingModal" role="dialog" aria-modal="true" aria-labelledby="bookingTitle">
+  <button type="button" class="booking-close" id="bookingClose" aria-label="Close form">&times;</button>
+
+  <div class="booking-modal-inner">
+
+    <!-- Step content -->
+    <div class="booking-head">
+      <p class="eyebrow" data-i18n="booking_eyebrow">Let's plan it</p>
+      <h3 id="bookingTitle" data-i18n="booking_h3">Tell us about your ride</h3>
+      <p data-i18n="ix_send_us_your_plan_on" class="booking-sub">Send us your plan on WhatsApp. We reply within the hour.</p>
+    </div>
+
+    <form id="bookingForm" class="booking-form" novalidate>
+
+      <div class="booking-grid">
+        <div class="booking-field">
+          <label for="bkName" data-i18n="booking_name">Full name</label>
+          <input type="text" id="bkName" name="name" placeholder="Jane Smith" required>
+        </div>
+
+        <div class="booking-field">
+          <label for="bkContact" data-i18n="booking_contact">WhatsApp / phone number</label>
+          <input type="tel" id="bkContact" name="contact" placeholder="+855 ..." required>
+        </div>
+
+        <div class="booking-field">
+          <label for="bkEmail"><span data-i18n="booking_email">Email</span> <span class="optional" data-i18n="booking_optional">(optional)</span></label>
+          <input type="email" id="bkEmail" name="email" placeholder="jane@email.com">
+        </div>
+
+        <div class="booking-field">
+          <label data-i18n="booking_riders">Number of riders</label>
+          <div class="bk-select" id="bkRiders" data-name="riders" data-value="2">
+            <button type="button" class="bk-select-btn">
+              <span class="bk-select-value">2</span>
+              <svg class="bk-select-caret" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M6 9l6 6 6-6"/></svg>
+            </button>
+            <div class="bk-select-panel">
+              <a href="#" data-value="1">1</a>
+              <a href="#" data-value="2" class="active">2</a>
+              <a href="#" data-value="3">3</a>
+              <a href="#" data-value="4">4</a>
+              <a href="#" data-value="5+">5+</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="booking-field">
+          <label data-i18n="booking_destination">Destination</label>
+          <div class="bk-select" id="bkDestination" data-name="destination" data-value="Angkor Temples">
+            <button type="button" class="bk-select-btn">
+              <span class="bk-select-value" data-i18n="filter_opt_angkor">Angkor Temples</span>
+              <svg class="bk-select-caret" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M6 9l6 6 6-6"/></svg>
+            </button>
+            <div class="bk-select-panel">
+              <a href="#" data-value="Angkor Temples" class="active" data-i18n="filter_opt_angkor">Angkor Temples</a>
+              <a href="#" data-value="Countryside" data-i18n="filter_opt_countryside">Countryside</a>
+              <a href="#" data-value="Tonlé Sap" data-i18n="filter_opt_tonlesap">Tonlé Sap</a>
+              <a href="#" data-value="Not sure yet" data-i18n="booking_notSure">Not sure yet</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="booking-field">
+          <label data-i18n="booking_vehicle">Vehicle</label>
+          <div class="bk-select" id="bkVehicle" data-name="vehicle" data-value="Motorbike">
+            <button type="button" class="bk-select-btn">
+              <span class="bk-select-value" data-i18n="filter_opt_moto">Motorbike</span>
+              <svg class="bk-select-caret" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M6 9l6 6 6-6"/></svg>
+            </button>
+            <div class="bk-select-panel">
+              <a href="#" data-value="Motorbike" class="active" data-i18n="filter_opt_moto">Motorbike</a>
+              <a href="#" data-value="Bicycle" data-i18n="dd_bicycle">Bicycle</a>
+              <a href="#" data-value="E-Bike" data-i18n="filter_opt_ebike">E-Bike</a>
+              <a href="#" data-value="Tuk Tuk" data-i18n="dd_tukTuk">Tuk Tuk</a>
+              <a href="#" data-value="Car / Van" data-i18n="dd_carVan">Car / Van</a>
+              <a href="#" data-value="Scooter" data-i18n="filter_opt_scooter">Scooter</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="booking-field">
+          <label data-i18n="booking_type">Guided or rental?</label>
+          <div class="bk-select" id="bkType" data-name="type" data-value="Guided Tour">
+            <button type="button" class="bk-select-btn">
+              <span class="bk-select-value" data-i18n="dd_guidedTour">Guided Tour</span>
+              <svg class="bk-select-caret" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M6 9l6 6 6-6"/></svg>
+            </button>
+            <div class="bk-select-panel">
+              <a href="#" data-value="Guided Tour" class="active" data-i18n="dd_guidedTour">Guided Tour</a>
+              <a href="#" data-value="Self-Drive Rental" data-i18n="dd_selfDriveRental">Self-Drive Rental</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="booking-field">
+          <label data-i18n="booking_duration">Duration</label>
+          <div class="bk-select" id="bkDuration" data-name="duration" data-value="1 Day">
+            <button type="button" class="bk-select-btn">
+              <span data-i18n="ix_1_day" class="bk-select-value">1 Day</span>
+              <svg class="bk-select-caret" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M6 9l6 6 6-6"/></svg>
+            </button>
+            <div class="bk-select-panel">
+              <a data-i18n="ix_1_day" href="#" data-value="1 Day" class="active">1 Day</a>
+              <a data-i18n="ix_2_days" href="#" data-value="2 Days">2 Days</a>
+              <a data-i18n="ix_3_days" href="#" data-value="3 Days">3 Days</a>
+              <a data-i18n="ix_4_days" href="#" data-value="4 Days">4 Days</a>
+              <a data-i18n="ix_5_days" href="#" data-value="5+ Days">5+ Days</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="booking-field">
+          <label data-i18n="booking_date">Travel date(s)</label>
+          <div class="bk-select bk-date" id="bkDate" data-start="" data-end="">
+            <button type="button" class="bk-select-btn">
+              <span class="bk-select-value" data-i18n="booking_selectDate">Select date(s)</span>
+              <svg class="bk-select-caret" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M8 3v4M16 3v4M3 10h18"/></svg>
+            </button>
+            <div class="bk-select-panel bk-date-panel">
+              <div class="bk-date-header">
+                <button type="button" class="bk-date-nav" data-dir="-1" aria-label="Previous month">&lsaquo;</button>
+                <span class="bk-date-month-label"></span>
+                <button type="button" class="bk-date-nav" data-dir="1" aria-label="Next month">&rsaquo;</button>
+              </div>
+              <p data-i18n="ix_tap_a_start_day_then" class="bk-date-hint">Tap a start day, then an end day.</p>
+              <div class="bk-date-weekdays">
+                <span>Su</span><span>Mo</span><span>Tu</span><span>We</span><span>Th</span><span>Fr</span><span>Sa</span>
+              </div>
+              <div class="bk-date-grid"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="booking-field">
+          <label><span data-i18n="booking_time">Preferred time</span> <span class="optional" data-i18n="booking_optional">(optional)</span></label>
+          <div class="bk-select" id="bkTime" data-name="time" data-value="9:00 AM">
+            <button type="button" class="bk-select-btn">
+              <span class="bk-select-value">9:00 AM</span>
+              <svg class="bk-select-caret" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M6 9l6 6 6-6"/></svg>
+            </button>
+            <div class="bk-select-panel">
+              <a href="#" data-value="6:00 AM">6:00 AM</a>
+              <a href="#" data-value="6:30 AM">6:30 AM</a>
+              <a href="#" data-value="7:00 AM">7:00 AM</a>
+              <a href="#" data-value="7:30 AM">7:30 AM</a>
+              <a href="#" data-value="8:00 AM">8:00 AM</a>
+              <a href="#" data-value="8:30 AM">8:30 AM</a>
+              <a href="#" data-value="9:00 AM" class="active">9:00 AM</a>
+              <a href="#" data-value="9:30 AM">9:30 AM</a>
+              <a href="#" data-value="10:00 AM">10:00 AM</a>
+              <a href="#" data-value="10:30 AM">10:30 AM</a>
+              <a href="#" data-value="11:00 AM">11:00 AM</a>
+              <a href="#" data-value="11:30 AM">11:30 AM</a>
+              <a href="#" data-value="12:00 PM">12:00 PM</a>
+              <a href="#" data-value="12:30 PM">12:30 PM</a>
+              <a href="#" data-value="1:00 PM">1:00 PM</a>
+              <a href="#" data-value="1:30 PM">1:30 PM</a>
+              <a href="#" data-value="2:00 PM">2:00 PM</a>
+              <a href="#" data-value="2:30 PM">2:30 PM</a>
+              <a href="#" data-value="3:00 PM">3:00 PM</a>
+              <a href="#" data-value="3:30 PM">3:30 PM</a>
+              <a href="#" data-value="4:00 PM">4:00 PM</a>
+              <a href="#" data-value="4:30 PM">4:30 PM</a>
+              <a href="#" data-value="5:00 PM">5:00 PM</a>
+              <a href="#" data-value="5:30 PM">5:30 PM</a>
+              <a href="#" data-value="6:00 PM">6:00 PM</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="booking-field booking-field-full">
+        <label for="bkMessage"><span data-i18n="booking_message">Anything else we should know?</span> <span class="optional" data-i18n="booking_optional">(optional)</span></label>
+        <textarea id="bkMessage" name="message" rows="3" placeholder="Riding experience, timing, special requests..." data-i18n-placeholder="booking_message_ph"></textarea>
+      </div>
+
+      <p class="booking-error" id="bookingError" data-i18n="booking_error">Please add your name and a WhatsApp/phone number so we can reach you.</p>
+
+      <div class="booking-actions">
+        <button type="button" class="btn btn-dark booking-submit" id="bkViewStatementBtn">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16v16H4z"/><path d="M8 9h8M8 13h5"/></svg>
+          <span data-i18n="ix_view_statement">View statement</span>
+        </button>
+        <a href="mailto:siemride@gmail.com" class="booking-alt-link" data-i18n="booking_emailInstead">or email us instead</a>
+        <button data-i18n="ix_clear_form" type="button" class="booking-clear-btn" id="bkClearFormBtn">Clear form</button>
+      </div>
+    </form>
+
+    <!-- Review / statement state -->
+    <div class="booking-summary" id="bookingSummary">
+      <h4 data-i18n="ix_review_your_request">Review your request</h4>
+      <p data-i18n="ix_check_the_details_then_send" class="booking-sub">Check the details, then send via WhatsApp.</p>
+      <dl class="summary-list" id="summaryList"></dl>
+      <div class="booking-actions">
+        <button type="button" class="btn btn-dark booking-submit" id="bkConfirmSendBtn">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 00-8.5 15.2L2 22l4.9-1.4A10 10 0 1012 2zm0 18.2c-1.6 0-3.1-.4-4.4-1.2l-.3-.2-3.3 1 1-3.2-.2-.3A8.2 8.2 0 1112 20.2z"/></svg>
+          <span data-i18n="booking_submit">Send via WhatsApp</span>
+        </button>
+        <div class="booking-edit-options">
+          <button data-i18n="ix_edit_details" type="button" class="booking-alt-link booking-edit-btn" id="bkEditDetailsBtn">Edit details</button>
+          <span class="booking-edit-sep">·</span>
+          <button data-i18n="ix_change_package" type="button" class="booking-alt-link booking-edit-btn" id="bkBackToPackageBtn">Change package</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Success state -->
+    <div class="booking-success" id="bookingSuccess">
+      <svg width="46" height="46" viewBox="0 0 24 24" fill="none" stroke="var(--moss-dark)" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M8 12.5l2.5 2.5L16 9"/></svg>
+      <h4 data-i18n="booking_success_h4">Opening WhatsApp…</h4>
+      <p data-i18n="ix_not_opening_message_855_14">Not opening? Message +855 12 610 269.</p>
+    </div>
+
+  </div>
+</div>
+
+<!-- ===== POPULAR ROUTES ===== -->
+<section class="routes" id="routes">
+  <div class="wrap">
+    <div class="section-head center">
+      <p class="eyebrow" data-i18n="routes_eyebrow">Rider favourites</p>
+      <h2 data-i18n="ix_popular_routes">Popular routes</h2>
+      <p data-i18n="ix_scouted_and_ridden_by_our">Scouted and ridden by our guides.</p>
+    </div>
+    <div class="routes-grid">
+
+      <div class="route-card" id="dest-angkor">
+        <div class="route-thumb route-thumb-clickable">
+          <img src="Image/Home/Home%20(4).webp" alt="Temple Backroads Loop" loading="lazy">
+        </div>
+        <div class="route-body">
+          <h3 data-i18n="route1_title">Temple Backroads Loop</h3>
+          <p data-i18n="ix_beat_the_crowds_to_angkor">Beat the crowds to Angkor Wat.</p>
+          <a href="#" class="route-link" data-i18n="btn_exploreRoute">Explore this route →</a>
+        </div>
+      </div>
+
+      <div class="route-card" id="dest-tonlesap">
+        <div class="route-thumb route-thumb-clickable">
+          <img src="Image/Home/Home%20(6).webp" alt="Tonlé Sap Floating Villages" loading="lazy">
+        </div>
+        <div class="route-body">
+          <h3 data-i18n="route2_title">Tonlé Sap Floating Villages</h3>
+          <p data-i18n="ix_floating_villages_and_fish_markets">Floating villages and fish markets.</p>
+          <a href="#" class="route-link" data-i18n="btn_exploreRoute">Explore this route →</a>
+        </div>
+      </div>
+
+      <div class="route-card" id="dest-countryside">
+        <div class="route-thumb route-thumb-clickable">
+          <img src="Image/Home/Home%20(5).webp" alt="Countryside &amp; Banteay Srei" loading="lazy">
+        </div>
+        <div class="route-body">
+          <h3 data-i18n="route3_title">Countryside &amp; Banteay Srei</h3>
+          <p data-i18n="ix_red_dirt_roads_and_a">Red dirt roads and a waterfall camp.</p>
+          <a href="#" class="route-link" data-i18n="btn_exploreRoute">Explore this route →</a>
+        </div>
+      </div>
+
+      <div class="route-card">
+        <div class="route-thumb route-thumb-video" data-video-src="Image/Home/Video1.mp4">
+          <video src="Image/Home/Video1.mp4" muted playsinline preload="metadata"></video>
+          <button type="button" class="video-play-btn" aria-label="Play video">
+            <svg width="20" height="22" viewBox="0 0 24 24" fill="white"><path d="M6 4l15 8-15 8V4z"/></svg>
+          </button>
+          <button type="button" class="video-expand-btn" aria-label="Expand video">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M8 3H4a1 1 0 00-1 1v4M16 3h4a1 1 0 011 1v4M21 16v4a1 1 0 01-1 1h-4M3 16v4a1 1 0 001 1h4"/></svg>
+          </button>
+        </div>
+        <div class="route-body">
+          <h3 data-i18n="route4_title">Ride Preview: Angkor Back Trails</h3>
+          <p data-i18n="ix_rice_paddies_and_brick_kilns">Rice paddies and brick kilns.</p>
+          <a href="#" class="route-link" data-i18n="btn_exploreRoute">Explore this route →</a>
+        </div>
+      </div>
+
+      <div class="route-card">
+        <div class="route-thumb route-thumb-video" data-video-src="Image/Home/Video2.mp4">
+          <video src="Image/Home/Video2.mp4" muted playsinline preload="metadata"></video>
+          <button type="button" class="video-play-btn" aria-label="Play video">
+            <svg width="20" height="22" viewBox="0 0 24 24" fill="white"><path d="M6 4l15 8-15 8V4z"/></svg>
+          </button>
+          <button type="button" class="video-expand-btn" aria-label="Expand video">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M8 3H4a1 1 0 00-1 1v4M16 3h4a1 1 0 011 1v4M21 16v4a1 1 0 01-1 1h-4M3 16v4a1 1 0 001 1h4"/></svg>
+          </button>
+        </div>
+        <div class="route-body">
+          <h3 data-i18n="route5_title">Sunset Ride: Tonlé Sap</h3>
+          <p data-i18n="ix_golden_hour_over_the_lake">Golden hour over the lake.</p>
+          <a href="#" class="route-link" data-i18n="btn_exploreRoute">Explore this route →</a>
+        </div>
+      </div>
+
+      <div class="route-card">
+        <div class="route-thumb route-thumb-video" data-video-src="Image/Home/Video3.mp4">
+          <video src="Image/Home/Video3.mp4" muted playsinline preload="metadata"></video>
+          <button type="button" class="video-play-btn" aria-label="Play video">
+            <svg width="20" height="22" viewBox="0 0 24 24" fill="white"><path d="M6 4l15 8-15 8V4z"/></svg>
+          </button>
+          <button type="button" class="video-expand-btn" aria-label="Expand video">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M8 3H4a1 1 0 00-1 1v4M16 3h4a1 1 0 011 1v4M21 16v4a1 1 0 01-1 1h-4M3 16v4a1 1 0 001 1h4"/></svg>
+          </button>
+        </div>
+        <div class="route-body">
+          <h3 data-i18n="route6_title">Countryside Ride: Rice Paddies</h3>
+          <p data-i18n="ix_green_fields_and_village_life">Green fields and village life.</p>
+          <a href="#" class="route-link" data-i18n="btn_exploreRoute">Explore this route →</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ===== ROUTE PHOTO LIGHTBOX ===== -->
+<div class="route-lightbox-overlay" id="routeLightboxOverlay"></div>
+<div class="route-lightbox" id="routeLightbox" role="dialog" aria-modal="true" aria-labelledby="routeLightboxTitle">
+  <button type="button" class="route-lightbox-close" id="routeLightboxClose" aria-label="Close">&times;</button>
+
+  <div class="route-lightbox-media">
+    <img id="routeLightboxImg" src="" alt="">
+    <span class="route-lightbox-place" id="routeLightboxPlace"></span>
+    <button type="button" class="route-lightbox-arrow prev" id="routeLightboxPrev" aria-label="Previous photo">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M15 18l-6-6 6-6"/></svg>
+    </button>
+    <button type="button" class="route-lightbox-arrow next" id="routeLightboxNext" aria-label="Next photo">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l6-6-6-6"/></svg>
+    </button>
+  </div>
+
+  <div class="route-lightbox-info">
+    <p class="eyebrow" data-i18n="routeLightbox_eyebrow">Route preview</p>
+    <h3 id="routeLightboxTitle"></h3>
+    <p id="routeLightboxDesc"></p>
+    <a href="#" class="btn btn-dark route-lightbox-cta" id="routeLightboxCta" data-i18n="filter_planMyRide">Plan My Ride →</a>
+  </div>
+</div>
+
+<!-- ===== ROUTE VIDEO LIGHTBOX (full-screen, video only) ===== -->
+<div class="video-lightbox-overlay" id="videoLightboxOverlay"></div>
+<div class="video-lightbox" id="videoLightbox" role="dialog" aria-modal="true" aria-label="Video preview">
+  <button type="button" class="video-lightbox-close" id="videoLightboxClose" aria-label="Close">&times;</button>
+
+  <video id="videoLightboxVideo" controls playsinline></video>
+
+  <button type="button" class="video-lightbox-arrow prev" id="videoLightboxPrev" aria-label="Previous video">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M15 18l-6-6 6-6"/></svg>
+  </button>
+  <button type="button" class="video-lightbox-arrow next" id="videoLightboxNext" aria-label="Next video">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l6-6-6-6"/></svg>
+  </button>
+  <span class="video-lightbox-counter" id="videoLightboxCounter"></span>
+</div>
+
+<!-- ===== EXPERIENCE COLLAGE PHOTO LIGHTBOX ===== -->
+<div class="photo-lightbox-overlay" id="photoLightboxOverlay"></div>
+<div class="photo-lightbox" id="photoLightbox" role="dialog" aria-modal="true" aria-label="Photo preview">
+  <button type="button" class="photo-lightbox-close" id="photoLightboxClose" aria-label="Close">&times;</button>
+  <img id="photoLightboxImg" src="" alt="">
+  <button type="button" class="photo-lightbox-arrow prev" id="photoLightboxPrev" aria-label="Previous photo">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
+  </button>
+  <button type="button" class="photo-lightbox-arrow next" id="photoLightboxNext" aria-label="Next photo">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg>
+  </button>
+  <span class="photo-lightbox-counter" id="photoLightboxCounter"></span>
+</div>
+
+<!-- ===== EXPERIENCE SHOWCASE ===== -->
+<section class="experience" id="experience">
+  <div class="wrap experience-inner">
+    <div class="experience-text">
+      <p data-i18n="ix_ride_with_locals" class="eyebrow">Ride with locals</p>
+      <h2 data-i18n="ix_real_cambodia_ridden_by_locals">Real Cambodia, ridden by locals</h2>
+
+      <div class="experience-feature">
+        <div class="experience-feature-icon">
+          <svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="9"/><path d="M12 3v2M12 19v2M3 12h2M19 12h2M7 7l9 3-3 9-9-3z"/></svg>
+        </div>
+        <div>
+          <h3 data-i18n="exp_feat1_h3">Local-guided backroads</h3>
+          <p data-i18n="ix_guides_born_and_raised_in">Guides born and raised in Siem Reap.</p>
+        </div>
+      </div>
+
+      <div class="experience-feature">
+        <div class="experience-feature-icon">
+          <svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6z"/><path d="M9 12l2 2 4-4"/></svg>
+        </div>
+        <div>
+          <h3 data-i18n="exp_feat2_h3">Ride with confidence</h3>
+          <p data-i18n="ix_well_kept_bikes_and_proper">Well-kept bikes and proper gear.</p>
+        </div>
+      </div>
+
+      <button type="button" class="btn btn-dark experience-cta" id="experienceCtaBtn" data-i18n="filter_planMyRide">Plan My Ride →</button>
+    </div>
+
+    <div class="experience-art">
+      <svg class="experience-compass" viewBox="0 0 100 100" aria-hidden="true">
+        <circle cx="50" cy="50" r="46" fill="none" stroke="currentColor" stroke-width="1.5"/>
+        <path d="M50 6L58 42L94 50L58 58L50 94L42 58L6 50L42 42Z" fill="none" stroke="currentColor" stroke-width="1.5"/>
+      </svg>
+
+      <div class="experience-photo-main experience-photo-clickable">
+        <img src="Image/Home/Home%20(4).webp" alt="Motorbike riders on a rural Cambodian road" loading="lazy" class="slide-img active">
+        <img src="Image/Home/Home%20(6).webp" alt="Temple backroads at sunset" loading="lazy" class="slide-img">
+        <img src="Image/Home/Home%20(5).webp" alt="Countryside dirt trail near Siem Reap" loading="lazy" class="slide-img">
+      </div>
+      <div class="experience-photo-small experience-photo-clickable">
+        <img src="Image/Home/Home%20(4).webp" alt="Countryside dirt trail near Siem Reap" loading="lazy" class="slide-img active">
+        <img src="Image/Home/Home%20(6).webp" alt="Motorbike riders on a rural Cambodian road" loading="lazy" class="slide-img">
+        <img src="Image/Home/Home%20(5).webp" alt="Temple backroads at sunset" loading="lazy" class="slide-img">
+      </div>
+
+      <span class="experience-vertical-word" aria-hidden="true">SiemRide</span>
+    </div>
+  </div>
+</section>
+
+<!-- ===== CHOOSE YOUR RIDE (PACKAGES & PRICING) ===== -->
+<section class="rides" id="choose">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow" data-i18n="rides_eyebrow">Three ways to ride</p>
+      <h2 data-i18n="rides_h2">Choose your ride</h2>
+    </div>
+
+    <div class="rides-toolbar">
+      <div class="rides-search">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+        <input type="search" id="ridesSearchInput" data-i18n-placeholder="rides_searchPh" placeholder="Search bike, e-bike, rental...">
+      </div>
+      <div class="rides-toolbar-right">
+        <div class="rides-sort-wrap">
+          <select id="ridesSortSelect" class="rides-sort" aria-label="Sort">
+            <option value="recent" data-i18n="sort_recent">Sort (Recently Added)</option>
+            <option value="popular" data-i18n="sort_popular">Most Popular</option>
+            <option value="priceAsc" data-i18n="sort_priceAsc">Price: Low to High</option>
+            <option value="priceDesc" data-i18n="sort_priceDesc">Price: High to Low</option>
+          </select>
+          <svg class="rides-sort-caret" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8.5l8 7.5 8-7.5"/></svg>
+        </div>
+        <button type="button" class="rides-view-btn active" id="ridesViewList" data-i18n-aria="view_list" aria-label="List view">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="7" height="6" rx="1"/><path d="M13 6h8M13 12h8M3 17h18"/></svg>
+        </button>
+        <button type="button" class="rides-view-btn" id="ridesViewGrid" data-i18n-aria="view_grid" aria-label="Grid view">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="8" height="8" rx="1"/><rect x="13" y="3" width="8" height="8" rx="1"/><rect x="3" y="13" width="8" height="8" rx="1"/><rect x="13" y="13" width="8" height="8" rx="1"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- NOTE: sample pricing below — update was/now prices to your real rates -->
+    <div class="rides-layout">
+      <aside class="rides-filter">
+        <h4 data-i18n="filterBy_h4">Filter By</h4>
+
+        <div class="filter-group">
+          <h5 data-i18n="filterBy_rideType">Ride Type</h5>
+          <label class="filter-check"><input type="checkbox" data-filter-group="type" value="bike"><span data-i18n="nav_bikeTours">Bike Tours</span></label>
+          <label class="filter-check"><input type="checkbox" data-filter-group="type" value="ebike"><span data-i18n="nav_ebikeTours">E-Bike Tours</span></label>
+          <label class="filter-check"><input type="checkbox" data-filter-group="type" value="rental"><span data-i18n="nav_rental">Rental</span></label>
+        </div>
+
+        <div class="filter-group">
+          <h5 data-i18n="filterBy_style">Style</h5>
+          <label class="filter-check"><input type="checkbox" data-filter-group="style" value="guided"><span data-i18n="dd_guidedTour">Guided Tour</span></label>
+          <label class="filter-check"><input type="checkbox" data-filter-group="style" value="selfdrive"><span data-i18n="filter_selfDrive">Self-Drive</span></label>
+        </div>
+
+        <div class="filter-group">
+          <h5 data-i18n="filterBy_duration">Duration</h5>
+          <label class="filter-check"><input type="checkbox" data-filter-group="duration" value="hours"><span data-i18n="filter_fewHours">A Few Hours</span></label>
+          <label class="filter-check"><input type="checkbox" data-filter-group="duration" value="fullday"><span data-i18n="filter_halfFullDay">Half / Full Day</span></label>
+          <label class="filter-check"><input type="checkbox" data-filter-group="duration" value="perday"><span data-i18n="filter_perDay">Per Day</span></label>
+        </div>
+
+        <button type="button" class="filter-reset" id="ridesFilterReset" data-i18n="filter_clearFilters">Clear filters</button>
+      </aside>
+
+      <div class="package-grid" id="packageGrid">
+
+      <div class="package-card" id="bike-tours" data-type="bike" data-style="guided" data-duration="fullday" data-price="40" data-order="1" data-popularity="3" data-keywords="motorbike moto half day full day guided group private Angkor">
+        <div class="package-thumb">
+          <img src="Image/Home/Home%20(3).webp" alt="Bike tour riders on a rural Cambodian road" loading="lazy">
+          <span class="package-badge" data-i18n="sort_popular">Most Popular</span>
+        </div>
+        <div class="package-body">
+          <div class="package-info">
+            <h3 data-i18n="nav_bikeTours">Bike Tours</h3>
+            <div class="package-meta">
+              <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-6.1-7-11a7 7 0 0114 0c0 4.9-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg> Cambodia</span>
+              <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg> <span data-i18n="ix_half_full_day">Half &amp; full-day</span></span>
+            </div>
+            <p data-i18n="ix_open_road_riding_handlebars_in">Open-road riding, handlebars in your hands.</p>
+            <p data-i18n="ix_tap_to_choose" class="package-tags-hint">Tap to choose</p>
+            <div class="package-tags">
+              <label class="tag-check"><input type="checkbox" value="Group Tours" data-price="40" data-was="50"><span data-i18n="dd_groupTours">Group Tours</span></label>
+              <label class="tag-check"><input type="checkbox" value="Private Tours" data-price="50" data-was="60"><span data-i18n="dd_privateTours">Private Tours</span></label>
+              <label class="tag-check"><input type="checkbox" value="Tailor-Made" data-price="60" data-was="70"><span data-i18n="dd_tailorMade">Tailor-Made</span></label>
+            </div>
+          </div>
+          <div class="package-footer">
+            <div class="package-price">
+              <span class="price-was">$50</span>
+              <span class="price-now">$40<small data-i18n="ix_person">/person</small></span>
+            </div>
+            <button type="button" class="package-cta" data-i18n="btn_getQuote" onclick="window.handleQuoteClick && window.handleQuoteClick(this, {vehicle:'Motorbike', type:'Guided Tour'})">Get a Quote →</button>
+            <button type="button" class="tag-clear-btn" data-i18n="tag_clear">Clear</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="package-card" id="ebike-tours" data-type="ebike" data-style="guided" data-duration="hours" data-price="40" data-order="2" data-popularity="2" data-keywords="electric temple temples village sunset easy beginner first time Angkor few hours">
+        <div class="package-thumb">
+          <img src="Image/Home/Home%20(1).webp" alt="E-bike tour through temples and nature" loading="lazy">
+          <span class="package-badge" data-i18n="badge_easyRide">Easy Ride</span>
+        </div>
+        <div class="package-body">
+          <div class="package-info">
+            <h3 data-i18n="nav_ebikeTours">E-Bike Tours</h3>
+            <div class="package-meta">
+              <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-6.1-7-11a7 7 0 0114 0c0 4.9-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg> Cambodia</span>
+              <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg> <span data-i18n="ix_3_4_hours">3–4 Hours</span></span>
+            </div>
+            <p data-i18n="ix_effortless_riding_for_first_timers">Effortless riding for first-timers.</p>
+            <p data-i18n="tags_hint" class="package-tags-hint">Tap what interests you</p>
+            <div class="package-tags">
+              <label class="tag-check"><input type="checkbox" value="Temples &amp; Nature" data-price="40" data-was="50"><span data-i18n="dd_templesNature">Temples &amp; Nature</span></label>
+              <label class="tag-check"><input type="checkbox" value="Village Life" data-price="50" data-was="60"><span data-i18n="dd_villageLife">Village Life</span></label>
+              <label class="tag-check"><input type="checkbox" value="Sunset Rides" data-price="60" data-was="70"><span data-i18n="dd_sunsetRides">Sunset Rides</span></label>
+            </div>
+          </div>
+          <div class="package-footer">
+            <div class="package-price">
+              <span class="price-was">$50</span>
+              <span class="price-now">$40<small data-i18n="ix_person">/person</small></span>
+            </div>
+            <button type="button" class="package-cta" data-i18n="btn_getQuote" onclick="window.handleQuoteClick && window.handleQuoteClick(this, {vehicle:'E-Bike', type:'Guided Tour'})">Get a Quote →</button>
+            <button type="button" class="tag-clear-btn" data-i18n="tag_clear">Clear</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="package-card" id="rental" data-type="rental" data-style="selfdrive" data-duration="perday" data-price="5" data-order="3" data-popularity="1" data-keywords="scooter self drive daily cheap budget per day no guide">
+        <div class="package-thumb">
+          <img src="Image/Home/Home%20(8).webp" alt="Rental scooter parked on a countryside trail" loading="lazy">
+          <span class="package-badge" data-i18n="badge_bestValue">Best Value</span>
+        </div>
+        <div class="package-body">
+          <div class="package-info">
+            <h3 data-i18n="nav_rental">Rental</h3>
+            <div class="package-meta">
+              <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-6.1-7-11a7 7 0 0114 0c0 4.9-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg> Cambodia</span>
+              <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg> <span data-i18n="ix_per_day">Per day</span></span>
+            </div>
+            <p data-i18n="ix_road_ready_wheels_by_the">Road-ready wheels, by the day.</p>
+            <p data-i18n="tags_hint" class="package-tags-hint">Tap what interests you</p>
+            <div class="package-tags">
+              <label class="tag-check"><input type="checkbox" value="Bike Rental" data-price="5" data-was="8"><span data-i18n="dd_bikeRental">Bike Rental</span></label>
+              <label class="tag-check"><input type="checkbox" value="E-Bike Rental" data-price="5" data-was="8"><span data-i18n="dd_ebikeRental">E-Bike Rental</span></label>
+              <label class="tag-check"><input type="checkbox" value="Scooter Rental" data-price="5" data-was="8"><span data-i18n="dd_scooterRental">Scooter Rental</span></label>
+            </div>
+          </div>
+          <div class="package-footer">
+            <div class="package-price">
+              <span class="price-was">$8</span>
+              <span class="price-now">$5<small data-i18n="ix_day">/day</small></span>
+            </div>
+            <button type="button" class="package-cta" data-i18n="btn_getQuote" onclick="window.handleQuoteClick && window.handleQuoteClick(this, {type:'Self-Drive Rental'})">Get a Quote →</button>
+            <button type="button" class="tag-clear-btn" data-i18n="tag_clear">Clear</button>
+          </div>
+        </div>
+      </div>
+
+      <p data-i18n="ix_no_rides_match_those_filters" class="rides-empty-msg" id="ridesEmptyMsg">No rides match those filters — try clearing one and searching again.</p>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== WHY RIDE WITH US ===== -->
+
+<!-- ===== ABOUT (SHORT) ===== -->
+<section class="about-short">
+  <div class="wrap about-short-inner">
+    <p class="eyebrow" data-i18n="about_short_eyebrow">About Us</p>
+    <h2 data-i18n="about_short_h2">Experience the Soul of Cambodia</h2>
+    <p data-i18n="ix_the_real_cambodia_is_on" class="about-short-text">The real Cambodia is on two wheels.</p>
+
+    <div class="about-short-card">
+      <div class="about-short-card-col">
+        <div class="about-short-card-icons">
+          <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="6" cy="17" r="3.5"/><circle cx="18" cy="17" r="3.5"/><path d="M6 17l4-9h4l3 5M9 8h3"/></svg>
+          <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="6" cy="17" r="3.5"/><circle cx="17" cy="17" r="3.5"/><path d="M9 17h5l-2-6h-4l-2 4M13 11l3-3h3"/></svg>
+        </div>
+        <h3 data-i18n="about_short_mission_h3">Our Mission:</h3>
+        <p data-i18n="ix_eco_conscious_journeys_that_connect">Eco-conscious journeys that connect you with local communities.</p>
+      </div>
+      <div class="about-short-card-col">
+        <h3 data-i18n="about_short_vision_h3">Our Vision:</h3>
+        <p data-i18n="ix_adventure_with_responsibility">Adventure with responsibility.</p>
+      </div>
+      <div class="about-short-card-col about-short-card-stat-col">
+        <p class="about-short-card-giving"><strong data-i18n="about_short_giving_label">Giving Back:</strong> <span data-i18n="ix_every_booking_supports_a_rural">Every booking supports a rural English school.</span></p>
+        <div class="about-short-stat">
+          <span class="about-short-stat-num">5%</span>
+          <svg class="about-short-stat-icon" width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 3l9 5-9 5-9-5 9-5z"/><path d="M5 10.5V16c0 1.5 3 3 7 3s7-1.5 7-3v-5.5M21 8v6"/></svg>
+          <span data-i18n="ix_of_profit_funds_a_rural" class="about-short-stat-label">of profit funds a rural school</span>
+        </div>
+      </div>
+    </div>
+
+    <a href="About%20Us/About%20Us.html" class="about-short-link" data-i18n="about_short_btn">Read our full story →</a>
+  </div>
+</section>
+
+<!-- ===== TESTIMONIALS ===== -->
+<section class="reviews">
+  <div class="wrap">
+    <div class="section-head center">
+      <p class="eyebrow" data-i18n="reviews_eyebrow">From the road</p>
+      <h2 data-i18n="reviews_h2">What riders say</h2>
+    </div>
+    <div class="review-grid" id="reviewGrid">
+      <!-- Each slot below rotates independently on its own timer -- see script.js -->
+      <div class="review-slot" id="reviewSlot0">
+        <noscript>
+          <div class="review-card">
+            <div class="review-top">
+              <div class="stars">★★★★★</div>
+              <span class="review-date">3 weeks ago</span>
+            </div>
+            <p>"Our guide took us down a dirt trail no tuk-tuk could reach — just us, rice paddies, and water buffalo. Best afternoon of the whole trip."</p>
+            <div class="reviewer">
+              <img class="avatar-photo" src="https://api.dicebear.com/9.x/avataaars/svg?seed=Tola-Heab&backgroundColor=ffd5b3" alt="Tola Heab">
+              <div class="reviewer-info"><strong>Tola Heab</strong><span>Countryside Backroads, 3 days</span></div>
+              <span class="verified-badge">Verified</span>
+            </div>
+          </div>
+        </noscript>
+      </div>
+      <div class="review-slot" id="reviewSlot1"></div>
+      <div class="review-slot" id="reviewSlot2"></div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ===== CTA BAND ===== -->
+<section class="cta-band">
+  <div class="wrap">
+    <h2 data-i18n="cta_h2">Ready to ride?</h2>
+    <p data-i18n="ix_call_us_and_we_ll">Call us and we'll build your route.</p>
+    <div class="hero-ctas">
+      <a href="tel:+85512610269" class="cta-phone-link"><span data-i18n="call_label" class="cta-phone-label">Call Us</span><span class="cta-phone-num">+855 12 610 269</span></a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer>
+  <div class="wrap">
+    <div class="footer-grid">
+      <div class="col">
+        <div class="footer-logo"><img src="Image/logo2.png" alt="Siem Ride logo" class="footer-logo-img" loading="lazy" decoding="async"></div>
+        <p data-i18n="ix_motorbike_e_bike_tours_and" class="footer-desc">Motorbike &amp; e-bike tours and rentals in Siem Reap.</p>
+        <div class="social-row">
+          <a href="https://www.facebook.com/share/1D3mPvHArv/" target="_blank" rel="noopener" aria-label="Facebook"><svg width="16" height="16" viewBox="0 0 24 24" fill="#F3ECDD"><path d="M14 9h3V5h-3c-2.2 0-4 1.8-4 4v2H8v4h2v6h4v-6h3l1-4h-4V9c0-.6.4-1 1-1z"/></svg></a>
+          <a href="https://t.me/CHENLAheab" target="_blank" rel="noopener" aria-label="Telegram"><svg width="16" height="16" viewBox="0 0 24 24" fill="#F3ECDD"><path d="M21.9 4.4L18.6 20c-.2 1.1-.9 1.4-1.9.9l-5.1-3.8-2.5 2.4c-.3.3-.5.5-1 .5l.4-5.2L18 6c.5-.4-.1-.6-.7-.3L6.4 12.5 1.4 11c-1.1-.3-1.1-1.1.2-1.6L20.5 3c.9-.3 1.7.2 1.4 1.4z"/></svg></a>
+          <a href="https://www.instagram.com" target="_blank" rel="noopener" aria-label="Instagram"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#F3ECDD" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1"/></svg></a>
+          <a href="https://www.youtube.com" target="_blank" rel="noopener" aria-label="YouTube"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#F3ECDD" stroke-width="1.8"><path d="M23 12s0-3.5-.4-5.2c-.3-1-1-1.8-2-2C18.9 4.3 12 4.3 12 4.3s-6.9 0-8.6.5c-1 .2-1.8 1-2 2C1 8.5 1 12 1 12s0 3.5.4 5.2c.3 1 1 1.8 2 2 1.7.5 8.6.5 8.6.5s6.9 0 8.6-.5c1-.2 1.8-1 2-2 .4-1.7.4-5.2.4-5.2z"/><path d="M9.8 15.5V8.5l6 3.5-6 3.5z"/></svg></a>
+        </div>
+      </div>
+      <div class="col">
+        <h5 data-i18n="footer_col_rides">Rides</h5>
+        <ul>
+          <li><a href="Tours/Tours.html#bike" data-i18n="nav_bikeTours">Bike Tours</a></li>
+          <li><a href="Tours/Tours.html#ebike" data-i18n="nav_ebikeTours">E-Bike Tours</a></li>
+          <li><a href="Rentals/Rental.html" data-i18n="nav_rental">Rental</a></li>
+        </ul>
+      </div>
+      <div class="col">
+        <h5 data-i18n="footer_col_company">Company</h5>
+        <ul>
+          <li><a href="About%20Us/About%20Us.html" data-i18n="nav_about">About Us</a></li>
+          <li><a href="Blog/Blog.html" data-i18n="nav_blog">Blog</a></li>
+          <li><a href="#routes" data-i18n="btn_viewRoute_plural">Popular Routes</a></li>
+        </ul>
+      </div>
+      <div class="col">
+        <h5 data-i18n="footer_col_contact">Contact</h5>
+        <ul class="footer-contact">
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-6.2-7-11a7 7 0 1114 0c0 4.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg> <span class="footer-script">Siem Reap, Cambodia</span></li>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.9v3a2 2 0 01-2.2 2 19.8 19.8 0 01-8.6-3 19.5 19.5 0 01-6-6A19.8 19.8 0 012.1 4.2 2 2 0 014.1 2h3a2 2 0 012 1.7c.1.9.3 1.8.6 2.7a2 2 0 01-.4 2.1L8 9.9a16 16 0 006 6l1.4-1.4a2 2 0 012.1-.4c.9.3 1.8.5 2.7.6a2 2 0 011.8 2.2z"/></svg> +855 12 610 269 (WhatsApp)</li>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16v16H4z"/><path d="M4 6l8 7 8-7"/></svg> siemride@gmail.com</li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 SiemRide. <span data-i18n="footer_rights">All rights reserved.</span></span>
+      <button type="button" class="back-to-top" id="backToTop" aria-label="Back to top">
+        <span data-i18n="footer_backToTop">Back to top</span>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+      </button>
+    </div>
+  </div>
+</footer>
+
+<a class="wa-float" href="https://wa.me/85512610269" target="_blank" rel="noopener" aria-label="Chat with us">
+  <svg width="52" height="52" viewBox="0 0 64 64" aria-hidden="true"><defs><linearGradient id="waFloatGrad" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#3DDC63"/><stop offset="100%" stop-color="#159040"/></linearGradient></defs><circle cx="32" cy="32" r="30" fill="url(#waFloatGrad)"/><g transform="translate(13 13) scale(1.5833)"><path fill="#fff" d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></g></svg>
+  <span class="wa-float-badge">?</span>
+</a>
+
+
+<script>
+  // Accordion toggles inside the mobile side panel (Tour Info / Rental)
+  document.querySelectorAll('.panel-accordion-toggle').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var acc = btn.closest('.panel-accordion');
+      var wasOpen = acc.classList.contains('open');
+      document.querySelectorAll('.panel-accordion.open').forEach(function (other) {
+        if (other !== acc) other.classList.remove('open');
+      });
+      acc.classList.toggle('open', !wasOpen);
+    });
+  });
+</script>
+<script>
+  // Hero background slideshow: crossfades through Home1-4.webp
+  (function () {
+    var slides = document.querySelectorAll('.hero-bg-slide');
+    if (slides.length < 2) return;
+    var current = 0;
+    setInterval(function () {
+      slides[current].classList.remove('active');
+      current = (current + 1) % slides.length;
+      slides[current].classList.add('active');
+    }, 5000);
+  })();
+</script>
+<script src="JavaScript/script.js?v=20261110-1"></script>
+<script>
+  // Keep the fixed header readable once it sits over light sections
+  (function () {
+    var header = document.querySelector('header');
+    if (!header) return;
+    function updateHeader() {
+      header.classList.toggle('scrolled', window.scrollY > 30);
+    }
+    window.addEventListener('scroll', updateHeader, { passive: true });
+    updateHeader();
+  })();
+</script>
+</body>
+</html>
